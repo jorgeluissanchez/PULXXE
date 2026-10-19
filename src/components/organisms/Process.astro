@@ -8,9 +8,9 @@ import ProcessStep from '../molecules/ProcessStep.astro';
 import { process } from '@/data/content';
 const total = String(process.steps.length).padStart(2, '0');
 ---
-<section id="proceso" class="bg-white page-y pl-[var(--spacing-gutter)] pr-[var(--spacing-gutter)] lg:pr-0" aria-labelledby="proceso-title" data-motion="process">
-  <div class="mx-auto flex max-w-[1376px] flex-col gap-14">
-    <header class="flex flex-col gap-8 lg:flex-row lg:gap-12 lg:pr-16" data-motion="reveal">
+<section id="proceso" class="bg-white max-lg:page-y screen-h screen-y pl-[var(--spacing-gutter)] pr-[var(--spacing-gutter)] lg:pr-0" aria-labelledby="proceso-title" data-process>
+  <div class="mx-auto flex w-full max-w-[1376px] flex-col gap-14 lg:min-h-0 lg:flex-1 lg:max-h-[960px] lg:gap-[clamp(20px,calc((100dvh-657px)/7+20px),56px)]">
+    <header class="flex flex-col gap-8 lg:flex-row lg:gap-12 lg:pr-16">
       <div class="flex flex-col gap-3.5 lg:w-[760px] lg:shrink-0">
         <p class="font-sans text-xs font-bold uppercase leading-normal tracking-[0.3em] text-navy">{process.kicker}</p>
         <span class="h-[3px] w-10 bg-yellow" aria-hidden="true"></span>
@@ -20,17 +20,17 @@ const total = String(process.steps.length).padStart(2, '0');
       <p class="type-lead text-muted lg:self-center">{process.intro}</p>
     </header>
 
-    <div class="flex flex-col gap-12 lg:flex-row lg:items-start">
-      <ol class="flex flex-col lg:w-[560px] lg:shrink-0" data-steps>
+    <div class="flex flex-col gap-12 lg:min-h-0 lg:flex-1 lg:flex-row lg:items-stretch">
+      <ol class="flex flex-col lg:w-[560px] lg:shrink-0 lg:self-start" data-steps>
         {process.steps.map((s, i) => (
           <ProcessStep {...s} index={i} active={i === process.initial} />
         ))}
       </ol>
 
-      <div id="proceso-panel" class="relative hidden h-[640px] flex-1 overflow-hidden bg-navy lg:block" aria-live="polite">
+      <div id="proceso-panel" class="relative hidden max-h-[640px] flex-1 overflow-hidden bg-navy lg:block" aria-live="polite">
         {process.steps.map((s, i) => (
           <div
-            class="absolute inset-0 opacity-0 transition-opacity duration-700 data-[active=true]:opacity-100"
+            class="absolute inset-0 opacity-0 data-[active=true]:opacity-100"
             data-step-panel={i}
             data-active={i === process.initial ? 'true' : 'false'}
             aria-hidden={i === process.initial ? 'false' : 'true'}

@@ -10,8 +10,8 @@ import Icon from '../atoms/Icon.astro';
 import { nav } from '@/data/site';
 ---
 <header
-  class="group/header fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,box-shadow] duration-300 data-[scrolled=true]:bg-white/72 data-[scrolled=true]:backdrop-blur-[24px] data-[scrolled=true]:shadow-[0_1px_0_rgb(9_30_43/0.06)]"
-  data-motion="header"
+  class="group/header fixed inset-x-0 top-0 z-50 data-[scrolled=true]:bg-white/72 data-[scrolled=true]:backdrop-blur-[24px] data-[scrolled=true]:shadow-[0_1px_0_rgb(9_30_43/0.06)]"
+  data-header
   data-scrolled="false"
 >
   <nav class="mx-auto flex h-[65px] max-w-[1440px] items-center justify-between page-x lg:px-16" aria-label="Principal">
@@ -22,7 +22,7 @@ import { nav } from '@/data/site';
     <ul class="hidden items-center gap-9 lg:flex">
       {nav.map((item) => (
         <li>
-          <a href={item.href} class="type-nav uppercase text-charcoal transition-colors hover:text-navy focus-visible:text-navy">
+          <a href={item.href} class="type-nav uppercase text-charcoal hover:text-navy focus-visible:text-navy">
             {item.label}
           </a>
         </li>

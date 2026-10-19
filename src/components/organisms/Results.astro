@@ -5,9 +5,9 @@ import Kicker from '../atoms/Kicker.astro';
 import Tag from '../atoms/Tag.astro';
 import { results } from '@/data/content';
 ---
-<section class="bg-white page-x page-y" aria-labelledby="resultado-title">
-  <div class="mx-auto flex max-w-[var(--container-page)] flex-col gap-14">
-    <header class="flex flex-col gap-6 lg:flex-row lg:justify-between lg:gap-16" data-motion="reveal">
+<section class="bg-white page-x max-lg:page-y screen-h screen-y" aria-labelledby="resultado-title">
+  <div class="mx-auto flex w-full max-w-[var(--container-page)] flex-col gap-14 lg:min-h-0 lg:flex-1 lg:max-h-[960px] lg:gap-[clamp(28px,calc((100dvh-657px)/6+28px),56px)]">
+    <header class="flex flex-col gap-6 lg:flex-row lg:justify-between lg:gap-16">
       <div class="flex flex-col gap-6 lg:w-[760px]">
         <Kicker>{results.kicker}</Kicker>
         <h2 id="resultado-title" class="type-h2 text-navy">
@@ -20,15 +20,15 @@ import { results } from '@/data/content';
       </div>
     </header>
 
-    <div class="grid grid-cols-1 gap-6 lg:grid-cols-[868fr_420fr]">
-      <figure class="relative aspect-[868/664] overflow-hidden" data-motion="clip-reveal">
-        <Image src={results.main.src} alt={results.main.alt} widths={[640, 960, 1280, 1736]} sizes="(min-width: 1440px) 868px, (min-width: 1024px) 60vw, 100vw" class="size-full object-cover" />
+    <div class="grid grid-cols-1 gap-6 lg:min-h-0 lg:flex-1 lg:max-h-[664px] lg:grid-cols-[868fr_420fr] lg:grid-rows-[minmax(0,1fr)]">
+      <figure class="relative aspect-[868/664] overflow-hidden lg:aspect-auto lg:h-full">
+        <Image src={results.main.src} alt={results.main.alt} widths={[640, 960, 1280, 1736]} sizes="(min-width: 1440px) 868px, (min-width: 1024px) 60vw, 100vw" class="size-full object-cover lg:absolute lg:inset-0" />
         <figcaption class="absolute bottom-5 left-5"><Tag>{results.main.tag}</Tag></figcaption>
       </figure>
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-1">
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:h-full lg:min-h-0 lg:grid-cols-1 lg:grid-rows-[repeat(2,minmax(0,1fr))]">
         {results.side.map((img) => (
-          <figure class="relative aspect-[420/320] overflow-hidden" data-motion="clip-reveal">
-            <Image src={img.src} alt={img.alt} widths={[420, 640, 840]} sizes="(min-width: 1024px) 420px, (min-width: 640px) 50vw, 100vw" class="size-full object-cover" />
+          <figure class="relative aspect-[420/320] overflow-hidden lg:aspect-auto lg:h-full lg:min-h-0">
+            <Image src={img.src} alt={img.alt} widths={[420, 640, 840]} sizes="(min-width: 1024px) 420px, (min-width: 640px) 50vw, 100vw" class="size-full object-cover lg:absolute lg:inset-0" />
             <figcaption class="absolute bottom-5 left-5"><Tag>{img.tag}</Tag></figcaption>
           </figure>
         ))}

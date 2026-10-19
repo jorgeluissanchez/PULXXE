@@ -6,7 +6,7 @@ import { closing } from '@/data/content';
 import { whatsappUrl } from '@/data/site';
 ---
 <section id="contacto" class="relative isolate overflow-hidden bg-navy" aria-labelledby="cierre-title">
-  <Image src={closing.image.src} alt="" widths={[640, 1024, 1440, 1800]} sizes="100vw" class="absolute inset-0 -z-20 size-full object-cover" data-motion="parallax-img" />
+  <Image src={closing.image.src} alt="" widths={[640, 1024, 1440, 1800]} sizes="100vw" class="absolute inset-0 -z-20 size-full object-cover" />
   <div class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgb(9_30_43/0.92)_0%,rgb(9_30_43/0.6)_38%,rgb(9_30_43/0)_70%)]" aria-hidden="true"></div>
   <div class="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(9_30_43/0.35)_0%,rgb(9_30_43/0)_25%,rgb(9_30_43/0)_80%,rgb(9_30_43/1)_100%)]" aria-hidden="true"></div>
 
@@ -14,14 +14,14 @@ import { whatsappUrl } from '@/data/site';
     <p class="absolute right-[var(--spacing-gutter)] top-16 text-right font-display text-[13px] leading-[22px] tracking-[0.08em] text-yellow uppercase" aria-hidden="true">
       {closing.coords.map((c) => <span class="block">{c}</span>)}
     </p>
-    <div class="flex max-w-[760px] flex-col gap-6" data-motion="reveal">
+    <div class="flex max-w-[760px] flex-col gap-6">
       <h2 id="cierre-title" class="type-h2 text-white">
         <span class="block">{closing.titleLines[0]}</span>
         <span class="block text-yellow">{closing.titleLines[1]}</span>
       </h2>
       <p class="type-lead text-light">{closing.text}</p>
     </div>
-    <div class="flex flex-wrap items-center gap-6" data-motion="reveal">
+    <div class="flex flex-wrap items-center gap-6">
       <Button href={whatsappUrl()} size="footer" target="_blank" rel="noopener">{closing.cta.label}</Button>
     </div>
   </div>

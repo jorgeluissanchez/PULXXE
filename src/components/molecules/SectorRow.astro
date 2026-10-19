@@ -7,13 +7,13 @@ const { name, index, active = false } = Astro.props;
 <li class="group/sector" data-sector={index} data-active={active ? 'true' : 'false'}>
   <button
     type="button"
-    class="relative flex min-h-[90px] w-full items-center justify-between gap-6 border-t border-line px-6 py-[30px] text-left transition-colors duration-300 group-data-[active=true]/sector:bg-white"
+    class="relative flex min-h-[90px] w-full items-center justify-between gap-6 border-t border-line px-6 py-[30px] text-left lap:min-h-0 lap:py-[22px] group-data-[active=true]/sector:bg-white"
     aria-controls="sector-vista"
     aria-pressed={active ? 'true' : 'false'}
     data-sector-trigger
   >
-    <span class="absolute inset-y-0 left-0 w-0 bg-yellow transition-[width] duration-300 group-data-[active=true]/sector:w-1.5" aria-hidden="true"></span>
-    <span class="type-h4 text-muted transition-colors duration-300 group-data-[active=true]/sector:text-navy">{name}</span>
-    <Icon name="arrow" size={24} class="shrink-0 text-navy opacity-25 transition-opacity duration-300 group-data-[active=true]/sector:opacity-100" />
+    <span class="absolute inset-y-0 left-0 w-0 bg-yellow group-data-[active=true]/sector:w-1.5" aria-hidden="true"></span>
+    <span class="type-h4 text-muted group-data-[active=true]/sector:text-navy">{name}</span>
+    <Icon name="arrow" size={24} class="shrink-0 text-navy opacity-25 group-data-[active=true]/sector:opacity-100" />
   </button>
 </li>

@@ -44,45 +44,59 @@
   }
 }
 
+/*
+ * Variante "lap": laptops y pantallas bajas (Figma: "Prototipo · Laptop", 1366 × 657).
+ * Desktop grande (Figma 1440) = ancho ≥ 1024 y alto ≥ 820; por debajo de ese alto
+ * se usan los estilos "Laptop/…" de Figma: misma jerarquía, escala menor.
+ */
+@custom-variant lap (@media (min-width: 1024px) and (max-height: 819px));
+
 /* ---------- Estilos de texto con nombre de Figma ---------- */
 @utility type-h1 {
   font-family: var(--font-display);
   font-size: clamp(52px, 38.63px + 3.429vw, 88px);
   line-height: 0.97;
   letter-spacing: -0.03em;
+  @media (min-width: 1024px) and (max-height: 819px) { font-size: 60px; }
 }
 @utility type-h2 {
   font-family: var(--font-display);
   font-size: clamp(36px, 25.6px + 2.667vw, 64px);
   line-height: 1.03;
   letter-spacing: -0.02em;
+  @media (min-width: 1024px) and (max-height: 819px) { font-size: 44px; }
 }
 @utility type-h3 {
   font-family: var(--font-display);
   font-size: clamp(24px, 21.03px + 0.762vw, 32px);
   line-height: 1.14;
+  @media (min-width: 1024px) and (max-height: 819px) { font-size: 26px; }
 }
 @utility type-h4 {
   font-family: var(--font-display);
   font-size: clamp(18px, 15.77px + 0.571vw, 24px);
   line-height: 1.22;
+  @media (min-width: 1024px) and (max-height: 819px) { font-size: 20px; }
 }
 @utility type-stat {
   font-family: var(--font-display);
   font-size: clamp(36px, 25.6px + 2.667vw, 64px);
   line-height: 1;
   letter-spacing: -0.03em;
+  @media (min-width: 1024px) and (max-height: 819px) { font-size: 48px; }
 }
 @utility type-metric {
   font-family: var(--font-display);
   font-size: clamp(52px, 38.63px + 3.429vw, 88px);
   line-height: 1;
   letter-spacing: -0.03em;
+  @media (min-width: 1024px) and (max-height: 819px) { font-size: 64px; }
 }
 @utility type-index {
   font-family: var(--font-display);
   font-size: clamp(24px, 21.03px + 0.762vw, 32px);
   line-height: 1;
+  @media (min-width: 1024px) and (max-height: 819px) { font-size: 26px; }
 }
 @utility type-button {
   font-family: var(--font-display);
@@ -99,16 +113,19 @@
   font-family: var(--font-sans);
   font-size: clamp(16px, 14.51px + 0.381vw, 20px);
   line-height: 1.5;
+  @media (min-width: 1024px) and (max-height: 819px) { font-size: 17px; }
 }
 @utility type-body {
   font-family: var(--font-sans);
   font-size: clamp(14px, 13.26px + 0.19vw, 16px);
   line-height: 1.55;
+  @media (min-width: 1024px) and (max-height: 819px) { font-size: 15px; }
 }
 @utility type-small {
   font-family: var(--font-sans);
   font-size: clamp(12px, 11.26px + 0.19vw, 14px);
   line-height: 1.5;
+  @media (min-width: 1024px) and (max-height: 819px) { font-size: 13px; }
 }
 @utility type-caption {
   font-family: var(--font-sans);
@@ -151,6 +168,35 @@
 @utility page-x {
   padding-inline: var(--spacing-gutter);
 }
+/*
+ * Secciones a pantalla completa (dvh) en desktop/laptop: cada sección ocupa el alto visible
+ * bajo el header fijo (65 px) y su bloque visual crece o se encoge con la pantalla.
+ * El aire vertical va de 30 px (laptop 1366 × 657) a 120 px (monitores ≥ 900 de alto).
+ */
+@utility screen-y {
+  padding-block: var(--spacing-section);
+  @media (min-width: 1024px) {
+    padding-block: clamp(30px, calc((100dvh - 657px) * 0.37 + 30px), 120px);
+  }
+}
+@utility screen-h {
+  @media (min-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: calc(100dvh - 65px);
+    min-height: 560px;
+  }
+}
+@utility screen-min-h {
+  @media (min-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(100dvh - 65px);
+  }
+}
+
 @utility page-y {
   padding-block: var(--spacing-section);
 }

@@ -7,9 +7,9 @@ import Kicker from '../atoms/Kicker.astro';
 import FrontCard from '../molecules/FrontCard.astro';
 import { fronts } from '@/data/content';
 ---
-<section id="frentes" class="bg-paper page-x page-y" aria-labelledby="frentes-title" data-motion="fronts">
-  <div class="mx-auto flex max-w-[var(--container-page)] flex-col gap-16">
-    <header class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-16" data-motion="reveal">
+<section id="frentes" class="bg-paper page-x max-lg:page-y screen-h screen-y" aria-labelledby="frentes-title">
+  <div class="mx-auto flex w-full max-w-[var(--container-page)] flex-col gap-16 lg:gap-[clamp(28px,calc((100dvh-657px)/6+28px),64px)]">
+    <header class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
       <div class="flex flex-col gap-6 lg:w-[760px]">
         <Kicker>{fronts.kicker}</Kicker>
         <h2 id="frentes-title" class="type-h2 text-navy">
@@ -19,9 +19,9 @@ import { fronts } from '@/data/content';
       <p class="type-lead text-muted lg:w-[440px]">{fronts.intro}</p>
     </header>
 
-    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+    <div class="-mx-[var(--spacing-gutter)] flex snap-x snap-mandatory gap-4 overflow-x-auto px-[var(--spacing-gutter)] pb-2 [scrollbar-width:none] lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0">
       {fronts.items.map((item, i) => (
-        <FrontCard {...item} class:list={[i === 1 && 'lg:translate-y-24', i === 2 && 'sm:col-span-2 lg:col-span-1']} />
+        <FrontCard {...item} class:list={[i === 1 && 'lg:translate-y-[clamp(48px,calc((100dvh-657px)/5+48px),96px)]', 'w-[290px] shrink-0 snap-start sm:w-[340px] lg:w-auto']} />
       ))}
     </div>
   </div>

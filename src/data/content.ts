@@ -32,7 +32,7 @@ export const hero = {
     'Obra civil, edificación y remodelación en Barranquilla y el Caribe, con cantidades, costos y avance medidos en cada corte.',
   primary: { label: 'Solicita tu presupuesto', href: '#contacto' },
   secondary: { label: 'Ver qué ejecutamos', href: '#frentes' },
-  image: { src: heroCasa, alt: 'Casa moderna de dos pisos con piscina, terminada y con iluminación cálida al atardecer' },
+  image: { src: heroCasa, alt: 'Casa moderna de dos pisos en piedra clara, con jardín de cactus e iluminación cálida al atardecer' },
 };
 
 export const purpose = {

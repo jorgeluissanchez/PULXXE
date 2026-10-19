@@ -1,26 +1,27 @@
 ---
 /**
  * Organismo · Sectores (Figma: "08 · Sectores" → "Sectores · interactivo").
- * En desktop la sección queda fija y centrada mientras el scroll recorre los 4 sectores.
+ * Sección a pantalla completa (dvh): título y vista del sector activo a la izquierda,
+ * lista a la derecha. Puntero, foco o clic cambian el sector (sin animación por ahora).
  */
 import { Image } from 'astro:assets';
 import Kicker from '../atoms/Kicker.astro';
 import SectorRow from '../molecules/SectorRow.astro';
 import { sectors } from '@/data/content';
 ---
-<section class="bg-paper page-x page-y" aria-labelledby="sectores-title" data-motion="sectors">
-  <div class="mx-auto flex max-w-[var(--container-page)] flex-col gap-12 lg:flex-row lg:gap-24" data-sectors-pin>
-    <div class="flex flex-col gap-8 lg:w-[600px] lg:shrink-0">
+<section class="bg-paper page-x max-lg:page-y screen-min-h screen-y" aria-labelledby="sectores-title" data-sectors>
+  <div class="mx-auto flex w-full max-w-[var(--container-page)] flex-col gap-12 lg:flex-row lg:items-start lg:gap-24">
+    <div class="flex flex-col gap-8 lap:gap-6 lg:w-[min(600px,48%)] lg:shrink-0">
       <div class="flex flex-col gap-5">
         <Kicker>{sectors.kicker}</Kicker>
         <h2 id="sectores-title" class="type-h2 text-navy">
           {sectors.titleLines.map((l) => <span class="block">{l}</span>)}
         </h2>
       </div>
-      <div id="sector-vista" class="relative aspect-[600/440] overflow-hidden bg-navy" aria-live="polite">
+      <div id="sector-vista" class="relative aspect-[600/440] overflow-hidden bg-navy lg:aspect-auto lg:h-[clamp(240px,calc(100dvh-336px),440px)]" aria-live="polite">
         {sectors.items.map((s, i) => (
           <div
-            class="absolute inset-0 flex flex-col justify-end gap-3 p-6 opacity-0 transition-opacity duration-700 data-[active=true]:opacity-100 sm:p-9"
+            class="absolute inset-0 flex flex-col justify-end gap-3 p-6 opacity-0 data-[active=true]:opacity-100 sm:p-9"
             data-sector-panel={i}
             data-active={i === 0 ? 'true' : 'false'}
             aria-hidden={i === 0 ? 'false' : 'true'}
@@ -35,9 +36,9 @@ import { sectors } from '@/data/content';
       </div>
     </div>
 
-    <div class="flex flex-col lg:w-[616px] lg:pt-7">
+    <div class="flex flex-col lg:w-[616px] lg:min-w-0 lg:shrink">
       <p class="type-lead text-muted">{sectors.intro}</p>
-      <ul class="mt-10" data-sectors-list>
+      <ul class="mt-10 lap:mt-6" data-sectors-list>
         {sectors.items.map((s, i) => <SectorRow name={s.name} index={i} active={i === 0} />)}
       </ul>
     </div>

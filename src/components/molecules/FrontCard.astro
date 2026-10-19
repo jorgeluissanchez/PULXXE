@@ -7,8 +7,8 @@ interface Props { n: string; title: string; meta: string; image: ImageMetadata; 
 const { n, title, meta, image, alt, class: className = '' } = Astro.props;
 ---
 <article class:list={['flex flex-col gap-5', className]} data-front-card>
-  <div class="relative aspect-[421/440] overflow-hidden">
-    <Image src={image} alt={alt} widths={[420, 640, 860]} sizes="(min-width: 1024px) 421px, (min-width: 640px) 50vw, 100vw" class="size-full object-cover transition-transform duration-700 ease-out hover:scale-[1.04]" />
+  <div class="relative aspect-[421/440] overflow-hidden lg:aspect-auto lg:h-[clamp(220px,calc(100dvh-405px),440px)]">
+    <Image src={image} alt={alt} widths={[420, 640, 860]} sizes="(min-width: 1024px) 421px, (min-width: 640px) 50vw, 100vw" class="size-full object-cover" />
     <Tag tone="yellow" class="absolute left-0 top-0 type-label">{n}</Tag>
   </div>
   <div class="flex flex-col gap-1.5">

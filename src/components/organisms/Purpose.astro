@@ -12,11 +12,11 @@ import { purpose } from '@/data/content';
 const [exp, budget, lines, response, scale] = purpose.stats;
 const cell = 'border-light/30';
 ---
-<section id="nosotros" class="relative isolate overflow-hidden bg-navy page-x page-y" aria-labelledby="nosotros-title">
+<section id="nosotros" class="relative isolate overflow-clip bg-navy page-x page-y" aria-labelledby="nosotros-title">
   <p class="pointer-events-none absolute left-[62.5%] top-[-60px] -z-10 hidden select-none font-display text-[560px] leading-none tracking-[-0.03em] text-transparent [-webkit-text-stroke:2px_rgb(255_255_255/0.07)] lg:block" aria-hidden="true">02</p>
   <div class="mx-auto flex max-w-[var(--container-page)] flex-col gap-12 lg:flex-row lg:items-start lg:gap-16">
     <!-- Columna fija -->
-    <div class="flex flex-col gap-8 lg:sticky lg:top-[120px] lg:w-[620px] lg:shrink-0" data-motion="reveal">
+    <div class="flex flex-col gap-8 lg:sticky lg:top-0 lg:h-svh lg:w-[620px] lg:shrink-0 lg:justify-center lg:-my-[var(--spacing-section)]">
       <div class="flex flex-col gap-7">
         <Kicker tone="yellow">{purpose.kicker}</Kicker>
         <h2 id="nosotros-title" class="type-h2 text-white">
@@ -27,13 +27,13 @@ const cell = 'border-light/30';
     </div>
 
     <!-- Cajetín en pares -->
-    <div class:list={['grid w-full grid-cols-1 border sm:grid-cols-2 lg:max-w-[628px]', cell]} data-motion="stagger">
+    <div class:list={['grid w-full grid-cols-1 border sm:grid-cols-2 lg:max-w-[628px]', cell]}>
       <div class:list={['flex flex-col gap-3 border-b px-7 py-8 sm:border-r', cell]}>
         <p class="type-overline text-yellow">{purpose.company.label}</p>
         <p class="type-lead text-white">{purpose.company.text}</p>
       </div>
       <figure class:list={['relative min-h-[300px] overflow-hidden border-b', cell]}>
-        <Image src={purpose.photo.src} alt={purpose.photo.alt} widths={[400, 640, 900]} sizes="(min-width: 1024px) 313px, (min-width: 640px) 50vw, 100vw" class="absolute inset-0 size-full object-cover" data-motion="parallax-img" />
+        <Image src={purpose.photo.src} alt={purpose.photo.alt} widths={[400, 640, 900]} sizes="(min-width: 1024px) 313px, (min-width: 640px) 50vw, 100vw" class="absolute inset-0 size-full object-cover" />
         <figcaption class="absolute bottom-0 left-0"><Tag tone="navy">{purpose.photo.caption}</Tag></figcaption>
       </figure>
 

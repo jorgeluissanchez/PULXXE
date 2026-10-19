@@ -6,9 +6,9 @@ import Kicker from '../atoms/Kicker.astro';
 import AccordionPanel from '../molecules/AccordionPanel.astro';
 import { workInAction } from '@/data/content';
 ---
-<section class="bg-navy pb-24 pt-16 page-x" aria-labelledby="accion-title">
-  <div class="mx-auto flex max-w-[var(--container-page)] flex-col gap-10 lg:gap-[79px]">
-    <header class="flex flex-col gap-6 lg:flex-row lg:justify-between" data-motion="reveal">
+<section class="bg-navy pb-24 pt-16 page-x lg:py-0 screen-h screen-y" aria-labelledby="accion-title">
+  <div class="mx-auto flex max-w-[var(--container-page)] w-full flex-col gap-10 lg:min-h-0 lg:flex-1 lg:max-h-[880px] lg:gap-[clamp(28px,calc((100dvh-657px)/5+28px),79px)]">
+    <header class="flex flex-col gap-6 lg:flex-row lg:justify-between">
       <div class="flex flex-col gap-[18px] lg:w-[620px]">
         <Kicker tone="yellow">{workInAction.kicker}</Kicker>
         <h2 id="accion-title" class="type-h2 text-white">
@@ -20,7 +20,7 @@ import { workInAction } from '@/data/content';
       </p>
     </header>
 
-    <div class="grid grid-cols-2 gap-3 lg:flex lg:h-[580px] lg:gap-0" data-motion="accordion">
+    <div class="grid grid-cols-2 gap-3 lg:flex lg:min-h-0 lg:flex-1 lg:max-h-[580px] lg:gap-0" data-accordion>
       {workInAction.panels.map((p, i) => <AccordionPanel {...p} i={i} open={i === 0} />)}
     </div>
   </div>

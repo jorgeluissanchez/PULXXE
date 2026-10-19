@@ -13,7 +13,7 @@ const { index, title, text, foot, image, alt, open = false, i } = Astro.props;
 <article
   class:list={[
     'group/panel relative isolate flex min-h-[278px] flex-col overflow-hidden px-6 pb-[31px] pt-7 text-white outline-none',
-    'transition-[flex-grow] duration-700 ease-[cubic-bezier(.65,0,.35,1)] lg:min-h-0 lg:basis-0 lg:grow data-[open=true]:lg:grow-[2.686]',
+    'lg:min-h-0 lg:basis-0 lg:grow data-[open=true]:lg:grow-[2.686]',
     i === 0 && 'col-span-2 min-h-[430px]',
   ]}
   data-panel={i}
@@ -21,23 +21,23 @@ const { index, title, text, foot, image, alt, open = false, i } = Astro.props;
   tabindex="0"
   aria-label={title}
 >
-  <Image src={image} alt={alt} widths={[480, 800, 1200, 1600]} sizes="(min-width: 1024px) 760px, 100vw" class="absolute inset-0 -z-20 size-full object-cover transition-transform duration-[1.2s] ease-out group-data-[open=true]/panel:scale-[1.03]" />
+  <Image src={image} alt={alt} widths={[480, 800, 1200, 1600]} sizes="(min-width: 1024px) 760px, 100vw" class="absolute inset-0 -z-20 size-full object-cover" />
   <!-- Capa oscura solo en paneles cerrados -->
-  <div class="absolute inset-0 -z-10 bg-navy-deepest/55 transition-opacity duration-700 group-data-[open=true]/panel:opacity-0" aria-hidden="true"></div>
+  <div class="absolute inset-0 -z-10 bg-navy-deepest/55 group-data-[open=true]/panel:opacity-0" aria-hidden="true"></div>
   <!-- Degradado inferior para leer título y descripción -->
   <div class="absolute inset-x-0 bottom-0 -z-10 h-[62%] bg-[linear-gradient(180deg,rgb(4_9_11/0)_0%,rgb(4_9_11/0.55)_45%,rgb(4_9_11/0.88)_100%)]" aria-hidden="true"></div>
 
   <div class="flex items-start justify-between gap-4">
     <p class="type-label text-white">{index}</p>
-    <Icon name="plus" size={20} strokeWidth={1.5} class="hidden shrink-0 transition-opacity duration-300 group-data-[open=true]/panel:opacity-0 lg:block" />
+    <Icon name="plus" size={20} strokeWidth={1.5} class="hidden shrink-0 group-data-[open=true]/panel:opacity-0 lg:block" />
   </div>
 
   <div class="mt-auto flex flex-col gap-3 pt-10">
     <div class="relative">
-      <h3 class="type-h3 transition-opacity duration-500 group-data-[open=false]/panel:opacity-0 max-lg:group-data-[open=false]/panel:sr-only">{title}</h3>
-      <p class="type-h4 transition-opacity duration-500 group-data-[open=true]/panel:opacity-0 lg:absolute lg:inset-x-0 lg:top-0 max-lg:group-data-[open=true]/panel:hidden" aria-hidden="true">{title}</p>
+      <h3 class="type-h3 group-data-[open=false]/panel:opacity-0 max-lg:group-data-[open=false]/panel:sr-only">{title}</h3>
+      <p class="type-h4 group-data-[open=true]/panel:opacity-0 lg:absolute lg:inset-x-0 lg:top-0 max-lg:group-data-[open=true]/panel:hidden" aria-hidden="true">{title}</p>
     </div>
-    <div class="grid transition-[grid-template-rows,opacity] duration-700 ease-out group-data-[open=false]/panel:grid-rows-[0fr] group-data-[open=false]/panel:opacity-0 group-data-[open=true]/panel:grid-rows-[1fr]">
+    <div class="grid group-data-[open=false]/panel:grid-rows-[0fr] group-data-[open=false]/panel:opacity-0 group-data-[open=true]/panel:grid-rows-[1fr]">
       <p class="max-w-[620px] overflow-hidden type-body">{text}</p>
     </div>
   </div>

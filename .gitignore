@@ -8,3 +8,7 @@ dist/
 .DS_Store
 test-results/
 screenshots/
+
+# archivos temporales de sincronización
+_to_delete/
+_sync-*.tgz

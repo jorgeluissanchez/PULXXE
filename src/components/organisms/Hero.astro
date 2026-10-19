@@ -1,0 +1,64 @@
+---
+/**
+ * Organismo · Hero (Figma: "01 · Hero").
+ * PULXXE gigante en amarillo, la casa recortada delante y el contenido sobre la imagen.
+ */
+import { Image } from 'astro:assets';
+import Button from '../atoms/Button.astro';
+import Kicker from '../atoms/Kicker.astro';
+import { hero } from '@/data/content';
+---
+<section id="inicio" class="relative overflow-hidden bg-white pt-[65px]" data-motion="hero">
+  <div class="relative mx-auto flex max-w-[1440px] flex-col lg:block lg:h-[779px]">
+    <!-- Palabra de marca decorativa -->
+    <p
+      class="pointer-events-none order-2 select-none before:content-[attr(data-word)] pt-4 text-center font-display text-[22.4vw] leading-[0.78] tracking-[-0.01em] text-yellow lg:absolute lg:left-12 lg:-top-[15px] lg:pt-0 lg:text-left 3xl:text-[325px]"
+      aria-hidden="true"
+      data-motion="hero-word"
+      data-word={hero.brandWord}
+    ></p>
+
+    <!-- Casa terminada (recorte PNG) -->
+    <div
+      class="relative order-3 -mt-[8vw] ml-[6%] w-[110%] lg:absolute lg:left-[274px] lg:top-[95px] lg:mt-0 lg:ml-0 lg:w-[1279px] lg:max-w-none"
+      data-motion="hero-image"
+    >
+      <Image
+        src={hero.image.src}
+        alt={hero.image.alt}
+        widths={[640, 960, 1280, 1600, 2046]}
+        sizes="(min-width: 1024px) 1279px, 110vw"
+        loading="eager"
+        fetchpriority="high"
+        class="h-auto w-full"
+      />
+    </div>
+
+    <!-- Contenido -->
+    <div class="relative order-1 page-x pb-4 pt-8 lg:absolute lg:left-16 lg:top-[230px] lg:w-[542px] lg:p-0" data-motion="hero-content">
+      <div class="flex flex-col gap-2">
+        <Kicker variant="pill" class="self-start">{hero.kicker}</Kicker>
+        <h1 class="type-h1 text-navy">
+          {hero.titleLines.map((line, i) => (
+            <span class:list={['block w-fit', i === 2 && 'relative z-0']}>
+              {i === 2 && (
+                <span class="absolute -inset-x-2 inset-y-0 -z-10 bg-yellow" aria-hidden="true" data-motion="hero-highlight"></span>
+              )}
+              {line}
+            </span>
+          ))}
+        </h1>
+      </div>
+      <p class="mt-[26px] max-w-[542px] type-body text-muted lg:w-[412px]">{hero.description}</p>
+      <div class="mt-[26px] flex flex-wrap items-center gap-5">
+        <Button href={hero.primary.href} size="hero">{hero.primary.label}</Button>
+        <a
+          href={hero.secondary.href}
+          class="border-b border-navy pb-1 type-button text-navy transition-colors hover:border-amber-text hover:text-amber-text"
+        >
+          {hero.secondary.label}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,98 @@
+---
+/**
+ * Layout base: <head> con SEO completo, fuentes auto-alojadas y la capa de motion.
+ */
+import { Font } from 'astro:assets';
+import '@/styles/global.css';
+import { site } from '@/data/site';
+import { faq } from '@/data/content';
+import ogImage from '@/assets/og.png';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+  faqSchema?: boolean;
+}
+const { title = site.title, description = site.description, noindex = false, faqSchema = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const og = new URL(ogImage.src, Astro.site);
+
+const business = {
+  '@context': 'https://schema.org',
+  '@type': 'GeneralContractor',
+  '@id': `${Astro.site}#empresa`,
+  name: site.name,
+  legalName: site.legalName,
+  description: site.description,
+  url: Astro.site?.toString(),
+  logo: new URL('/favicon.svg', Astro.site).toString(),
+  image: og.toString(),
+  telephone: site.phone,
+  email: site.email,
+  slogan: site.tagline,
+  priceRange: '$$',
+  address: { '@type': 'PostalAddress', addressLocality: site.city, addressRegion: site.region, addressCountry: site.country },
+  geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
+  areaServed: [...site.serviceArea.map((c) => ({ '@type': 'City', name: c })), { '@type': 'State', name: 'Atlántico' }],
+  knowsAbout: ['Obra civil', 'Pavimento rígido', 'Drenaje y alcantarillado', 'Edificación', 'Remodelación de casas', 'Remodelación de oficinas'],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Servicios de construcción',
+    itemListElement: ['Obra civil', 'Edificación', 'Remodelación'].map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s, areaServed: 'Barranquilla' } })),
+  },
+  sameAs: Object.values(site.social),
+};
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.items.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content="#091E2B" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={site.locale} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={og} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Pulxxe, ingeniería y construcción en Barranquilla" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={og} />
+    <meta name="geo.region" content="CO-ATL" />
+    <meta name="geo.placename" content={site.city} />
+    <meta name="geo.position" content={`${site.geo.lat};${site.geo.lng}`} />
+
+    <Font cssVariable="--font-black-ops" preload />
+    <Font cssVariable="--font-manrope" preload />
+
+    <script type="application/ld+json" set:html={JSON.stringify(business)} />
+    {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />}
+  </head>
+  <body>
+    <slot />
+    <script>
+      import { initMotion } from '@/motion';
+      initMotion();
+    </script>
+  </body>
+</html>

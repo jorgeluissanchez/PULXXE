@@ -1,0 +1,15 @@
+---
+/** Organismo · CTA flotante en la esquina (Figma: "CTA flotante · esquina"). */
+import Icon from '../atoms/Icon.astro';
+import { whatsappUrl } from '@/data/site';
+---
+<a
+  href={whatsappUrl()}
+  target="_blank"
+  rel="noopener"
+  aria-label="Escríbenos por WhatsApp"
+  class="group fixed bottom-0 right-0 z-40 block size-20 bg-yellow text-navy transition-[background-color,width,height] duration-300 [clip-path:polygon(100%_0,100%_100%,0_100%)] hover:bg-yellow-hover lg:size-[120px]"
+  data-motion="whatsapp"
+>
+  <Icon name="whatsapp" size={30} class="absolute left-[68%] top-[68%] size-5 -translate-x-1/2 -translate-y-1/2 transition-transform duration-300 group-hover:scale-110 lg:size-[30px]" />
+</a>

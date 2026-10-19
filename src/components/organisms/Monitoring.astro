@@ -1,0 +1,54 @@
+---
+/** Organismo · Monitoreo y valor (Figma: "09 · Monitoreo y valor"). */
+import { Image } from 'astro:assets';
+import Kicker from '../atoms/Kicker.astro';
+import MeasureRuler from '../atoms/MeasureRuler.astro';
+import BenefitItem from '../molecules/BenefitItem.astro';
+import ProgressBoard from '../molecules/ProgressBoard.astro';
+import Marquee from '../molecules/Marquee.astro';
+import { monitoring } from '@/data/content';
+---
+<section class="relative overflow-hidden bg-yellow" aria-labelledby="monitoreo-title">
+  <div
+    class="pointer-events-none absolute inset-0 [background-image:linear-gradient(to_right,rgb(9_30_43/0.14)_1px,transparent_1px),linear-gradient(to_bottom,rgb(9_30_43/0.14)_1px,transparent_1px),linear-gradient(to_right,rgb(9_30_43/0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgb(9_30_43/0.06)_1px,transparent_1px)] [background-size:240px_240px,240px_240px,48px_48px,48px_48px]"
+    aria-hidden="true"
+  ></div>
+  <div class="relative"><MeasureRuler /></div>
+
+  <div class="relative mx-auto flex max-w-[var(--container-page)] flex-col gap-16 pb-24 pt-20 page-x lg:flex-row lg:items-center lg:gap-20 lg:pb-[169px] lg:pt-[110px] 3xl:px-0">
+    <div class="flex flex-col gap-7 lg:w-[592px] lg:shrink-0" data-motion="reveal">
+      <Kicker tone="navy">{monitoring.kicker}</Kicker>
+      <h2 id="monitoreo-title" class="type-h2 text-navy">
+        {monitoring.titleLines.map((l) => <span class="block">{l}</span>)}
+      </h2>
+      <p class="type-lead text-navy">{monitoring.text}</p>
+      <ul class="flex flex-col gap-3.5 text-navy">
+        {monitoring.benefits.map((b) => <BenefitItem>{b}</BenefitItem>)}
+      </ul>
+    </div>
+
+    <div class="relative w-full max-w-[640px] lg:h-[700px]" data-motion="collage">
+      <Image
+        src={monitoring.photo.src}
+        alt={monitoring.photo.alt}
+        widths={[400, 800]}
+        sizes="400px"
+        class="hidden h-[520px] w-[400px] object-cover lg:absolute lg:left-[216px] lg:top-2.5 lg:block"
+        data-motion="collage-photo"
+      />
+      <div class="relative lg:absolute lg:left-2.5 lg:top-[139px] lg:w-[600px]">
+        <ProgressBoard />
+      </div>
+      <div
+        class="absolute -bottom-10 right-2 flex size-[120px] -rotate-12 flex-col items-center justify-center gap-0.5 rounded-full border-[3px] border-navy bg-yellow text-center text-navy sm:size-[150px] lg:bottom-auto lg:left-[468px] lg:right-auto lg:top-[621px]"
+        aria-hidden="true"
+        data-motion="stamp"
+      >
+        <span class="type-h4 uppercase">{monitoring.stamp[0]}</span>
+        <span class="type-label-sm">{monitoring.stamp[1]}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="relative"><Marquee items={monitoring.values} /></div>
+</section>

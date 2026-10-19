@@ -1,0 +1,66 @@
+---
+/**
+ * Organismo · Header fijo (Figma: "Header / Desktop (sticky)", estados Top y Scrolled).
+ * El estado "scrolled" lo activa la capa de motion con data-scrolled="true".
+ * Menú mobile con Popover API: funciona sin JavaScript.
+ */
+import Logo from '../atoms/Logo.astro';
+import Button from '../atoms/Button.astro';
+import Icon from '../atoms/Icon.astro';
+import { nav } from '@/data/site';
+---
+<header
+  class="group/header fixed inset-x-0 top-0 z-50 transition-[background-color,backdrop-filter,box-shadow] duration-300 data-[scrolled=true]:bg-white/72 data-[scrolled=true]:backdrop-blur-[24px] data-[scrolled=true]:shadow-[0_1px_0_rgb(9_30_43/0.06)]"
+  data-motion="header"
+  data-scrolled="false"
+>
+  <nav class="mx-auto flex h-[65px] max-w-[1440px] items-center justify-between page-x lg:px-16" aria-label="Principal">
+    <a href="#inicio" class="shrink-0" aria-label="Pulxxe, ir al inicio">
+      <Logo class="h-[45px] w-[120px]" />
+    </a>
+
+    <ul class="hidden items-center gap-9 lg:flex">
+      {nav.map((item) => (
+        <li>
+          <a href={item.href} class="type-nav uppercase text-charcoal transition-colors hover:text-navy focus-visible:text-navy">
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <div class="hidden lg:block"><Button href="#contacto" size="nav">Presupuesto</Button></div>
+
+    <button
+      type="button"
+      popovertarget="menu-mobile"
+      class="flex items-center gap-3 py-3 type-label text-navy lg:hidden"
+      aria-label="Abrir menú"
+    >
+      Menú <Icon name="menu" size={18} strokeWidth={2} />
+    </button>
+  </nav>
+
+  <div
+    id="menu-mobile"
+    popover
+    class="m-0 h-dvh w-full max-w-none bg-navy p-6 text-white backdrop:bg-navy/60 lg:hidden"
+  >
+    <div class="flex items-center justify-between">
+      <Logo class="h-[45px] w-[120px]" tone="white" />
+      <button type="button" popovertarget="menu-mobile" popovertargetaction="hide" class="p-2 text-white" aria-label="Cerrar menú">
+        <Icon name="close" size={22} strokeWidth={2} />
+      </button>
+    </div>
+    <ul class="mt-12 flex flex-col gap-6">
+      {nav.map((item) => (
+        <li>
+          <a href={item.href} class="type-h3 text-white" data-close-menu>{item.label}</a>
+        </li>
+      ))}
+    </ul>
+    <div class="mt-12">
+      <Button href="#contacto" size="hero" data-close-menu>Solicita tu presupuesto</Button>
+    </div>
+  </div>
+</header>

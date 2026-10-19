@@ -1,0 +1,14 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Logo from '@/components/atoms/Logo.astro';
+import Button from '@/components/atoms/Button.astro';
+---
+<BaseLayout title="Página no encontrada | Pulxxe" description="La página que buscas no existe." noindex>
+  <main class="flex min-h-dvh flex-col items-start justify-center gap-8 bg-paper page-x">
+    <Logo />
+    <p class="font-display text-[22vw] leading-[0.8] text-yellow lg:text-[240px]" aria-hidden="true">404</p>
+    <h1 class="type-h2 text-navy">Esta obra no existe.</h1>
+    <p class="type-lead text-muted">La página que buscas se movió o nunca se construyó.</p>
+    <Button href="/">Volver al inicio</Button>
+  </main>
+</BaseLayout>

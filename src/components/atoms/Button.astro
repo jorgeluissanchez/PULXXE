@@ -1,0 +1,40 @@
+---
+/**
+ * Átomo · Button (Figma: componente "Button", tamaños Hero / Footer / Nav).
+ * Amarillo, borde punteado navy de 2 px, 100 % redondeado.
+ * Hover: solo cambia el fondo a #F7D36A. Foco: doble anillo paper + navy.
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  href: string;
+  size?: 'hero' | 'footer' | 'nav';
+  class?: string;
+  target?: string;
+  rel?: string;
+  'data-motion'?: string;
+}
+const { href, size = 'hero', class: className = '', target, rel, ...rest } = Astro.props;
+
+const sizes = {
+  hero: 'gap-[18px] px-5 py-[18px] type-button',
+  footer: 'w-full max-w-[304px] justify-between h-14 px-5 type-button',
+  nav: 'gap-2.5 px-[25px] py-[14px] type-nav',
+} as const;
+---
+<a
+  href={href}
+  target={target}
+  rel={rel}
+  class:list={[
+    'inline-flex items-center rounded-full border-2 border-dashed border-navy bg-yellow text-navy',
+    'transition-colors duration-200 hover:bg-yellow-hover',
+    'focus-visible:outline-none focus-visible:shadow-[0_0_0_3px_var(--color-paper),0_0_0_5px_var(--color-navy)]',
+    sizes[size],
+    className,
+  ]}
+  {...rest}
+>
+  <span><slot /></span>
+  <Icon name="arrow" size={size === 'nav' ? 16 : 20} />
+</a>

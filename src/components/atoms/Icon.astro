@@ -1,0 +1,38 @@
+---
+/**
+ * Átomo · Icon
+ * Iconos de línea del sistema (Figma: "Icon", "Flecha", "Cruz", "Play").
+ */
+interface Props {
+  name: 'arrow' | 'plus' | 'play' | 'menu' | 'close' | 'whatsapp' | 'arrow-up';
+  size?: number;
+  class?: string;
+  strokeWidth?: number;
+}
+const { name, size = 20, class: className = '', strokeWidth = 1.25 } = Astro.props;
+---
+<svg
+  class={className}
+  width={size}
+  height={size}
+  viewBox="0 0 20 20"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={strokeWidth}
+  stroke-linecap="square"
+  aria-hidden="true"
+  focusable="false"
+>
+  {name === 'arrow' && (<><path d="M6 14 14 6" /><path d="M7 6h7v7" /></>)}
+  {name === 'arrow-up' && (<><path d="M10 16V4" /><path d="m5 9 5-5 5 5" /></>)}
+  {name === 'plus' && (<><path d="M10 3v14" /><path d="M3 10h14" /></>)}
+  {name === 'close' && (<><path d="m4 4 12 12" /><path d="M16 4 4 16" /></>)}
+  {name === 'menu' && (<><path d="M2 7h16" /><path d="M2 13h10" /></>)}
+  {name === 'play' && <path d="M6.5 4.5v11l9-5.5-9-5.5Z" fill="currentColor" stroke-linejoin="round" />}
+  {name === 'whatsapp' && (
+    <g stroke="none" fill="currentColor">
+      <path d="M10 1.7a8.2 8.2 0 0 0-7 12.5L1.8 18.3l4.2-1.1A8.2 8.2 0 1 0 10 1.7Zm0 15a6.8 6.8 0 0 1-3.5-1l-.2-.1-2.5.6.7-2.4-.2-.3a6.8 6.8 0 1 1 5.7 3.2Z" />
+      <path d="M13.8 11.6c-.2-.1-1.2-.6-1.4-.7-.2-.1-.3-.1-.5.1l-.6.8c-.1.1-.2.2-.4.1a5.6 5.6 0 0 1-2.8-2.4c-.2-.4.2-.4.6-1.2.1-.1 0-.3 0-.4l-.7-1.5c-.2-.4-.3-.3-.5-.3h-.4a.8.8 0 0 0-.6.3 2.4 2.4 0 0 0-.8 1.8 4.3 4.3 0 0 0 .9 2.2 9.6 9.6 0 0 0 3.7 3.3c1.4.6 1.9.6 2.6.5.4-.1 1.2-.5 1.4-1 .2-.5.2-.9.1-1-.1-.1-.2-.1-.4-.2Z" />
+    </g>
+  )}
+</svg>

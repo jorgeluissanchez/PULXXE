@@ -1,0 +1,56 @@
+---
+/**
+ * Organismo · Proceso (Figma: "04 · Proceso" → "Proceso · interactivo").
+ * Lista de 5 pasos + imagen de la etapa activa con número grande y coordenadas.
+ */
+import { Image } from 'astro:assets';
+import ProcessStep from '../molecules/ProcessStep.astro';
+import { process } from '@/data/content';
+const total = String(process.steps.length).padStart(2, '0');
+---
+<section id="proceso" class="bg-white page-y pl-[var(--spacing-gutter)] pr-[var(--spacing-gutter)] lg:pr-0" aria-labelledby="proceso-title" data-motion="process">
+  <div class="mx-auto flex max-w-[1376px] flex-col gap-14">
+    <header class="flex flex-col gap-8 lg:flex-row lg:gap-12 lg:pr-16" data-motion="reveal">
+      <div class="flex flex-col gap-3.5 lg:w-[760px] lg:shrink-0">
+        <p class="font-sans text-xs font-bold uppercase leading-normal tracking-[0.3em] text-navy">{process.kicker}</p>
+        <span class="h-[3px] w-10 bg-yellow" aria-hidden="true"></span>
+        <h2 id="proceso-title" class="mt-2.5 type-h2 text-navy">{process.title}</h2>
+      </div>
+      <span class="hidden w-px self-stretch bg-line lg:block" aria-hidden="true"></span>
+      <p class="type-lead text-muted lg:self-center">{process.intro}</p>
+    </header>
+
+    <div class="flex flex-col gap-12 lg:flex-row lg:items-start">
+      <ol class="flex flex-col lg:w-[560px] lg:shrink-0" data-steps>
+        {process.steps.map((s, i) => (
+          <ProcessStep {...s} index={i} active={i === process.initial} />
+        ))}
+      </ol>
+
+      <div id="proceso-panel" class="relative hidden h-[640px] flex-1 overflow-hidden bg-navy lg:block" aria-live="polite">
+        {process.steps.map((s, i) => (
+          <div
+            class="absolute inset-0 opacity-0 transition-opacity duration-700 data-[active=true]:opacity-100"
+            data-step-panel={i}
+            data-active={i === process.initial ? 'true' : 'false'}
+            aria-hidden={i === process.initial ? 'false' : 'true'}
+          >
+            <Image src={s.image} alt="" widths={[720, 1080, 1440]} sizes="(min-width: 1440px) 768px, 55vw" class="absolute inset-0 size-full object-cover" />
+            <div class="absolute inset-0 bg-[linear-gradient(180deg,rgb(9_30_43/0)_0%,rgb(9_30_43/0.15)_45%,rgb(9_30_43/0.85)_100%)]"></div>
+            <p class="absolute right-10 top-9 w-[106px] type-overline text-white">{process.coords.map((c) => <span class="block">{c}</span>)}</p>
+            <p class="absolute bottom-9 right-10 w-[106px] type-overline text-white">{process.place.map((c) => <span class="block">{c}</span>)}</p>
+            <div class="absolute bottom-[42px] left-10 flex flex-col">
+              <p class="flex items-end gap-3 text-white">
+                <span class="font-sans text-[96px] leading-none text-transparent [-webkit-text-stroke:2px_white]">{s.n}</span>
+                <span class="pb-1 font-sans text-[28px] leading-none text-white/85">/ {total}</span>
+              </p>
+              <span class="mt-5 h-[3px] w-10 bg-yellow" aria-hidden="true"></span>
+              <p class="mt-[13px] type-overline text-white">{s.name}</p>
+              <p class="mt-1 type-overline text-white/85">{s.detail}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

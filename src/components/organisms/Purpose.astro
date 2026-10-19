@@ -1,0 +1,63 @@
+---
+/**
+ * Organismo · Propósito y nosotros (Figma: "02 · Propósito y nosotros").
+ * Columna izquierda sticky y cajetín en pares a la derecha.
+ */
+import { Image } from 'astro:assets';
+import Kicker from '../atoms/Kicker.astro';
+import Tag from '../atoms/Tag.astro';
+import StatCell from '../molecules/StatCell.astro';
+import { purpose } from '@/data/content';
+
+const [exp, budget, lines, response, scale] = purpose.stats;
+const cell = 'border-light/30';
+---
+<section id="nosotros" class="relative isolate overflow-hidden bg-navy page-x page-y" aria-labelledby="nosotros-title">
+  <p class="pointer-events-none absolute left-[62.5%] top-[-60px] -z-10 hidden select-none font-display text-[560px] leading-none tracking-[-0.03em] text-transparent [-webkit-text-stroke:2px_rgb(255_255_255/0.07)] lg:block" aria-hidden="true">02</p>
+  <div class="mx-auto flex max-w-[var(--container-page)] flex-col gap-12 lg:flex-row lg:items-start lg:gap-16">
+    <!-- Columna fija -->
+    <div class="flex flex-col gap-8 lg:sticky lg:top-[120px] lg:w-[620px] lg:shrink-0" data-motion="reveal">
+      <div class="flex flex-col gap-7">
+        <Kicker tone="yellow">{purpose.kicker}</Kicker>
+        <h2 id="nosotros-title" class="type-h2 text-white">
+          {purpose.titleLines.map((l) => <span class="block">{l}</span>)}
+        </h2>
+      </div>
+      <p class="type-lead text-white">{purpose.statement}</p>
+    </div>
+
+    <!-- Cajetín en pares -->
+    <div class:list={['grid w-full grid-cols-1 border sm:grid-cols-2 lg:max-w-[628px]', cell]} data-motion="stagger">
+      <div class:list={['flex flex-col gap-3 border-b px-7 py-8 sm:border-r', cell]}>
+        <p class="type-overline text-yellow">{purpose.company.label}</p>
+        <p class="type-lead text-white">{purpose.company.text}</p>
+      </div>
+      <figure class:list={['relative min-h-[300px] overflow-hidden border-b', cell]}>
+        <Image src={purpose.photo.src} alt={purpose.photo.alt} widths={[400, 640, 900]} sizes="(min-width: 1024px) 313px, (min-width: 640px) 50vw, 100vw" class="absolute inset-0 size-full object-cover" data-motion="parallax-img" />
+        <figcaption class="absolute bottom-0 left-0"><Tag tone="navy">{purpose.photo.caption}</Tag></figcaption>
+      </figure>
+
+      <div class:list={['flex flex-col gap-3 border-b px-7 py-8 sm:border-r', cell]}>
+        <p class="type-stat text-transparent [-webkit-text-stroke:1.5px_var(--color-yellow)]" aria-hidden="true">{purpose.vision.year}</p>
+        <p class="type-overline text-yellow">{purpose.vision.label}</p>
+        <p class="type-body text-white">{purpose.vision.text}</p>
+      </div>
+      <StatCell {...exp} class:list={['border-b', cell]} />
+
+      <StatCell {...budget} tone="yellow" class:list={['border-b sm:border-r', cell]} />
+      <StatCell {...lines} class:list={['border-b', cell]} />
+
+      <StatCell {...response} class:list={['border-b sm:border-r', cell]} />
+      <StatCell {...scale} class:list={['border-b', cell]} />
+
+      <div class="grid grid-cols-1 sm:col-span-2 sm:grid-cols-3">
+        {purpose.meta.map((m, i) => (
+          <div class:list={['flex flex-col gap-1.5 px-7 py-5', i < 2 && 'border-b sm:border-b-0 sm:border-r', cell]}>
+            <p class="type-overline text-yellow">{m.label}</p>
+            <p class="type-small text-white">{m.value}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

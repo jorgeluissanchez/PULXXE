@@ -1,0 +1,50 @@
+---
+/**
+ * Organismo · Lo que hacemos (Figma: "03 · Lo que hacemos").
+ * Encabezado centrado y escenario: línea 1 · composición en franjas · línea 2.
+ */
+import { Image } from 'astro:assets';
+import Kicker from '../atoms/Kicker.astro';
+import { services } from '@/data/content';
+---
+<section id="servicios" class="bg-paper pb-20 pt-16 lg:pt-7" aria-labelledby="servicios-title">
+  <div class="mx-auto flex max-w-[1440px] flex-col items-center gap-10">
+    <div class="w-full page-x"><header class="mx-auto flex max-w-[1100px] flex-col items-center gap-4 text-center" data-motion="reveal">
+      <Kicker tone="gray">{services.kicker}</Kicker>
+      <h2 id="servicios-title" class="type-h2 text-ink">
+        {services.titleLines.map((l) => <span class="block">{l}</span>)}
+      </h2>
+      <p class="type-lead text-muted">
+        {services.lead.map((l) => <span class="block">{l}</span>)}
+      </p>
+    </header></div>
+
+    <div class="grid w-full grid-cols-1 items-center gap-12 page-x lg:grid-cols-[300px_minmax(0,599px)_300px] lg:justify-between lg:gap-6">
+      {services.lines.map((line, i) => (
+        <article
+          class:list={[
+            'flex flex-col gap-[18px]',
+            i === 0 ? 'lg:order-1' : 'lg:order-3 lg:items-end lg:text-right',
+          ]}
+          data-motion="reveal"
+        >
+          <p class="type-label whitespace-pre text-amber-text">{line.line}</p>
+          <h3 class="type-h3 text-ink">{line.title}</h3>
+          <p class="type-body text-navy">{line.text}</p>
+          <span class="h-[3px] w-10 bg-yellow" aria-hidden="true"></span>
+          <p class="type-body text-muted">{line.scope}</p>
+          <p class="type-label-sm text-navy">{line.audience}</p>
+        </article>
+      ))}
+      <div class="order-first mx-auto w-full max-w-[599px] lg:order-2 lg:-mb-[21px] lg:-mt-[25px]" data-motion="strips">
+        <Image
+          src={services.image.src}
+          alt={services.image.alt}
+          widths={[400, 600, 900, 1135]}
+          sizes="(min-width: 1024px) 599px, 90vw"
+          class="h-auto w-full"
+        />
+      </div>
+    </div>
+  </div>
+</section>

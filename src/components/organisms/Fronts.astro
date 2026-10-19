@@ -1,0 +1,28 @@
+---
+/**
+ * Organismo · Frentes de obra (Figma: "06 · Frentes de obra").
+ * La tarjeta central arranca desfasada 96 px; con scroll las tres se "encajan" alineadas.
+ */
+import Kicker from '../atoms/Kicker.astro';
+import FrontCard from '../molecules/FrontCard.astro';
+import { fronts } from '@/data/content';
+---
+<section id="frentes" class="bg-paper page-x page-y" aria-labelledby="frentes-title" data-motion="fronts">
+  <div class="mx-auto flex max-w-[var(--container-page)] flex-col gap-16">
+    <header class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-16" data-motion="reveal">
+      <div class="flex flex-col gap-6 lg:w-[760px]">
+        <Kicker>{fronts.kicker}</Kicker>
+        <h2 id="frentes-title" class="type-h2 text-navy">
+          {fronts.titleLines.map((l) => <span class="block">{l}</span>)}
+        </h2>
+      </div>
+      <p class="type-lead text-muted lg:w-[440px]">{fronts.intro}</p>
+    </header>
+
+    <div class="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+      {fronts.items.map((item, i) => (
+        <FrontCard {...item} class:list={[i === 1 && 'lg:translate-y-24', i === 2 && 'sm:col-span-2 lg:col-span-1']} />
+      ))}
+    </div>
+  </div>
+</section>

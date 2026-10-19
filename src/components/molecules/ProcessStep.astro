@@ -1,0 +1,42 @@
+---
+/**
+ * Molécula · Paso del proceso (Figma: "Paso / …" del componente "Proceso · interactivo").
+ * Estado activo con data-active="true": número relleno, marca amarilla y descripción visible.
+ * En mobile cada paso muestra su propia imagen (Figma: "Etapa / …").
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Icon from '../atoms/Icon.astro';
+interface Props { n: string; name: string; text: string; image: ImageMetadata; alt: string; active?: boolean; index: number }
+const { n, name, text, image, alt, active = false, index } = Astro.props;
+---
+<li
+  class="group/step relative border-t border-line"
+  data-step={index}
+  data-active={active ? 'true' : 'false'}
+>
+  <span
+    class="absolute inset-y-0 -left-3 hidden w-[3px] bg-yellow opacity-0 transition-opacity duration-300 group-data-[active=true]/step:opacity-100 lg:block"
+    aria-hidden="true"
+  ></span>
+  <Image src={image} alt={alt} widths={[400, 700]} sizes="100vw" class="mb-5 aspect-[342/200] w-full object-cover lg:hidden" />
+  <button
+    type="button"
+    class="flex w-full items-start gap-6 py-[26px] text-left lg:px-4"
+    aria-controls="proceso-panel"
+    aria-pressed={active ? 'true' : 'false'}
+    data-step-trigger
+  >
+    <span
+      class="w-[64px] shrink-0 font-sans text-[48px] leading-none tracking-[-0.02em] text-navy transition-[color,-webkit-text-stroke] duration-300 lg:text-transparent lg:[-webkit-text-stroke:1.2px_var(--color-light)] lg:group-data-[active=true]/step:[-webkit-text-stroke:0] lg:group-data-[active=true]/step:text-navy"
+      aria-hidden="true"
+    >{n}</span>
+    <span class="flex min-w-0 flex-1 flex-col pt-3">
+      <span class="font-sans text-[22px] font-bold leading-tight text-navy lg:font-normal lg:group-data-[active=true]/step:font-bold">{name}</span>
+      <span class="grid transition-[grid-template-rows,opacity,margin] duration-500 ease-out lg:grid-rows-[0fr] lg:opacity-0 lg:group-data-[active=true]/step:mt-2.5 lg:group-data-[active=true]/step:grid-rows-[1fr] lg:group-data-[active=true]/step:opacity-100">
+        <span class="overflow-hidden type-body text-muted">{text}</span>
+      </span>
+    </span>
+    <Icon name="arrow" size={22} class="mt-3 hidden shrink-0 text-navy transition-transform duration-300 group-data-[active=true]/step:rotate-45 lg:block" />
+  </button>
+</li>

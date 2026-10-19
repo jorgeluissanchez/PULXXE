@@ -1,0 +1,13 @@
+---
+/** Molécula · Celda de cifra del cajetín de "Propósito y nosotros". */
+import Ruler from '../atoms/Ruler.astro';
+interface Props { label: string; value: string; detail: string; tone?: 'navy' | 'yellow'; class?: string }
+const { label, value, detail, tone = 'navy', class: className = '' } = Astro.props;
+const onYellow = tone === 'yellow';
+---
+<div class:list={['flex flex-col gap-3 px-7 py-8', onYellow ? 'bg-yellow text-navy' : 'text-white', className]} data-motion="stat">
+  <p class:list={['type-overline', onYellow ? 'text-navy' : 'text-yellow']}>{label}</p>
+  <p class:list={['type-stat', onYellow ? 'text-navy' : 'text-yellow']} data-motion="count">{value}</p>
+  <Ruler class={onYellow ? 'text-navy' : 'text-yellow'} />
+  <p class:list={['type-small', onYellow ? 'text-navy' : 'text-light']}>{detail}</p>
+</div>

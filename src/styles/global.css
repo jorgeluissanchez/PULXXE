@@ -1,0 +1,183 @@
+@import 'tailwindcss/index.css';
+
+/*
+ * Tokens del diseño de Figma (archivo yDh4EUUIi5KpBcIlIDvGnC).
+ * Los nombres siguen las variables de Figma: color/navy → bg-navy, text-navy…
+ * Las tipografías fluidas van de 390 px (mobile) a 1440 px (desktop).
+ */
+@theme {
+  /* Colores */
+  --color-navy: #091e2b;
+  --color-navy-dark: #091a23;
+  --color-navy-deepest: #04090b;
+  --color-navy-soft: #17384a;
+  --color-paper: #f3f1e9;
+  --color-yellow: #f1bd29;
+  --color-yellow-hover: #f7d36a;
+  --color-yellow-amber: #faad01;
+  --color-amber-text: #8a5a00;
+  --color-muted: #54616a;
+  --color-line: #d8dcd8;
+  --color-light: #bcc8ce;
+  --color-ink: #121213;
+  --color-charcoal: #2e2e2e;
+  --color-gray-600: #595c5c;
+  --color-logo-navy: #052242;
+
+  /* Tipografías (las variables las define la Fonts API de Astro) */
+  --font-display: var(--font-black-ops), Impact, sans-serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+
+  /* Layout */
+  --container-page: 1312px;
+  --spacing-gutter: clamp(24px, 9.14px + 3.81vw, 64px);
+  --spacing-section: clamp(64px, 43.2px + 5.33vw, 120px);
+
+  /* Breakpoint extra para el ancho del diseño */
+  --breakpoint-3xl: 1440px;
+
+  /* Animaciones simples sin JS */
+  --animate-marquee: marquee 60s linear infinite;
+  @keyframes marquee {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
+  }
+}
+
+/* ---------- Estilos de texto con nombre de Figma ---------- */
+@utility type-h1 {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 38.63px + 3.429vw, 88px);
+  line-height: 0.97;
+  letter-spacing: -0.03em;
+}
+@utility type-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 25.6px + 2.667vw, 64px);
+  line-height: 1.03;
+  letter-spacing: -0.02em;
+}
+@utility type-h3 {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 21.03px + 0.762vw, 32px);
+  line-height: 1.14;
+}
+@utility type-h4 {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 15.77px + 0.571vw, 24px);
+  line-height: 1.22;
+}
+@utility type-stat {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 25.6px + 2.667vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+@utility type-metric {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 38.63px + 3.429vw, 88px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+@utility type-index {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 21.03px + 0.762vw, 32px);
+  line-height: 1;
+}
+@utility type-button {
+  font-family: var(--font-display);
+  font-size: 14px;
+  line-height: 1.5;
+}
+@utility type-nav {
+  font-family: var(--font-display);
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+@utility type-lead {
+  font-family: var(--font-sans);
+  font-size: clamp(16px, 14.51px + 0.381vw, 20px);
+  line-height: 1.5;
+}
+@utility type-body {
+  font-family: var(--font-sans);
+  font-size: clamp(14px, 13.26px + 0.19vw, 16px);
+  line-height: 1.55;
+}
+@utility type-small {
+  font-family: var(--font-sans);
+  font-size: clamp(12px, 11.26px + 0.19vw, 14px);
+  line-height: 1.5;
+}
+@utility type-caption {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 1.5;
+}
+@utility type-overline {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+@utility type-label {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+@utility type-label-sm {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Texto solo con contorno (cifras decorativas) */
+@utility text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px currentColor;
+  paint-order: stroke;
+}
+
+/* Contenedor estándar: 1312 px de contenido con margen lateral fluido */
+@utility page-x {
+  padding-inline: var(--spacing-gutter);
+}
+@utility page-y {
+  padding-block: var(--spacing-section);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 72px;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-paper font-sans text-navy antialiased;
+  }
+  ::selection {
+    @apply bg-yellow text-navy;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-yellow);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

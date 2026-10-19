@@ -1,0 +1,6 @@
+---
+/** Átomo · Marcador cuadrado de 10 px usado en listas (Figma: "Marcador"). */
+interface Props { tone?: 'navy' | 'yellow'; class?: string }
+const { tone = 'navy', class: className = '' } = Astro.props;
+---
+<span class:list={['inline-block size-2.5 shrink-0', tone === 'navy' ? 'bg-navy' : 'bg-yellow', className]} aria-hidden="true"></span>

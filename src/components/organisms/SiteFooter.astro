@@ -1,0 +1,63 @@
+---
+/** Organismo · Contacto y pie (Figma: "11 · Contacto y pie"). */
+import Icon from '../atoms/Icon.astro';
+import FooterColumn from '../molecules/FooterColumn.astro';
+import { footer } from '@/data/content';
+import { site } from '@/data/site';
+
+const columns = [
+  ...footer.columns,
+  {
+    title: 'Síguenos',
+    links: [
+      { label: 'Instagram', href: site.social.instagram, external: true },
+      { label: 'TikTok', href: site.social.tiktok, external: true },
+      { label: 'YouTube', href: site.social.youtube, external: true },
+    ],
+  },
+  {
+    title: 'Conversemos',
+    links: [
+      { label: site.phone, href: `tel:${site.phone.replace(/\s/g, '')}` },
+      { label: site.email, href: `mailto:${site.email}` },
+      { label: `${site.city}, Colombia`, href: site.mapsUrl, external: true },
+    ],
+  },
+];
+const year = new Date().getFullYear();
+---
+<footer class="relative isolate overflow-hidden bg-[linear-gradient(180deg,var(--color-navy)_0%,var(--color-navy)_40%,var(--color-navy-soft)_100%)] pb-[77px] pt-[72px] page-x">
+  <svg class="pointer-events-none absolute -bottom-[89px] -left-10 -z-10 w-[1520px] max-w-none" viewBox="0 0 1440 318" aria-hidden="true">
+    <defs>
+      <linearGradient id="footer-mark" x1="719.5" y1="3.4" x2="719.5" y2="403.8" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#CCDBE8" stop-opacity="0.01" />
+        <stop offset="0.4" stop-color="#CCDBE8" stop-opacity="0.05" />
+        <stop offset="1" stop-color="#CCDBE8" stop-opacity="0.15" />
+      </linearGradient>
+    </defs>
+    <path fill="url(#footer-mark)" d="M-38.4494 397.235L-40 6.01704L78.2884 5.54822C98.184 5.46935 114.647 6.48933 127.678 8.60814C154.464 12.8429 175.858 25.6 191.859 46.8795C207.858 67.7971 215.919 93.6299 216.041 124.378C216.19 161.998 205.454 191.342 183.833 212.409C162.574 233.474 132.591 244.084 93.8851 244.237L41.2522 244.446L41.8564 396.918L-38.4494 397.235ZM40.564 70.8116L40.9963 179.875L73.5526 179.747C92.3631 179.672 107.356 174.729 118.531 164.918C130.066 154.743 135.799 140.793 135.729 123.068C135.59 87.9796 115.082 70.5162 74.2055 70.6782L40.564 70.8116ZM495.73 128.695L496.337 281.71C496.414 301.244 494.668 316.987 491.098 328.939C484.675 351.031 470.273 368.994 447.903 382.828C425.89 396.663 400.414 403.636 371.476 403.751C335.663 403.894 305.781 394.424 281.831 375.349C268.766 364.909 259.494 352.826 254.016 339.103C248.534 325.017 245.745 306.216 245.652 282.704L245.045 129.689L323.18 129.379L323.758 274.798C323.775 279.139 323.79 283.118 323.804 286.736C323.818 290.352 324.196 293.967 324.932 297.582C327.142 307.341 332.6 315.459 341.308 321.937C350.377 328.048 360.335 331.085 371.187 331.042C385.297 330.985 397.213 326.056 406.943 316.249C414.509 308.623 418.25 294.68 418.17 274.423L417.594 129.005L495.73 128.695ZM546.548 394.917L544.997 3.69837L623.132 3.38867L624.684 394.608L546.548 394.917ZM914.614 393.46L828.341 393.8L781.358 313.681L736.096 394.167L651.451 394.502L740.441 257.953L653.106 127.529L738.294 127.191L783.637 204.605L828.91 126.832L910.842 126.507L822.916 257.626L914.614 393.46ZM1183.8 392.392L1097.52 392.733L1050.54 312.614L1005.28 393.099L920.634 393.434L1009.62 256.886L922.289 126.462L1007.48 126.124L1052.82 203.539L1098.09 125.765L1180.03 125.44L1092.1 256.559L1183.8 392.392ZM1478.6 282.701L1278.92 283.492C1281.88 302.291 1289.36 316.913 1301.34 327.356C1313.32 337.798 1327.63 342.988 1344.27 342.922C1355.84 342.876 1368.49 339.026 1382.2 331.375C1396.28 323.723 1407.27 313.733 1415.18 301.401L1470.68 339.163C1453.77 360.575 1435.2 376.021 1414.97 385.508C1395.12 394.991 1371.81 399.786 1345.03 399.892C1302.71 400.061 1268.3 387.534 1241.79 362.318C1215.64 336.739 1202.49 303.511 1202.33 262.634C1202.16 221.396 1215.23 186.978 1241.53 159.381C1268.19 131.783 1301.59 117.904 1341.75 117.745C1381.54 117.588 1414.33 131.023 1440.12 158.052C1465.91 185.08 1478.89 219.937 1479.06 262.622L1479.1 271.304L1478.6 282.701ZM1341.43 174.178C1307.78 174.312 1286.88 193.929 1278.72 233.03L1401.89 232.541C1397.39 193.491 1377.24 174.037 1341.43 174.178Z" />
+  </svg>
+
+  <div class="mx-auto flex max-w-[var(--container-page)] flex-col gap-[68px]">
+    <nav class="grid grid-cols-2 gap-8 lg:grid-cols-4" aria-label="Pie de página">
+      {columns.map((c) => <FooterColumn {...c} />)}
+    </nav>
+    <div class="flex flex-col gap-[31px]">
+      <hr class="border-muted" />
+      <div class="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+        <div class="flex flex-col gap-[9px]">
+          <p class="type-lead text-white">{site.tagline}</p>
+          <p class="type-caption text-light">© {year} {site.legalName}  ·  NIT {site.nit}  ·  {site.city}, {site.region}</p>
+          <p class="type-caption text-light">Zona de servicio: {site.serviceArea.slice(0, -1).join(', ')} y {site.serviceArea.at(-1)}.</p>
+          <p class="type-caption text-light">
+            <a href="/privacidad" class="hover:text-yellow">Política de privacidad</a>  ·  <a href="/privacidad#datos" class="hover:text-yellow">Tratamiento de datos personales (Ley 1581)</a>  ·  <a href={site.mapsUrl} target="_blank" rel="noopener" class="hover:text-yellow">Ver en Google Maps</a>
+          </p>
+        </div>
+        <a href="#inicio" class="flex w-[146px] flex-col gap-2.5 type-label-sm text-light hover:text-yellow">
+          Volver arriba
+          <Icon name="arrow" size={28} strokeWidth={1.25} class="-rotate-45 text-white" />
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

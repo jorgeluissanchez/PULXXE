@@ -1,0 +1,33 @@
+---
+/** Organismo · Preguntas frecuentes (Figma: "10 · Preguntas frecuentes"). */
+import { Image } from 'astro:assets';
+import Kicker from '../atoms/Kicker.astro';
+import BenefitItem from '../molecules/BenefitItem.astro';
+import FaqItem from '../molecules/FaqItem.astro';
+import { faq } from '@/data/content';
+---
+<section id="preguntas" class="relative isolate overflow-hidden bg-paper pb-[var(--spacing-section)] pt-16 page-x lg:pt-12" aria-labelledby="faq-title">
+  <p class="pointer-events-none absolute -left-[60px] top-10 -z-10 hidden select-none font-display text-[900px] leading-none tracking-[-0.03em] text-transparent [-webkit-text-stroke:3px_rgb(9_30_43/0.08)] lg:block" aria-hidden="true">?</p>
+  <div class="mx-auto flex max-w-[var(--container-page)] flex-col gap-12 lg:flex-row lg:items-start lg:gap-24">
+    <div class="flex flex-col gap-6 lg:sticky lg:top-[100px] lg:w-[580px] lg:shrink-0" data-motion="reveal">
+      <Kicker>{faq.kicker}</Kicker>
+      <h2 id="faq-title" class="type-h2 text-navy">
+        {faq.titleLines.map((l) => <span class="block">{l}</span>)}
+      </h2>
+      <aside class="relative mt-4 bg-navy pb-8" aria-label={faq.backing.title}>
+        <Image src={faq.backing.image} alt={faq.backing.alt} widths={[580, 1160]} sizes="(min-width: 1024px) 580px, 100vw" class="h-40 w-full object-cover" />
+        <span class="absolute right-6 top-[130px] -rotate-6 bg-yellow px-3.5 py-2 type-nav uppercase text-navy sm:left-[360px] sm:right-auto" aria-hidden="true">{faq.backing.tag}</span>
+        <div class="flex flex-col gap-3.5 px-8 pt-7">
+          <p class="type-h4 text-yellow">{faq.backing.title}</p>
+          <ul class="flex flex-col gap-3.5 text-white">
+            {faq.backing.items.map((it) => <BenefitItem tone="yellow" size="body">{it}</BenefitItem>)}
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <div class="flex flex-col border-b border-line lg:w-[636px]" data-motion="faq">
+      {faq.items.map((item, i) => <FaqItem {...item} n={String(i + 1).padStart(2, '0')} open={i === 0} />)}
+    </div>
+  </div>
+</section>

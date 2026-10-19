@@ -1,0 +1,21 @@
+---
+/** Molécula · Franja corrida de valores (Figma: "Valores · franja corrida (marquee)"). */
+interface Props { items: readonly string[] }
+const { items } = Astro.props;
+const group = [...items, ...items];
+---
+<div class="relative overflow-hidden bg-navy py-[26px]" data-motion="marquee">
+  <ul class="sr-only">{items.map((v) => <li>{v}</li>)}</ul>
+  <div class="flex w-max animate-marquee motion-reduce:animate-none" aria-hidden="true" data-marquee-track>
+    {[0, 1].map(() => (
+      <div class="flex shrink-0 items-center gap-10 pr-10">
+        {group.map((v) => (
+          <>
+            <span class="whitespace-nowrap type-index uppercase text-yellow">{v}</span>
+            <span class="size-3.5 shrink-0 rotate-45 bg-white"></span>
+          </>
+        ))}
+      </div>
+    ))}
+  </div>
+</div>

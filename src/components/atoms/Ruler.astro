@@ -1,0 +1,10 @@
+---
+/** Átomo · Regla decorativa (Figma: "Regla (decorativa)" 120 × 12). */
+interface Props { class?: string }
+const { class: className = '' } = Astro.props;
+const ticks = Array.from({ length: 21 }, (_, i) => ({ x: Math.min(i * 5.9, 118), h: i % 5 === 0 ? 12 : 6 }));
+---
+<svg class:list={['block', className]} width="120" height="12" viewBox="0 0 120 12" aria-hidden="true">
+  <rect x="0" y="0" width="120" height="2" fill="currentColor" />
+  {ticks.map((t) => <rect x={t.x} y="0" width="2" height={t.h} fill="currentColor" />)}
+</svg>

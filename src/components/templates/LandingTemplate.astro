@@ -1,0 +1,34 @@
+---
+/** Plantilla · Landing: orden de los organismos tal como en "Página / Desktop". */
+import SiteHeader from '../organisms/SiteHeader.astro';
+import Hero from '../organisms/Hero.astro';
+import Purpose from '../organisms/Purpose.astro';
+import Services from '../organisms/Services.astro';
+import Process from '../organisms/Process.astro';
+import WorkInAction from '../organisms/WorkInAction.astro';
+import Fronts from '../organisms/Fronts.astro';
+import Results from '../organisms/Results.astro';
+import Sectors from '../organisms/Sectors.astro';
+import Monitoring from '../organisms/Monitoring.astro';
+import Faq from '../organisms/Faq.astro';
+import ClosingBanner from '../organisms/ClosingBanner.astro';
+import SiteFooter from '../organisms/SiteFooter.astro';
+import WhatsappCorner from '../organisms/WhatsappCorner.astro';
+---
+<a href="#contenido" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-yellow focus:px-4 focus:py-2 focus:text-navy">Saltar al contenido</a>
+<SiteHeader />
+<main id="contenido">
+  <Hero />
+  <Purpose />
+  <Services />
+  <Process />
+  <WorkInAction />
+  <Fronts />
+  <Results />
+  <Sectors />
+  <Monitoring />
+  <Faq />
+  <ClosingBanner />
+</main>
+<SiteFooter />
+<WhatsappCorner />

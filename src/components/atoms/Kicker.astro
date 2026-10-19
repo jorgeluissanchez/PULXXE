@@ -1,0 +1,26 @@
+---
+/**
+ * Átomo · Kicker (overline de sección). Variante "pill": píldora amarilla.
+ */
+interface Props {
+  as?: 'p' | 'span';
+  tone?: 'muted' | 'navy' | 'yellow' | 'white' | 'gray';
+  variant?: 'plain' | 'pill';
+  class?: string;
+}
+const { as: Tag = 'p', tone = 'muted', variant = 'plain', class: className = '' } = Astro.props;
+const tones = {
+  muted: 'text-muted',
+  navy: 'text-navy',
+  yellow: 'text-yellow',
+  white: 'text-white',
+  gray: 'text-gray-600',
+};
+---
+{variant === 'pill' ? (
+  <Tag class:list={['inline-flex items-center rounded-full bg-yellow px-[18px] py-2 type-overline text-navy', className]}>
+    <slot />
+  </Tag>
+) : (
+  <Tag class:list={['type-overline', tones[tone], className]}><slot /></Tag>
+)}

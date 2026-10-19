@@ -1,0 +1,24 @@
+---
+/**
+ * Política de privacidad y tratamiento de datos (Ley 1581 de 2012).
+ * ⚠️ Texto base: debe revisarlo el área legal del cliente antes de publicarse como definitivo.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Logo from '@/components/atoms/Logo.astro';
+import { site } from '@/data/site';
+---
+<BaseLayout title="Política de privacidad | Pulxxe" description="Política de privacidad y tratamiento de datos personales de Pulxxe S.A.S. según la Ley 1581 de 2012.">
+  <main class="mx-auto flex max-w-[760px] flex-col gap-6 bg-paper py-16 page-x">
+    <a href="/" aria-label="Volver al inicio"><Logo /></a>
+    <h1 class="type-h2 text-navy">Política de privacidad</h1>
+    <p class="type-body text-muted">Última actualización: {new Date().getFullYear()}.</p>
+    <h2 class="type-h4 text-navy">Responsable del tratamiento</h2>
+    <p class="type-body text-navy">{site.legalName}, NIT {site.nit}, con domicilio en {site.city}, {site.region}. Correo de contacto: <a class="underline" href={`mailto:${site.email}`}>{site.email}</a>.</p>
+    <h2 id="datos" class="type-h4 text-navy">Tratamiento de datos personales (Ley 1581 de 2012)</h2>
+    <p class="type-body text-navy">Usamos los datos que nos compartes (nombre, teléfono, correo y descripción de tu proyecto) únicamente para responder tu solicitud, preparar cotizaciones y hacer seguimiento a la obra contratada. No vendemos ni cedemos tus datos a terceros.</p>
+    <h2 class="type-h4 text-navy">Tus derechos</h2>
+    <p class="type-body text-navy">Puedes conocer, actualizar, rectificar y solicitar la supresión de tus datos, así como revocar la autorización, escribiendo a {site.email}. Responderemos en los plazos que fija la ley.</p>
+    <h2 class="type-h4 text-navy">Cookies y analítica</h2>
+    <p class="type-body text-navy">Este sitio no usa cookies de publicidad. Si en el futuro se incorpora analítica, se informará en esta página.</p>
+  </main>
+</BaseLayout>

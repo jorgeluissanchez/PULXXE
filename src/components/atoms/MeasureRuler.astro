@@ -1,0 +1,13 @@
+---
+/** Átomo · Regla de medición superior de "Monitoreo y valor" (1440 × 40, una marca cada 12 px). */
+const ticks = Array.from({ length: 121 }, (_, i) => i);
+---
+<svg class="block h-10 w-full" viewBox="0 0 1440 40" preserveAspectRatio="xMinYMin slice" aria-hidden="true">
+  <rect width="1440" height="40" fill="var(--color-navy)" />
+  {ticks.map((i) => (
+    <rect x={i * 12} y="0" width="1" height={i % 10 === 0 ? 18 : i % 5 === 0 ? 12 : 7} fill="var(--color-yellow)" />
+  ))}
+  {ticks.filter((i) => i % 10 === 0).map((i) => (
+    <text x={i * 12 + 4} y="34" fill="var(--color-yellow)" font-size="12" font-family="var(--font-sans)">{i}</text>
+  ))}
+</svg>

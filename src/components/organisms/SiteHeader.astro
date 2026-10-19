@@ -22,8 +22,13 @@ import { nav } from '@/data/site';
     <ul class="hidden items-center gap-9 lg:flex">
       {nav.map((item) => (
         <li>
-          <a href={item.href} class="type-nav uppercase text-charcoal hover:text-navy focus-visible:text-navy">
-            {item.label}
+          <a
+            href={item.href}
+            class="group/nav relative inline-block py-2 type-nav uppercase text-charcoal transition-colors duration-300 hover:text-navy focus-visible:text-navy"
+          >
+            <span class="inline-block transition-transform duration-300 ease-[cubic-bezier(.22,1,.36,1)] group-hover/nav:-translate-y-0.5">{item.label}</span>
+            <!-- Subrayado amarillo que crece desde la izquierda -->
+            <span class="absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 rounded-full bg-yellow transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover/nav:scale-x-100 group-focus-visible/nav:scale-x-100" aria-hidden="true"></span>
           </a>
         </li>
       ))}

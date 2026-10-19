@@ -12,28 +12,32 @@ import { hero } from '@/data/content';
   Desktop: el hero mide exactamente el alto visible (100dvh − header). --u es 1 px del diseño de Figma (1440)
   escalado al ancho (hasta 1.25 en monitores grandes); el título crece con el alto (dvh) y --uw encoge
   PULXXE lo justo para no chocar con el texto. Referencias en Figma: "Prototipo · Laptop" (1366 × 657) y Desktop.
+  Parallax con el cursor (desktop): src/scripts/interactions.ts escribe --mx/--my (−1…1) en la sección;
+  PULXXE se mueve con el mouse y la casa en sentido contrario, con más recorrido (efecto de profundidad).
+  Con el scroll (--sy) PULXXE sube un poco más rápido que la página y la casa baja (va más lenta).
 -->
 <section
   id="inicio"
+  data-hero-parallax
   class="relative overflow-hidden bg-white pt-[65px] [--u:min(1.25px,calc(100vw/1440))] [--uw:min(var(--u),calc((39dvh-35px)/238))]"
 >
   <div class="relative mx-auto flex max-w-[1440px] flex-col lg:block lg:h-[calc(100dvh-65px)] lg:min-h-[520px] lg:max-w-[calc(1440*var(--u))]">
     <!-- Palabra de marca decorativa (las letras se pintan con ::before para que no cuenten como texto) -->
     <p
-      class="pointer-events-none order-2 select-none whitespace-nowrap pt-4 text-center font-display text-[22.4vw] leading-[0.78] tracking-[-0.01em] text-yellow lg:absolute lg:left-[calc(48*var(--u))] lg:top-[calc(-15*var(--uw))] lg:pt-0 lg:text-left lg:text-[max(200px,calc(325*var(--uw)))]"
+      class="pointer-events-none order-2 select-none whitespace-nowrap pt-4 translate-y-[calc(var(--sy,0)*-0.25px)] lg:translate-x-[calc(var(--mx,0)*14px)] lg:translate-y-[calc(var(--my,0)*8px-var(--sy,0)*0.25px)] text-center font-display text-[22.4vw] leading-[0.78] tracking-[-0.01em] text-yellow lg:absolute lg:left-[calc(48*var(--u))] lg:top-[calc(-15*var(--uw))] lg:pt-0 lg:text-left lg:text-[max(200px,calc(325*var(--uw)))]"
       aria-hidden="true"
     >
       <!-- Entrada: cada letra sube desde abajo detrás de una máscara (sin fundido), escalonada -->
       {[...hero.brandWord].map((l, i) => (
-        <span class="-my-[0.1em] inline-block overflow-hidden py-[0.1em] align-top">
-          <span class="inline-block animate-[letter-rise_1s_cubic-bezier(.22,1,.36,1)_both] before:content-[attr(data-l)]" style={`animation-delay:${150 + i * 90}ms`} data-l={l}></span>
+        <span class="-mx-[0.06em] -my-[0.1em] inline-block overflow-hidden px-[0.06em] py-[0.1em] align-top">
+          <span class="inline-block animate-[letter-rise_1s_cubic-bezier(.22,1,.36,1)_backwards] before:content-[attr(data-l)]" style={`animation-delay:${150 + i * 90}ms`} data-l={l}></span>
         </span>
       ))}
     </p>
 
     <!-- Casa terminada (recorte PNG) -->
     <div
-      class="relative order-3 -mb-[22vw] -ml-[25%] -mt-[10vw] w-[150%] max-w-none lg:absolute lg:left-[calc(465*var(--u))] lg:bottom-[calc(-167*var(--u))] lap:left-[calc(516*var(--u))] lap:bottom-[calc(-157*var(--u))] lg:mb-0 lg:mt-0 lg:ml-0 lg:w-[calc(1212*var(--u))] lg:max-w-none"
+      class="relative order-3 -mb-[22vw] -ml-[25%] -mt-[10vw] w-[150%] max-w-none lg:absolute lg:left-[calc(465*var(--u))] lg:bottom-[calc(-167*var(--u))] lap:left-[calc(516*var(--u))] lap:bottom-[calc(-157*var(--u))] lg:mb-0 lg:mt-0 lg:ml-0 lg:w-[calc(1212*var(--u))] lg:max-w-none translate-y-[calc(var(--sy,0)*0.3px)] lg:translate-x-[calc(var(--mx,0)*-26px)] lg:translate-y-[calc(var(--my,0)*-14px+var(--sy,0)*0.3px)] will-change-transform"
     >
       <Image
         src={hero.image.src}

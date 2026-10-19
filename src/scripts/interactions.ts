@@ -49,6 +49,9 @@ export function initInteractions() {
   const sectors = document.querySelector('[data-sectors]');
   if (sectors) single(sectors, '[data-sector]', '[data-sector-trigger]', '[data-sector-panel]', true);
   initFrontsScroll();
+  initCursorRipple();
+  initHeroParallax();
+  initScrollParallax();
 }
 
 /**
@@ -99,4 +102,71 @@ function initAccordionCarousel(root: Element) {
   panels.forEach((p) => io.observe(p));
   // Tocar una tarjeta lateral la centra
   panels.forEach((p) => p.addEventListener('click', () => mobile.matches && p.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })));
+}
+
+/** Clic con mouse: onda amarilla desde la punta del cursor (Figma: "Cursor / Pulxxe" → Click). */
+function initCursorRipple() {
+  if (!window.matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preference)').matches) return;
+  window.addEventListener('pointerdown', (e) => {
+    if (e.pointerType !== 'mouse' || e.button !== 0) return;
+    const dot = document.createElement('span');
+    dot.className = 'cursor-ripple';
+    dot.style.left = `${e.clientX}px`;
+    dot.style.top = `${e.clientY}px`;
+    document.documentElement.appendChild(dot); // sobre todo, incluso el header fijo
+    dot.addEventListener('animationend', () => dot.remove(), { once: true });
+  });
+}
+
+/** Hero: parallax con el cursor. Interpola suave hacia la posición del mouse; vuelve al centro al salir. */
+function initHeroParallax() {
+  const hero = document.querySelector<HTMLElement>('[data-hero-parallax]');
+  if (!hero || !window.matchMedia('(pointer: fine) and (min-width: 1024px) and (prefers-reduced-motion: no-preference)').matches) return;
+  let tx = 0, ty = 0, x = 0, y = 0, raf = 0;
+  const loop = () => {
+    x += (tx - x) * 0.08;
+    y += (ty - y) * 0.08;
+    hero.style.setProperty('--mx', x.toFixed(4));
+    hero.style.setProperty('--my', y.toFixed(4));
+    raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.001 ? requestAnimationFrame(loop) : 0;
+  };
+  const kick = () => { if (!raf) raf = requestAnimationFrame(loop); };
+  hero.addEventListener('pointermove', (e) => {
+    const r = hero.getBoundingClientRect();
+    tx = ((e.clientX - r.left) / r.width) * 2 - 1;
+    ty = ((e.clientY - r.top) / r.height) * 2 - 1;
+    kick();
+  });
+  hero.addEventListener('pointerleave', () => { tx = 0; ty = 0; kick(); });
+}
+
+/**
+ * Parallax con el scroll (desktop y mobile, sin "reducir movimiento"):
+ * - Hero: --sy = píxeles recorridos dentro del hero. PULXXE sube un poco más rápido que la página y la casa baja (va más lenta).
+ * - Banner de cierre: --bp de −1 a 1 mientras cruza la pantalla; la foto de fondo se desplaza más lento.
+ */
+function initScrollParallax() {
+  if (!window.matchMedia('(prefers-reduced-motion: no-preference)').matches) return;
+  const hero = document.querySelector<HTMLElement>('[data-hero-parallax]');
+  const banner = document.querySelector<HTMLElement>('[data-banner-parallax]');
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const vh = window.innerHeight;
+    if (hero) {
+      const r = hero.getBoundingClientRect();
+      if (r.bottom > 0) hero.style.setProperty('--sy', Math.max(0, -r.top).toFixed(1));
+    }
+    if (banner) {
+      const r = banner.getBoundingClientRect();
+      if (r.top < vh && r.bottom > 0) {
+        const p = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2);
+        banner.style.setProperty('--bp', Math.max(-1, Math.min(1, p)).toFixed(4));
+      }
+    }
+  };
+  const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
 }

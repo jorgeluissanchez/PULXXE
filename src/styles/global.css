@@ -205,6 +205,44 @@
 }
 
 @layer base {
+  /*
+   * Cursores de marca (Figma: Components → "Cursor / Pulxxe"; archivos en public/cursors).
+   * Solo en dispositivos con mouse. El número tras la URL es el punto exacto de clic.
+   */
+  @media (pointer: fine) {
+    html { cursor: url('/cursors/default.svg') 4 3, auto; }
+    a, button, summary, label, select, [role='button'], [data-panel], [data-step-trigger], [data-sector-trigger] {
+      cursor: url('/cursors/hover.svg') 4 3, pointer;
+    }
+    input:not([type='checkbox'], [type='radio'], [type='submit'], [type='button']), textarea, [contenteditable='true'] {
+      cursor: url('/cursors/text.svg') 16 16, text;
+    }
+    p, h1, h2, h3, h4, li, dd, dt, blockquote { cursor: url('/cursors/text.svg') 16 16, text; }
+    /* Los enlaces dentro de textos o listas (menú, pie) también llevan el cursor de clic */
+    :is(p, li, h1, h2, h3, h4, dd, dt) :is(a, button, summary),
+    a *, button *, summary *, [data-panel] *, [data-step-trigger] *, [data-sector-trigger] * {
+      cursor: url('/cursors/hover.svg') 4 3, pointer;
+    }
+    [aria-hidden='true'], .pointer-events-none { cursor: inherit; }
+    :disabled, [aria-disabled='true'] { cursor: url('/cursors/not-allowed.svg') 16 16, not-allowed; }
+  }
+  .cursor-ripple {
+    position: fixed;
+    z-index: 2147483647; /* encima de todo, incluso el header fijo */
+    width: 44px;
+    height: 44px;
+    margin: -22px 0 0 -22px;
+    border-radius: 9999px;
+    pointer-events: none;
+    background: radial-gradient(circle, rgb(18 18 19 / 0.35) 0 30%, rgb(18 18 19 / 0.1) 31% 60%, transparent 61%);
+    box-shadow: 0 0 0 1.5px rgb(18 18 19 / 0.45);
+    will-change: transform, opacity;
+    animation: cursor-ripple 0.6s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  @keyframes cursor-ripple {
+    from { transform: scale(0.2); opacity: 1; }
+    to { transform: scale(1.6); opacity: 0; }
+  }
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 72px;

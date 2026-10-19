@@ -18,7 +18,7 @@ import { sectors } from '@/data/content';
           {sectors.titleLines.map((l) => <span class="block">{l}</span>)}
         </h2>
       </div>
-      <div id="sector-vista" class="relative aspect-[600/440] overflow-hidden bg-navy lg:aspect-auto lg:h-[clamp(240px,calc(100dvh-336px),440px)]" aria-live="polite">
+      <div id="sector-vista" class="relative aspect-[600/440] overflow-hidden bg-navy lg:aspect-auto lg:h-[clamp(240px,calc(100dvh-490px),440px)] lap:h-[calc(100dvh-336px)]" aria-live="polite">
         {sectors.items.map((s, i) => (
           <div
             class="absolute inset-0 flex flex-col justify-end gap-3 p-6 opacity-0 data-[active=true]:opacity-100 sm:p-9"

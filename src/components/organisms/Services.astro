@@ -7,7 +7,7 @@ import { Image } from 'astro:assets';
 import Kicker from '../atoms/Kicker.astro';
 import { services } from '@/data/content';
 ---
-<section id="servicios" class="bg-paper pb-20 pt-16 lg:py-0 screen-h screen-y" aria-labelledby="servicios-title">
+<section id="servicios" class="bg-paper max-lg:pb-20 max-lg:pt-16 screen-h screen-y" aria-labelledby="servicios-title">
   <div class="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-10 lg:min-h-0 lg:flex-1 lg:max-h-[920px] lg:gap-[clamp(24px,calc((100dvh-657px)/6+24px),40px)]">
     <div class="w-full page-x"><header class="mx-auto flex max-w-[1100px] flex-col items-center gap-4 text-center lap:max-w-none lap:flex-row lap:items-end lap:justify-between lap:text-left">
       <div class="flex flex-col items-center gap-4 lap:items-start">
@@ -21,7 +21,7 @@ import { services } from '@/data/content';
       </p>
     </header></div>
 
-    <div class="grid w-full grid-cols-1 items-center gap-12 page-x lg:min-h-0 lg:flex-1 lg:grid-cols-[300px_auto_300px] lg:grid-rows-[minmax(0,1fr)] lg:justify-between lg:gap-6 lap:justify-center lap:gap-[72px]">
+    <div class="grid w-full grid-cols-1 items-center gap-12 page-x lg:min-h-0 lg:flex-1 lg:grid-cols-[minmax(220px,300px)_minmax(0,1fr)_minmax(220px,300px)] lg:grid-rows-[minmax(0,1fr)] lg:gap-10">
       {services.lines.map((line, i) => (
         <article
           class:list={[
@@ -37,13 +37,13 @@ import { services } from '@/data/content';
           <p class="type-label-sm text-navy">{line.audience}</p>
         </article>
       ))}
-      <div class="order-first mx-auto w-full max-w-[599px] lg:order-2 lg:h-full lg:max-h-[633px] lg:w-auto lg:max-w-none">
+      <div class="order-first mx-auto w-full max-w-[599px] lg:order-2 lg:flex lg:h-full lg:max-h-[633px] lg:max-w-none lg:justify-center">
         <Image
           src={services.image.src}
           alt={services.image.alt}
           widths={[400, 600, 900, 1135]}
           sizes="(min-width: 1024px) 599px, 90vw"
-          class="h-auto w-full lg:h-full lg:w-auto lg:max-w-none"
+          class="h-auto w-full lg:h-full lg:w-auto lg:max-w-full lg:object-contain"
         />
       </div>
     </div>

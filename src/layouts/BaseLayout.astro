@@ -89,6 +89,11 @@ const faqLd = {
     {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />}
   </head>
   <body>
+    <!-- Al recargar, empezar arriba para ver la entrada del hero (el navegador restauraba el scroll) -->
+    <script is:inline>
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      if (!location.hash) window.scrollTo(0, 0);
+    </script>
     <slot />
     <script>
       import { initInteractions } from '@/scripts/interactions';

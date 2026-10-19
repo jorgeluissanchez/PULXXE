@@ -22,7 +22,7 @@ const { n, name, text, image, alt, active = false, index } = Astro.props;
   <Image src={image} alt={alt} widths={[400, 700]} sizes="100vw" class="mb-5 aspect-[342/200] w-full object-cover lg:hidden" />
   <button
     type="button"
-    class="flex w-full items-start gap-6 py-[26px] text-left lg:px-4 lg:py-[clamp(6px,calc((100dvh-657px)/12+6px),26px)]"
+    class="flex w-full items-start gap-6 py-[26px] text-left lg:px-4 lg:py-[clamp(6px,calc((100dvh-657px)/25+6px),26px)] lap:py-[clamp(10px,calc((100dvh-500px)/12),20px)]"
     aria-controls="proceso-panel"
     aria-pressed={active ? 'true' : 'false'}
     data-step-trigger

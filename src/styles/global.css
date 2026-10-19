@@ -38,6 +38,10 @@
 
   /* Animaciones simples sin JS */
   --animate-marquee: marquee 60s linear infinite;
+  @keyframes letter-rise {
+    from { transform: translate3d(0, 110%, 0); }
+    to { transform: translate3d(0, 0, 0); }
+  }
   @keyframes marquee {
     from { transform: translate3d(0, 0, 0); }
     to { transform: translate3d(-50%, 0, 0); }
@@ -171,28 +175,27 @@
 /*
  * Secciones a pantalla completa (dvh) en desktop/laptop: cada sección ocupa el alto visible
  * bajo el header fijo (65 px) y su bloque visual crece o se encoge con la pantalla.
- * El aire vertical va de 30 px (laptop 1366 × 657) a 120 px (monitores ≥ 900 de alto).
+ * El aire vertical va de 30 px (laptop 1366 × 657) a 120 px (monitores muy altos).
  */
 @utility screen-y {
   padding-block: var(--spacing-section);
   @media (min-width: 1024px) {
-    padding-block: clamp(30px, calc((100dvh - 657px) * 0.37 + 30px), 120px);
+    padding-block: clamp(30px, calc((100dvh - 657px) * 0.2 + 30px), 120px);
   }
 }
 @utility screen-h {
   @media (min-width: 1024px) {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    height: calc(100dvh - 65px);
-    min-height: 560px;
+    justify-content: safe center;
+    min-height: calc(100dvh - 65px);
   }
 }
 @utility screen-min-h {
   @media (min-width: 1024px) {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: safe center;
     min-height: calc(100dvh - 65px);
   }
 }

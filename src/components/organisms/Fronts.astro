@@ -1,7 +1,8 @@
 ---
 /**
  * Organismo · Frentes de obra (Figma: "06 · Frentes de obra").
- * La tarjeta central arranca desfasada 96 px; con scroll las tres se "encajan" alineadas.
+ * La tarjeta central arranca desfasada; con el scroll sube hasta alinearse con las otras dos
+ * (y vuelve a bajar al devolverse). El avance lo calcula src/scripts/interactions.ts en --p.
  */
 import Kicker from '../atoms/Kicker.astro';
 import FrontCard from '../molecules/FrontCard.astro';
@@ -21,7 +22,7 @@ import { fronts } from '@/data/content';
 
     <div class="-mx-[var(--spacing-gutter)] flex snap-x snap-mandatory gap-4 overflow-x-auto px-[var(--spacing-gutter)] pb-2 [scrollbar-width:none] lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0">
       {fronts.items.map((item, i) => (
-        <FrontCard {...item} class:list={[i === 1 && 'lg:translate-y-[clamp(48px,calc((100dvh-657px)/5+48px),96px)]', 'w-[290px] shrink-0 snap-start sm:w-[340px] lg:w-auto']} />
+        <FrontCard {...item} data-front-shift={i === 1 ? '' : undefined} class:list={[i === 1 && 'lg:[--front-off:clamp(48px,calc((100dvh-657px)/5+48px),96px)] lg:translate-y-[calc(var(--front-off)*(1-var(--p,0)))] lg:will-change-transform', 'w-[290px] shrink-0 snap-start sm:w-[340px] lg:w-auto']} />
       ))}
     </div>
   </div>

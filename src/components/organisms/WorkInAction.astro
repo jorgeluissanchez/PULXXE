@@ -6,7 +6,7 @@ import Kicker from '../atoms/Kicker.astro';
 import AccordionPanel from '../molecules/AccordionPanel.astro';
 import { workInAction } from '@/data/content';
 ---
-<section class="bg-navy pb-24 pt-16 page-x lg:py-0 screen-h screen-y" aria-labelledby="accion-title">
+<section class="bg-navy max-lg:pb-24 max-lg:pt-16 page-x screen-h screen-y" aria-labelledby="accion-title">
   <div class="mx-auto flex max-w-[var(--container-page)] w-full flex-col gap-10 lg:min-h-0 lg:flex-1 lg:max-h-[880px] lg:gap-[clamp(28px,calc((100dvh-657px)/5+28px),79px)]">
     <header class="flex flex-col gap-6 lg:flex-row lg:justify-between">
       <div class="flex flex-col gap-[18px] lg:w-[620px]">
@@ -20,8 +20,19 @@ import { workInAction } from '@/data/content';
       </p>
     </header>
 
-    <div class="grid grid-cols-2 gap-3 lg:flex lg:min-h-0 lg:flex-1 lg:max-h-[580px] lg:gap-0" data-accordion>
-      {workInAction.panels.map((p, i) => <AccordionPanel {...p} i={i} open={i === 0} />)}
+    <div class="lg:flex lg:min-h-0 lg:flex-1 lg:flex-col" data-accordion>
+      <div class="-mx-[var(--spacing-gutter)] flex snap-x snap-mandatory gap-3 overflow-x-auto px-[var(--spacing-gutter)] [scrollbar-width:none] lg:mx-0 lg:min-h-0 lg:flex-1 lg:max-h-[580px] lg:gap-0 lg:overflow-visible lg:px-0" data-accordion-track>
+        {workInAction.panels.map((p, i) => <AccordionPanel {...p} i={i} open={i === 0} />)}
+      </div>
+      <!-- Mobile: indicador de la tarjeta activa -->
+      <div class="mt-6 flex items-center justify-between lg:hidden" aria-hidden="true">
+        <div class="flex items-center gap-2">
+          {workInAction.panels.map((_, i) => (
+            <span class="h-1 w-4 rounded-full bg-white/25 transition-[width,background-color] duration-500 data-[active=true]:w-10 data-[active=true]:bg-yellow" data-accordion-dot={i} data-active={i === 0 ? 'true' : 'false'}></span>
+          ))}
+        </div>
+        <p class="type-label text-light">Desliza →</p>
+      </div>
     </div>
   </div>
 </section>

@@ -6,7 +6,7 @@ const group = [...items, ...items];
 ---
 <div class="relative overflow-hidden bg-navy py-[26px] lap:py-4">
   <ul class="sr-only">{items.map((v) => <li>{v}</li>)}</ul>
-  <div class="flex w-max" aria-hidden="true" data-marquee-track>
+  <div class="flex w-max animate-marquee motion-reduce:animate-none" aria-hidden="true" data-marquee-track>
     {[0, 1].map(() => (
       <div class="flex shrink-0 items-center gap-10 pr-10">
         {group.map((v) => (

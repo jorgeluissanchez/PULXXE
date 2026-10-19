@@ -24,7 +24,7 @@ import { hero } from '@/data/content';
   <div class="relative mx-auto flex max-w-[1440px] flex-col lg:block lg:h-[calc(100dvh-65px)] lg:min-h-[520px] lg:max-w-[calc(1440*var(--u))]">
     <!-- Palabra de marca decorativa (las letras se pintan con ::before para que no cuenten como texto) -->
     <p
-      class="pointer-events-none order-2 select-none whitespace-nowrap pt-4 translate-y-[calc(var(--sy,0)*-0.25px)] lg:translate-x-[calc(var(--mx,0)*14px)] lg:translate-y-[calc(var(--my,0)*8px-var(--sy,0)*0.25px)] text-center font-display text-[22.4vw] leading-[0.78] tracking-[-0.01em] text-yellow lg:absolute lg:left-[calc(48*var(--u))] lg:top-[calc(-15*var(--uw))] lg:pt-0 lg:text-left lg:text-[max(200px,calc(325*var(--uw)))]"
+      class="pointer-events-none order-2 select-none whitespace-nowrap pt-4 lg:translate-x-[calc(var(--mx,0)*14px)] lg:translate-y-[calc(var(--my,0)*8px-var(--sy,0)*0.25px)] text-center font-display text-[22.4vw] leading-[0.78] tracking-[-0.01em] text-yellow lg:absolute lg:left-[calc(48*var(--u))] lg:top-[calc(-15*var(--uw))] lg:pt-0 lg:text-left lg:text-[max(200px,calc(325*var(--uw)))]"
       aria-hidden="true"
     >
       <!-- Entrada: cada letra sube desde abajo detrás de una máscara (sin fundido), escalonada -->
@@ -37,7 +37,7 @@ import { hero } from '@/data/content';
 
     <!-- Casa terminada (recorte PNG) -->
     <div
-      class="relative order-3 -mb-[22vw] -ml-[25%] -mt-[10vw] w-[150%] max-w-none lg:absolute lg:left-[calc(465*var(--u))] lg:bottom-[calc(-167*var(--u))] lap:left-[calc(516*var(--u))] lap:bottom-[calc(-157*var(--u))] lg:mb-0 lg:mt-0 lg:ml-0 lg:w-[calc(1212*var(--u))] lg:max-w-none translate-y-[calc(var(--sy,0)*0.3px)] lg:translate-x-[calc(var(--mx,0)*-26px)] lg:translate-y-[calc(var(--my,0)*-14px+var(--sy,0)*0.3px)] will-change-transform"
+      class="relative order-3 -mb-[22vw] -ml-[25%] -mt-[10vw] w-[150%] max-w-none lg:absolute lg:left-[calc(465*var(--u))] lg:bottom-[calc(-167*var(--u))] lap:left-[calc(516*var(--u))] lap:bottom-[calc(-157*var(--u))] lg:mb-0 lg:mt-0 lg:ml-0 lg:w-[calc(1212*var(--u))] lg:max-w-none lg:translate-x-[calc(var(--mx,0)*-26px)] lg:translate-y-[calc(var(--my,0)*-14px+var(--sy,0)*0.3px)] lg:will-change-transform"
     >
       <Image
         src={hero.image.src}
@@ -53,7 +53,7 @@ import { hero } from '@/data/content';
     <!-- Contenido -->
     <div class="relative order-1 page-x pb-4 pt-8 lg:absolute lg:left-[calc(64*var(--u))] lg:bottom-[clamp(24px,calc(100dvh-780px),calc(64*var(--u)))] lg:w-[calc(542*var(--u))] lg:min-w-[440px] lg:p-0">
       <div class="flex flex-col gap-2">
-        <Kicker variant="pill" class="self-start lap:py-1">{hero.kicker}</Kicker>
+        <Kicker variant="pill" class="self-start whitespace-nowrap lap:py-1 max-lg:mb-1 max-lg:px-3 max-lg:py-1.5 max-lg:text-[10px] max-lg:tracking-[0.07em] max-[359px]:text-[9px]">{hero.kicker}</Kicker>
         <h1 class="type-h1 text-navy lg:text-[max(52px,min(calc(88*var(--u)),calc(21dvh-78px)))]">
           {hero.titleLines.map((line, i) => (
             <span class:list={['block w-fit', i === 2 && 'relative z-0']}>

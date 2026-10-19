@@ -29,13 +29,18 @@ const ease = 'ease-[cubic-bezier(.22,1,.36,1)]';
     'max-lg:transition-[transform,opacity] max-lg:duration-700 max-lg:ease-[cubic-bezier(.22,1,.36,1)]',
     'lg:min-h-0 lg:basis-0 lg:grow data-[open=true]:lg:grow-[2.686]',
     'lg:transition-[flex-grow] lg:duration-[900ms] lg:ease-[cubic-bezier(.22,1,.36,1)] motion-reduce:transition-none',
-    'focus-visible:ring-2 focus-visible:ring-yellow focus-visible:ring-inset',
   ]}
   data-panel={i}
   data-open={open ? 'true' : 'false'}
-  tabindex="0"
-  aria-label={title}
 >
+  <!-- Botón que cubre la tarjeta: hace el panel accesible con teclado y lector de pantalla -->
+  <button
+    type="button"
+    class="absolute inset-0 z-10 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-yellow"
+    aria-label={title}
+    aria-expanded={open ? 'true' : 'false'}
+    data-panel-trigger
+  ></button>
   <Image
     src={image}
     alt={alt}

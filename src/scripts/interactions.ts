@@ -13,7 +13,8 @@ function single(root: ParentNode, item: string, trigger: string | null, panels: 
     items.forEach((el, k) => {
       el.dataset.active = String(k === i);
       el.dataset.open = String(k === i);
-      (trigger ? el.querySelector(trigger) : el)?.setAttribute(trigger ? 'aria-pressed' : 'aria-expanded', String(k === i));
+      const t = trigger ? el.querySelector(trigger) : el;
+      t?.setAttribute(t.hasAttribute('aria-expanded') || !trigger ? 'aria-expanded' : 'aria-pressed', String(k === i));
     });
     views.forEach((v, k) => {
       v.dataset.active = String(k === i);
@@ -41,7 +42,7 @@ export function initInteractions() {
 
   const accordion = document.querySelector('[data-accordion]');
   if (accordion) {
-    single(accordion, '[data-panel]', null, null, true);
+    single(accordion, '[data-panel]', '[data-panel-trigger]', null, true);
     initAccordionCarousel(accordion);
   }
   const process = document.querySelector('[data-process]');
@@ -141,12 +142,12 @@ function initHeroParallax() {
 }
 
 /**
- * Parallax con el scroll (desktop y mobile, sin "reducir movimiento"):
+ * Parallax con el scroll (solo desktop, sin "reducir movimiento"; en mobile todo queda quieto):
  * - Hero: --sy = píxeles recorridos dentro del hero. PULXXE sube un poco más rápido que la página y la casa baja (va más lenta).
  * - Banner de cierre: --bp de −1 a 1 mientras cruza la pantalla; la foto de fondo se desplaza más lento.
  */
 function initScrollParallax() {
-  if (!window.matchMedia('(prefers-reduced-motion: no-preference)').matches) return;
+  if (!window.matchMedia('(min-width: 1024px) and (prefers-reduced-motion: no-preference)').matches) return;
   const hero = document.querySelector<HTMLElement>('[data-hero-parallax]');
   const banner = document.querySelector<HTMLElement>('[data-banner-parallax]');
   let ticking = false;

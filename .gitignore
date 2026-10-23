@@ -9,6 +9,6 @@ dist/
 test-results/
 screenshots/
 
-# archivos temporales de sincronización
-_to_delete/
+# Archivos temporales de sincronización
 _sync-*.tgz
+_to_delete/

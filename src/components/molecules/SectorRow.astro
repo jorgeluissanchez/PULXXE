@@ -5,8 +5,14 @@
  * Como el Proceso: al inicio solo se ve el título; la fila activa (hover, foco o clic) muestra
  * la barra amarilla, el número relleno y despliega el resumen.
  */
-interface Props { name: string; short: string; icon: 'city' | 'house' | 'store' | 'office'; index: number; active?: boolean }
-const { name, short, icon, index, active = false } = Astro.props;
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Props {
+  name: string; short: string; icon: 'city' | 'house' | 'store' | 'office'; index: number; active?: boolean;
+  /** Mobile: la fila activa despliega su propia foto y texto (acordeón), sin tener que subir a la vista */
+  image?: ImageMetadata; alt?: string; headline?: string; text?: string;
+}
+const { name, short, icon, index, active = false, image, alt = '', headline, text } = Astro.props;
 const n = String(index + 1).padStart(2, '0');
 const ease = 'duration-500 ease-[cubic-bezier(.22,1,.36,1)]';
 ---
@@ -41,4 +47,16 @@ const ease = 'duration-500 ease-[cubic-bezier(.22,1,.36,1)]';
       </span>
     </span>
   </button>
+  <!-- Mobile/tablet: detalle del sector debajo de su fila (acordeón, uno abierto a la vez) -->
+  {image && (
+    <div class={`grid grid-rows-[0fr] opacity-0 transition-[grid-template-rows,opacity] ${ease} group-data-[active=true]/sector:grid-rows-[1fr] group-data-[active=true]/sector:opacity-100 lg:hidden`}>
+      <div class="overflow-hidden">
+        <div class="flex flex-col gap-3 pb-6 pt-1">
+          <Image src={image} alt={alt} widths={[400, 640, 900]} sizes="100vw" class="aspect-[16/10] w-full object-cover" />
+          <p class="type-h4 text-navy">{headline}</p>
+          <p class="type-body text-muted">{text}</p>
+        </div>
+      </div>
+    </div>
+  )}
 </li>

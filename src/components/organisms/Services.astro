@@ -7,6 +7,7 @@ import { Image } from 'astro:assets';
 import Kicker from '../atoms/Kicker.astro';
 import ServiceBlock from '../molecules/ServiceBlock.astro';
 import { services } from '@/data/content';
+import { whatsappUrl, waMsg } from '@/data/site';
 
 const [l1, l2] = services.lines;
 const titleLast = services.titleLines.at(-1)!.replace(/\.$/, '');
@@ -14,8 +15,8 @@ const titleRest = services.titleLines.slice(0, -1);
 
 // 01 a la izquierda (arriba) y 02 a la derecha (abajo, bajo el título)
 const blocks = [
-  { ...l2, n: '01', href: '#frentes' },
-  { ...l1, n: '02', href: '#frentes' },
+  { ...l2, n: '01', href: whatsappUrl(waMsg.edificacion) },
+  { ...l1, n: '02', href: whatsappUrl(waMsg.obraCivil) },
 ];
 ---
 <section id="servicios" class="relative bg-white max-lg:pb-20 max-lg:pt-16 screen-h screen-y" aria-labelledby="servicios-title">

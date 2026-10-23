@@ -1,37 +1,107 @@
 ---
-/** Molécula · Tablero de avance de obra (Figma: "Tablero de obra"). Ilustrativo. */
+/**
+ * Molécula · Tablero de avance de obra (Figma: "Tablero de obra"). Ilustrativo.
+ * Animación al entrar en pantalla: la tarjeta sube, el 78 % cuenta desde 0, la barra principal
+ * se llena y deja un brillo, las métricas cuentan y las barras por frente se llenan en cascada.
+ * Sin JavaScript o con "reducir movimiento" se ve directamente el estado final.
+ */
 import { monitoring } from '@/data/content';
 const b = monitoring.board;
 ---
-<div class="flex flex-col gap-7 bg-paper p-6 text-navy shadow-[0_24px_48px_rgb(0_0_0/0.35)] sm:p-10">
+<div data-board class="flex flex-col gap-7 bg-paper p-6 text-navy shadow-[0_24px_48px_rgb(0_0_0/0.35)] sm:p-10">
   <div class="flex items-center justify-between gap-4">
     <p class="type-label text-navy">{b.title}</p>
     <p class="type-label-sm text-light">{b.project}</p>
   </div>
   <div class="flex items-end justify-between gap-4">
-    <p class="type-metric text-navy" data-count-to={b.progress} data-suffix="%">{b.value}</p>
+    <p class="type-metric text-navy" data-count>{b.value}</p>
     <p class="pb-2 type-label text-light">{b.period}</p>
   </div>
   <div class="relative h-2.5 bg-navy/10" role="progressbar" aria-valuenow={b.progress} aria-valuemin="0" aria-valuemax="100" aria-label="Avance total de la obra">
-    <span class="absolute inset-y-0 left-0 origin-left bg-yellow" style={`width:${b.progress}%`} data-bar></span>
+    <span class="absolute inset-y-0 left-0 origin-left overflow-hidden bg-yellow" style={`width:${b.progress}%`} data-bar><span class="board-shine absolute inset-y-0 -left-1/3 w-1/3" aria-hidden="true"></span></span>
   </div>
   <dl class="grid grid-cols-2 gap-6">
     {b.metrics.map((m) => (
       <div class="flex flex-col gap-1.5">
         <dt class="type-label-sm text-light">{m.label}</dt>
-        <dd class="type-h4 text-navy">{m.value}</dd>
+        <dd class="type-h4 text-navy" data-count>{m.value}</dd>
       </div>
     ))}
   </dl>
   <hr class="border-line" />
   <ul class="flex flex-col gap-4">
     {b.fronts.map((f) => (
-      <li class="grid grid-cols-[129px_1fr_44px] items-center gap-4">
+      <li data-row class="grid grid-cols-[129px_1fr_44px] items-center gap-4">
         <span class="type-label text-navy">{f.label}</span>
         <span class="relative h-1.5 bg-navy/10"><span class="absolute inset-y-0 left-0 origin-left bg-yellow" style={`width:${f.value}%`} data-bar></span></span>
-        <span class="text-right type-label text-navy">{f.value}%</span>
+        <span class="text-right type-label text-navy" data-count>{f.value}%</span>
       </li>
     ))}
   </ul>
   <p class="type-caption text-light">{b.note}</p>
 </div>
+
+<style>
+  /* Estado inicial (solo cuando el script lo prepara): todo listo para entrar */
+  [data-board][data-anim] { opacity: 0; transform: translateY(32px); transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .9s cubic-bezier(.22,1,.36,1); }
+  [data-board][data-anim] [data-bar] { transform: scaleX(0); transition: transform 1.4s cubic-bezier(.22,1,.36,1); }
+  [data-board][data-anim] [data-row] { opacity: 0; transform: translateX(-12px); transition: opacity .5s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+  [data-board][data-anim='in'] { opacity: 1; transform: none; }
+  [data-board][data-anim='in'] [data-bar] { transform: scaleX(1); }
+  [data-board][data-anim='in'] [data-row] { opacity: 1; transform: none; }
+  [data-board][data-anim='in'] [data-row] [data-bar] { transition-duration: 1.1s; }
+  .board-shine { background: linear-gradient(90deg, transparent, rgb(255 255 255 / .65), transparent); opacity: 0; }
+  [data-board][data-anim='in'] .board-shine { animation: board-shine 1.1s ease-out 1.5s 1 both; }
+  @keyframes board-shine { 0% { opacity: 1; transform: translateX(0); } 100% { opacity: 0; transform: translateX(450%); } }
+</style>
+
+<script>
+  const fmt = (n: number, dec: number) => n.toLocaleString('es-CO', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+  for (const board of document.querySelectorAll<HTMLElement>('[data-board]')) {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) continue;
+    // Cada número: se guarda el texto final y se cuenta desde 0 conservando prefijo/sufijo ($, m², %, M)
+    const counters = [...board.querySelectorAll<HTMLElement>('[data-count]')].map((el) => {
+      const final = el.textContent ?? '';
+      const m = final.match(/\d[\d.,]*/);
+      if (!m) return null;
+      const raw = m[0];
+      const dec = raw.includes(',') ? raw.split(',')[1].length : 0;
+      const value = parseFloat(raw.replace(/\./g, '').replace(',', '.'));
+      return { el, final, raw, dec, value };
+    }).filter(Boolean) as { el: HTMLElement; final: string; raw: string; dec: number; value: number }[];
+    const rows = [...board.querySelectorAll<HTMLElement>('[data-row]')];
+    board.dataset.anim = 'ready';
+    counters.forEach((c) => (c.el.textContent = c.final.replace(c.raw, fmt(0, c.dec))));
+    const count = (c: (typeof counters)[number], delay: number, dur: number) => {
+      setTimeout(() => {
+        const t0 = performance.now();
+        const step = (t: number) => {
+          const p = Math.min(1, (t - t0) / dur);
+          const e = 1 - Math.pow(1 - p, 3);
+          c.el.textContent = p < 1 ? c.final.replace(c.raw, fmt(c.value * e, c.dec)) : c.final;
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      }, delay);
+    };
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      io.disconnect();
+      board.dataset.anim = 'in';
+      rows.forEach((r, k) => {
+        const d = 700 + k * 120;
+        r.style.transitionDelay = `${d}ms`;
+        const bar = r.querySelector<HTMLElement>('[data-bar]'); if (bar) bar.style.transitionDelay = `${d + 100}ms`;
+      });
+      const main = board.querySelector<HTMLElement>('[role="progressbar"] [data-bar]'); if (main) main.style.transitionDelay = '250ms';
+      counters.forEach((c) => {
+        const row = c.el.closest<HTMLElement>('[data-row]');
+        const k = row ? rows.indexOf(row) : -1;
+        if (k >= 0) count(c, 800 + k * 120, 1100);
+        else if (c.el.tagName === 'DD') count(c, 450, 1300);
+        else count(c, 250, 1400);
+      });
+    }, { threshold: 0.35 });
+    io.observe(board);
+  }
+</script>

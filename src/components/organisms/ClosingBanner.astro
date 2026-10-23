@@ -3,7 +3,7 @@
 import { Image } from 'astro:assets';
 import Button from '../atoms/Button.astro';
 import { closing } from '@/data/content';
-import { whatsappUrl } from '@/data/site';
+import { whatsappUrl, waMsg } from '@/data/site';
 ---
 <section id="contacto" class="relative isolate overflow-hidden bg-white" aria-labelledby="cierre-title" data-banner-parallax>
   <!-- Foto con parallax de scroll: es 30 % más alta y se desplaza según --bp (−1…1) -->
@@ -21,7 +21,7 @@ import { whatsappUrl } from '@/data/site';
       <p class="type-lead text-light">{closing.text}</p>
     </div>
     <div class="flex flex-wrap items-center gap-6">
-      <Button href={whatsappUrl()} size="footer" target="_blank" rel="noopener">{closing.cta.label}</Button>
+      <Button href={whatsappUrl(waMsg.cierre)} size="footer" target="_blank" rel="noopener">{closing.cta.label}</Button>
     </div>
   </div>
 </section>

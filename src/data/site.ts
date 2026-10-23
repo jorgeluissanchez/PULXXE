@@ -29,8 +29,19 @@ export const site = {
   mapsUrl: 'https://maps.google.com/?q=Barranquilla,+Atl%C3%A1ntico',
 } as const;
 
-export const whatsappUrl = (text = 'Hola Pulxxe, quiero cotizar una obra.') =>
+export const whatsappUrl = (text = 'Hola, Pulxxe. Vi su página web y quiero cotizar una obra.') =>
   `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(text)}`;
+
+/** Mensajes de WhatsApp de cada botón, escritos como los escribiría un cliente. */
+export const waMsg = {
+  presupuesto: 'Hola, Pulxxe. Quiero pedir un presupuesto para una obra en Barranquilla. ¿Qué información necesitan para cotizarme?',
+  asesoria: 'Hola, Pulxxe. Tengo un proyecto en mente y me gustaría recibir asesoría. ¿Podemos hablar?',
+  ejecutamos: 'Hola, Pulxxe. Quiero conocer qué tipo de obras ejecutan y ver algunos proyectos que hayan hecho.',
+  edificacion: 'Hola, Pulxxe. Me interesa su servicio de edificación y remodelación. ¿Me pueden dar más información y una cotización?',
+  obraCivil: 'Hola, Pulxxe. Necesito información sobre su servicio de obra civil (vías, drenajes y redes) para un proyecto.',
+  frente: (title: string) => `Hola, Pulxxe. Me interesa el frente de ${title.toLowerCase()}. ¿Me pueden dar más información y una cotización?`,
+  cierre: 'Hola, Pulxxe. Quiero construir o remodelar en Barranquilla y me gustaría una asesoría y un presupuesto por ítems.',
+};
 
 export const nav = [
   { label: 'Inicio', href: '#inicio' },

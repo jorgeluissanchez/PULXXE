@@ -4,6 +4,7 @@
  * Sección a pantalla completa (dvh): título y vista del sector activo a la izquierda,
  * lista a la derecha. Puntero, foco o clic cambian el sector.
  * Desktop: la columna derecha (intro + lista) va centrada verticalmente respecto a la izquierda.
+ * Mobile/tablet: sin vista grande; cada fila se despliega con su foto y texto (acordeón).
  * Los sectores cambian solo con hover, foco o clic.
  */
 import { Image } from 'astro:assets';
@@ -20,7 +21,7 @@ import { sectors } from '@/data/content';
           {sectors.titleLines.map((l) => <span class="block">{l}</span>)}
         </h2>
       </div>
-      <div id="sector-vista" class="relative aspect-[600/440] overflow-hidden bg-paper lg:aspect-auto lg:h-[clamp(240px,calc(100dvh-490px),440px)] lap:h-[calc(100dvh-336px)]" aria-live="polite">
+      <div id="sector-vista" class="relative max-lg:hidden aspect-[600/440] overflow-hidden bg-paper lg:aspect-auto lg:h-[clamp(240px,calc(100dvh-490px),440px)] lap:h-[calc(100dvh-336px)]" aria-live="polite">
         {sectors.items.map((s, i) => (
           <div
             class="absolute inset-0 flex flex-col justify-end gap-3 p-6 opacity-0 data-[active=true]:opacity-100 sm:p-9"
@@ -41,7 +42,7 @@ import { sectors } from '@/data/content';
     <div class="relative flex flex-col lg:w-[640px] lg:min-w-0 lg:shrink">
       <p class="type-lead text-muted">{sectors.intro}</p>
       <ul class="mt-8 flex flex-col gap-1 lap:mt-5" data-sectors-list>
-        {sectors.items.map((s, i) => <SectorRow name={s.name} short={s.short} icon={s.icon as 'city'} index={i} active={i === 0} />)}
+        {sectors.items.map((s, i) => <SectorRow name={s.name} short={s.short} icon={s.icon as 'city'} index={i} active={i === 0} image={s.image} alt={s.alt} headline={s.headline} text={s.text} />)}
       </ul>
     </div>
   </div>

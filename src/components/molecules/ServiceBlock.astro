@@ -25,7 +25,7 @@ const label = block.line.split('·').at(-1)!.trim();
     <p class="type-overline text-navy">{label}</p>
     <h3 class="type-h3 text-navy lg:text-[clamp(22px,1.95vw,28px)] lg:leading-[1.1] lap:text-[23px]">{block.title}</h3>
     <p class="type-body text-navy">{block.text}</p>
-    <a href={block.href} class="group/explore relative mt-1 inline-flex w-[232px] max-w-full items-center justify-between pb-3 type-label text-navy">
+    <a href={block.href} target="_blank" rel="noopener" class="group/explore relative mt-1 inline-flex w-[232px] max-w-full items-center justify-between pb-3 type-label text-navy">
       Explorar servicio
       <Icon name="arrow" size={20} strokeWidth={1.5} class="transition-transform duration-300 group-hover/explore:-translate-y-0.5 group-hover/explore:translate-x-0.5" />
       <span class="absolute inset-x-0 bottom-0 h-px bg-line" aria-hidden="true"></span>

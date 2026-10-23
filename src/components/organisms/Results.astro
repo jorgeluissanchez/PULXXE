@@ -65,7 +65,8 @@ const btn = 'absolute top-1/2 z-10 flex size-12 -translate-y-1/2 items-center ju
         </div>
       </div>
 
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:h-full lg:min-h-0 lg:grid-cols-1 lg:grid-rows-[repeat(2,minmax(0,1fr))]">
+      <!-- En mobile/tablet no se repiten: ya están dentro del carrusel -->
+      <div class="grid grid-cols-1 gap-6 max-lg:hidden sm:grid-cols-2 lg:h-full lg:min-h-0 lg:grid-cols-1 lg:grid-rows-[repeat(2,minmax(0,1fr))]">
         {results.side.map((img, k) => (
           <button type="button" class="group/side relative block aspect-[420/320] cursor-pointer overflow-hidden text-left outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow lg:aspect-auto lg:h-full lg:min-h-0" aria-label={`Ver ${img.tag} en grande`} data-results-side={sideStart + k}>
             <Image src={img.src} alt={img.alt} widths={[420, 640, 840]} sizes="(min-width: 1024px) 420px, (min-width: 640px) 50vw, 100vw" class="absolute inset-0 size-full object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover/side:scale-[1.04]" />
@@ -96,10 +97,12 @@ const btn = 'absolute top-1/2 z-10 flex size-12 -translate-y-1/2 items-center ju
       track.scrollTo({ left: slides[k].offsetLeft, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     };
     // La foto visible (≥ 60 %) marca el estado: funciona igual con flechas, miniaturas o deslizando
-    const io = new IntersectionObserver((entries) => {
-      for (const e of entries) if (e.isIntersecting) mark(slides.indexOf(e.target as HTMLElement));
-    }, { root: track, threshold: 0.6 });
-    slides.forEach((s) => io.observe(s));
+    // El índice sale de la posición de la pista (más fiable que IntersectionObserver al cargar)
+    let raf = 0;
+    const sync = () => { raf = 0; const w = track.clientWidth || 1; mark(Math.min(slides.length - 1, Math.max(0, Math.round(track.scrollLeft / w)))); };
+    track.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(sync); }, { passive: true });
+    addEventListener('resize', sync);
+    sync();
     root.querySelector('[data-results-prev]')?.addEventListener('click', () => go(i - 1));
     root.querySelector('[data-results-next]')?.addEventListener('click', () => go(i + 1));
     thumbs.forEach((t, k) => t.addEventListener('click', () => go(k)));

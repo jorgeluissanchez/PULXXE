@@ -5,20 +5,18 @@ import Button from '../atoms/Button.astro';
 import { closing } from '@/data/content';
 import { whatsappUrl } from '@/data/site';
 ---
-<section id="contacto" class="relative isolate overflow-hidden bg-navy" aria-labelledby="cierre-title" data-banner-parallax>
+<section id="contacto" class="relative isolate overflow-hidden bg-white" aria-labelledby="cierre-title" data-banner-parallax>
   <!-- Foto con parallax de scroll: es 30 % más alta y se desplaza según --bp (−1…1) -->
   <Image src={closing.image.src} alt="" widths={[640, 1024, 1440, 1800]} sizes="100vw" class="absolute inset-x-0 -top-[15%] -z-20 h-[130%] w-full object-cover lg:translate-y-[calc(var(--bp,0)*12%)] lg:will-change-transform" />
-  <div class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgb(9_30_43/0.92)_0%,rgb(9_30_43/0.6)_38%,rgb(9_30_43/0)_70%)]" aria-hidden="true"></div>
-  <div class="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(9_30_43/0.35)_0%,rgb(9_30_43/0)_25%,rgb(9_30_43/0)_80%,rgb(9_30_43/1)_100%)]" aria-hidden="true"></div>
+  <div class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgb(250_248_243/0.95)_0%,rgb(250_248_243/0.85)_55%,rgb(250_248_243/0.5)_100%)] lg:bg-[linear-gradient(90deg,rgb(250_248_243/0.97)_0%,rgb(250_248_243/0.85)_45%,rgb(250_248_243/0)_80%)]" aria-hidden="true"></div>
 
+  <!-- Fundido inferior hacia el amarillo del pie: evita el corte brusco entre la foto y el footer -->
+  <div class="absolute inset-x-0 bottom-0 -z-10 h-[45%] bg-[linear-gradient(180deg,rgb(250_248_243/0)_0%,rgb(250_248_243/0.75)_67%,rgb(250_248_243/1)_100%)]" aria-hidden="true"></div>
   <div class="mx-auto flex min-h-[551px] max-w-[var(--container-page)] flex-col gap-10 pb-24 pt-[120px] page-x 3xl:px-0">
-    <p class="absolute right-[var(--spacing-gutter)] top-16 text-right font-display text-[13px] leading-[22px] tracking-[0.08em] text-yellow uppercase" aria-hidden="true">
-      {closing.coords.map((c) => <span class="block">{c}</span>)}
-    </p>
     <div class="flex max-w-[760px] flex-col gap-6">
-      <h2 id="cierre-title" class="type-h2 text-white">
+      <h2 id="cierre-title" class="type-h2 text-navy">
         <span class="block">{closing.titleLines[0]}</span>
-        <span class="block text-yellow">{closing.titleLines[1]}</span>
+        <span class="block">{closing.titleLines[1]}</span>
       </h2>
       <p class="type-lead text-light">{closing.text}</p>
     </div>

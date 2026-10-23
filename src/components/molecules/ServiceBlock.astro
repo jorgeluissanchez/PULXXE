@@ -1,0 +1,35 @@
+---
+/**
+ * Molécula · Línea de servicio (Figma: "Línea / 01 · 02" en "03 · Lo que hacemos").
+ * Número grande en contorno + etiqueta, título, texto, filete amarillo, alcance y enlace.
+ */
+import Icon from '../atoms/Icon.astro';
+interface Props {
+  block: { n: string; line: string; title: string; text: string; scope: string; href: string };
+  right?: boolean;
+  /** Columna angosta: el número va arriba y el texto debajo. */
+  stack?: boolean;
+}
+const { block, right = false, stack = false } = Astro.props;
+const label = block.line.split('·').at(-1)!.trim();
+---
+<article class:list={['relative flex gap-5', right ? 'lg:block' : '', stack && 'lg:flex-col lg:gap-4']}>
+  <p
+    class:list={[
+      'w-[84px] shrink-0 select-none font-sans text-[64px] lg:w-auto font-extralight leading-[0.8] tracking-[-0.04em] text-transparent [-webkit-text-stroke:1.2px_#cfccc2] lg:text-[clamp(84px,8vw,128px)] lap:text-[88px]',
+      right && 'lg:absolute lg:right-[calc(100%+20px)] lg:top-[-6px]',
+    ]}
+    aria-hidden="true"
+  >{block.n}</p>
+  <div class="relative flex min-w-0 flex-col gap-[clamp(10px,1vw,14px)] lg:max-w-[400px] lg:pt-1 lap:max-w-[440px]">
+    <p class="type-overline text-navy">{label}</p>
+    <h3 class="type-h3 text-navy lg:text-[clamp(22px,1.95vw,28px)] lg:leading-[1.1] lap:text-[23px]">{block.title}</h3>
+    <p class="type-body text-navy">{block.text}</p>
+    <a href={block.href} class="group/explore relative mt-1 inline-flex w-[232px] max-w-full items-center justify-between pb-3 type-label text-navy">
+      Explorar servicio
+      <Icon name="arrow" size={20} strokeWidth={1.5} class="transition-transform duration-300 group-hover/explore:-translate-y-0.5 group-hover/explore:translate-x-0.5" />
+      <span class="absolute inset-x-0 bottom-0 h-px bg-line" aria-hidden="true"></span>
+      <span class="absolute bottom-0 left-0 h-[3px] w-[40%] bg-yellow transition-[width] duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover/explore:w-full" aria-hidden="true"></span>
+    </a>
+  </div>
+</article>

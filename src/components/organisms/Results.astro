@@ -1,12 +1,24 @@
 ---
-/** Organismo · Resultados (Figma: "07 · Resultados"). */
+/**
+ * Organismo · Resultados (Figma: "07 · Resultados").
+ * Carrusel principal con flechas, puntos y miniaturas (todo cuadrado, sin esquinas
+ * redondeadas) y dos fotos a la derecha. El carrusel incluye también esas dos fotos:
+ * al hacer clic en una foto de la derecha, se abre en el carrusel grande.
+ */
 import { Image } from 'astro:assets';
 import Kicker from '../atoms/Kicker.astro';
 import Tag from '../atoms/Tag.astro';
+import Icon from '../atoms/Icon.astro';
 import { results } from '@/data/content';
+// Carrusel = fotos principales + las dos fotos de la derecha (para poder abrirlas en grande)
+const all = [...results.slides, ...results.side];
+const sideStart = results.slides.length;
+const total = String(all.length).padStart(2, '0');
+// Flechas outline (como las de Frentes): solo aparecen al pasar el mouse por la foto (siempre visibles en pantallas táctiles)
+const btn = 'absolute top-1/2 z-10 flex size-12 -translate-y-1/2 items-center justify-center border border-white/80 bg-night/25 text-white opacity-0 backdrop-blur-[2px] transition-[opacity,background-color,color] duration-300 hover:bg-white hover:text-navy group-hover/viewer:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-yellow [@media(hover:none)]:opacity-100';
 ---
 <section class="bg-white page-x max-lg:page-y screen-h screen-y" aria-labelledby="resultado-title">
-  <div class="mx-auto flex w-full max-w-[var(--container-page)] flex-col gap-14 lg:min-h-0 lg:flex-1 lg:max-h-[960px] lg:gap-[clamp(28px,calc((100dvh-657px)/6+28px),56px)]">
+  <div class="mx-auto flex w-full max-w-[var(--container-page)] flex-col gap-14 lg:min-h-0 lg:flex-1 lg:max-h-[960px] lg:gap-[clamp(24px,calc((100dvh-657px)/6+24px),56px)]">
     <header class="flex flex-col gap-6 lg:flex-row lg:justify-between lg:gap-16">
       <div class="flex flex-col gap-6 lg:w-[760px]">
         <Kicker>{results.kicker}</Kicker>
@@ -21,18 +33,85 @@ import { results } from '@/data/content';
     </header>
 
     <div class="grid grid-cols-1 gap-6 lg:min-h-0 lg:flex-1 lg:max-h-[664px] lg:grid-cols-[868fr_420fr] lg:grid-rows-[minmax(0,1fr)]">
-      <figure class="relative aspect-[868/664] overflow-hidden lg:aspect-auto lg:h-full">
-        <Image src={results.main.src} alt={results.main.alt} widths={[640, 960, 1280, 1736]} sizes="(min-width: 1440px) 868px, (min-width: 1024px) 60vw, 100vw" class="size-full object-cover lg:absolute lg:inset-0" />
-        <figcaption class="absolute bottom-5 left-5"><Tag>{results.main.tag}</Tag></figcaption>
-      </figure>
+      <!-- Carrusel: pista con scroll-snap (se desliza con el dedo en mobile); flechas y miniaturas la mueven -->
+      <div class="flex min-h-0 min-w-0 flex-col gap-4" data-results-carousel>
+        <div class="group/viewer relative aspect-[4/3] min-h-0 sm:aspect-[868/560] lg:aspect-auto lg:flex-1" role="region" aria-roledescription="carrusel" aria-label="Proyectos terminados">
+          <div class="absolute inset-0 flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" data-results-track tabindex="0" aria-label="Fotos de proyectos terminados">
+            {all.map((s, i) => (
+              <figure class="relative size-full shrink-0 snap-start" data-slide={i} aria-label={`${i + 1} de ${all.length}: ${s.tag}`}>
+                <Image src={s.src} alt={s.alt} widths={[480, 768, 1080, 1440, 1736]} sizes="(min-width: 1440px) 868px, (min-width: 1024px) 60vw, 100vw" class="size-full object-cover" loading="lazy" />
+                <figcaption class="absolute bottom-4 left-4 sm:bottom-5 sm:left-5"><Tag>{s.tag}</Tag></figcaption>
+              </figure>
+            ))}
+          </div>
+          <p class="pointer-events-none absolute left-4 top-4 z-10 bg-white px-3 py-1.5 type-overline text-navy sm:left-5 sm:top-5"><span data-results-current>01</span> / {total}</p>
+          <button type="button" class:list={[btn, 'left-3 hidden sm:flex sm:left-5']} aria-label="Foto anterior" data-results-prev><Icon name="arrow" size={20} strokeWidth={1.75} class="-rotate-[135deg]" /></button>
+          <button type="button" class:list={[btn, 'right-3 hidden sm:flex sm:right-5']} aria-label="Foto siguiente" data-results-next><Icon name="arrow" size={20} strokeWidth={1.75} class="rotate-45" /></button>
+        </div>
+        <!-- Miniaturas: en mobile son una barra de progreso de cuadros; desde sm, fotos -->
+        <div class="flex gap-1.5 sm:hidden" aria-hidden="true">
+          {all.map((_, i) => (
+            <span class="h-1 flex-1 bg-navy/15 transition-colors data-[active=true]:bg-yellow" data-results-dot={i} data-active={i === 0 ? 'true' : 'false'}></span>
+          ))}
+        </div>
+        <div class="hidden grid-cols-7 gap-2 sm:grid">
+          {all.map((s, i) => (
+            <button type="button" class="group/thumb relative aspect-[3/2] overflow-hidden outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow lg:aspect-auto lg:h-[clamp(52px,9dvh,80px)]" aria-label={`Ver ${s.tag}`} data-results-thumb={i} data-active={i === 0 ? 'true' : 'false'}>
+              <Image src={s.src} alt="" widths={[200, 320]} sizes="160px" class="size-full object-cover" />
+              <span class="absolute inset-0 bg-white/45 transition-opacity group-hover/thumb:opacity-0 group-data-[active=true]/thumb:opacity-0" aria-hidden="true"></span>
+              <span class="absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-yellow transition-transform duration-500 group-data-[active=true]/thumb:scale-x-100" aria-hidden="true"></span>
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:h-full lg:min-h-0 lg:grid-cols-1 lg:grid-rows-[repeat(2,minmax(0,1fr))]">
-        {results.side.map((img) => (
-          <figure class="relative aspect-[420/320] overflow-hidden lg:aspect-auto lg:h-full lg:min-h-0">
-            <Image src={img.src} alt={img.alt} widths={[420, 640, 840]} sizes="(min-width: 1024px) 420px, (min-width: 640px) 50vw, 100vw" class="size-full object-cover lg:absolute lg:inset-0" />
-            <figcaption class="absolute bottom-5 left-5"><Tag>{img.tag}</Tag></figcaption>
-          </figure>
+        {results.side.map((img, k) => (
+          <button type="button" class="group/side relative block aspect-[420/320] cursor-pointer overflow-hidden text-left outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow lg:aspect-auto lg:h-full lg:min-h-0" aria-label={`Ver ${img.tag} en grande`} data-results-side={sideStart + k}>
+            <Image src={img.src} alt={img.alt} widths={[420, 640, 840]} sizes="(min-width: 1024px) 420px, (min-width: 640px) 50vw, 100vw" class="absolute inset-0 size-full object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover/side:scale-[1.04]" />
+            <span class="absolute bottom-5 left-5"><Tag>{img.tag}</Tag></span>
+          </button>
         ))}
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>('[data-results-carousel]')) {
+    const track = root.querySelector<HTMLElement>('[data-results-track]')!;
+    const slides = [...root.querySelectorAll<HTMLElement>('[data-slide]')];
+    const dots = [...root.querySelectorAll<HTMLElement>('[data-results-dot]')];
+    const thumbs = [...root.querySelectorAll<HTMLElement>('[data-results-thumb]')];
+    const current = root.querySelector('[data-results-current]');
+    let i = 0;
+    const mark = (n: number) => {
+      i = n;
+      dots.forEach((d) => (d.dataset.active = String(Number(d.dataset.resultsDot) === n)));
+      thumbs.forEach((t, k) => (t.dataset.active = String(k === n)));
+      if (current) current.textContent = String(n + 1).padStart(2, '0');
+    };
+    const go = (n: number) => {
+      const k = (n + slides.length) % slides.length;
+      track.scrollTo({ left: slides[k].offsetLeft, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    };
+    // La foto visible (≥ 60 %) marca el estado: funciona igual con flechas, miniaturas o deslizando
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting) mark(slides.indexOf(e.target as HTMLElement));
+    }, { root: track, threshold: 0.6 });
+    slides.forEach((s) => io.observe(s));
+    root.querySelector('[data-results-prev]')?.addEventListener('click', () => go(i - 1));
+    root.querySelector('[data-results-next]')?.addEventListener('click', () => go(i + 1));
+    thumbs.forEach((t, k) => t.addEventListener('click', () => go(k)));
+    // Fotos de la derecha: se abren en el carrusel grande (y si no está a la vista, se lleva allí)
+    root.closest('section')?.querySelectorAll<HTMLElement>('[data-results-side]').forEach((b) => b.addEventListener('click', () => {
+      go(Number(b.dataset.resultsSide));
+      const r = root.getBoundingClientRect();
+      if (r.top < 65 || r.bottom > innerHeight) root.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }));
+    track.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(i + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(i - 1); }
+    });
+  }
+</script>

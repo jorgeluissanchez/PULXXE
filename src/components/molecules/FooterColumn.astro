@@ -8,7 +8,7 @@ const { title, links } = Astro.props;
   <ul class="flex flex-col gap-[13px]">
     {links.map((l) => (
       <li>
-        <a href={l.href} class="type-body text-white hover:text-yellow" {...(l.external ? { target: '_blank', rel: 'noopener' } : {})}>{l.label}</a>
+        <a href={l.href} class="type-body text-navy underline-offset-4 hover:underline" {...(l.external ? { target: '_blank', rel: 'noopener' } : {})}>{l.label}</a>
       </li>
     ))}
   </ul>

@@ -1,6 +1,5 @@
 ---
 /** Organismo · Monitoreo y valor (Figma: "09 · Monitoreo y valor"). */
-import { Image } from 'astro:assets';
 import Kicker from '../atoms/Kicker.astro';
 import MeasureRuler from '../atoms/MeasureRuler.astro';
 import BenefitItem from '../molecules/BenefitItem.astro';
@@ -8,43 +7,29 @@ import ProgressBoard from '../molecules/ProgressBoard.astro';
 import Marquee from '../molecules/Marquee.astro';
 import { monitoring } from '@/data/content';
 ---
-<section class="relative overflow-hidden bg-yellow lg:flex lg:min-h-[calc(100dvh-65px)] lg:flex-col" aria-labelledby="monitoreo-title">
+<section class="relative overflow-hidden bg-night lg:flex lg:min-h-[calc(100dvh-65px)] lg:flex-col" aria-labelledby="monitoreo-title">
   <div
-    class="pointer-events-none absolute inset-0 [background-image:linear-gradient(to_right,rgb(9_30_43/0.14)_1px,transparent_1px),linear-gradient(to_bottom,rgb(9_30_43/0.14)_1px,transparent_1px),linear-gradient(to_right,rgb(9_30_43/0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgb(9_30_43/0.06)_1px,transparent_1px)] [background-size:240px_240px,240px_240px,48px_48px,48px_48px]"
+    class="pointer-events-none absolute inset-0 [background-image:linear-gradient(to_right,rgb(255_246_217/0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgb(255_246_217/0.1)_1px,transparent_1px),linear-gradient(to_right,rgb(255_246_217/0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgb(255_246_217/0.04)_1px,transparent_1px)] [background-size:240px_240px,240px_240px,48px_48px,48px_48px]"
     aria-hidden="true"
   ></div>
   <div class="relative"><MeasureRuler /></div>
 
   <div class="relative mx-auto flex max-w-[var(--container-page)] flex-col gap-16 pb-24 pt-20 page-x lg:flex-row lg:items-center lg:justify-between lg:gap-20 lg:w-full lg:flex-1 lg:pb-[clamp(36px,calc((100dvh-657px)/3+36px),110px)] lg:pt-[clamp(52px,calc((100dvh-657px)/4+52px),110px)] 3xl:px-0">
     <div class="flex flex-col gap-7 lg:w-[592px] lg:shrink-0">
-      <Kicker tone="navy">{monitoring.kicker}</Kicker>
-      <h2 id="monitoreo-title" class="type-h2 text-navy">
+      <Kicker tone="yellow">{monitoring.kicker}</Kicker>
+      <h2 id="monitoreo-title" class="type-h2 text-white">
         {monitoring.titleLines.map((l) => <span class="block">{l}</span>)}
       </h2>
-      <p class="type-lead text-navy">{monitoring.text}</p>
-      <ul class="flex flex-col gap-3.5 text-navy">
-        {monitoring.benefits.map((b) => <BenefitItem>{b}</BenefitItem>)}
+      <p class="type-lead text-mist">{monitoring.text}</p>
+      <ul class="flex flex-col gap-3.5 text-white">
+        {monitoring.benefits.map((b) => <BenefitItem tone="yellow">{b}</BenefitItem>)}
       </ul>
     </div>
 
-    <div class="relative w-full max-w-[640px] lg:h-[calc(700px*var(--k))] lg:w-[calc(640px*var(--k))] lg:shrink-0 [--k:min(1,calc((100dvh-345px)/700px))] lap:[--k:min(1,calc((100dvh-245px)/700px))]">
-    <div class="relative w-full lg:absolute lg:left-0 lg:top-0 lg:h-[700px] lg:w-[640px] lg:origin-top-left lg:scale-[var(--k)]">
-      <Image
-        src={monitoring.photo.src}
-        alt={monitoring.photo.alt}
-        widths={[400, 800]}
-        sizes="400px"
-        class="hidden h-[520px] w-[400px] object-cover lg:absolute lg:left-[216px] lg:top-2.5 lg:block"
-      />
-      <div class="relative lg:absolute lg:left-2.5 lg:top-[139px] lg:w-[600px]">
+    <div class="relative w-full max-w-[640px] lg:h-[calc(520px*var(--k))] lg:w-[calc(600px*var(--k))] lg:shrink-0 [--k:min(1,calc((100dvh-300px)/520px))] lap:[--k:min(1,calc((100dvh-200px)/520px))]">
+    <div class="relative w-full lg:absolute lg:left-0 lg:top-0 lg:w-[600px] lg:origin-top-left lg:scale-[var(--k)]">
+      <div class="relative">
         <ProgressBoard />
-      </div>
-      <div
-        class="absolute -bottom-10 right-2 flex size-[120px] -rotate-12 flex-col items-center justify-center gap-0.5 rounded-full border-[3px] border-navy bg-yellow text-center text-navy sm:size-[150px] lg:bottom-auto lg:left-[468px] lg:right-auto lg:top-[621px]"
-        aria-hidden="true"
-      >
-        <span class="type-h4 uppercase">{monitoring.stamp[0]}</span>
-        <span class="type-label-sm">{monitoring.stamp[1]}</span>
       </div>
     </div>
     </div>

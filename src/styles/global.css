@@ -6,23 +6,29 @@
  * Las tipografías fluidas van de 390 px (mobile) a 1440 px (desktop).
  */
 @theme {
-  /* Colores */
-  --color-navy: #091e2b;
-  --color-navy-dark: #091a23;
-  --color-navy-deepest: #04090b;
-  --color-navy-soft: #17384a;
-  --color-paper: #f3f1e9;
+  /*
+   * Colores (Figma: paleta clara). Solo cuatro: amarillo de marca, amarillo clarito,
+   * blanco y negro tinta para el texto. Los nombres antiguos (navy, paper, muted…) se
+   * conservan como alias para no tocar cada componente.
+   */
   --color-yellow: #f1bd29;
   --color-yellow-hover: #f7d36a;
-  --color-yellow-amber: #faad01;
-  --color-amber-text: #8a5a00;
-  --color-muted: #54616a;
-  --color-line: #d8dcd8;
-  --color-light: #bcc8ce;
+  --color-yellow-soft: #fff6d9;
+  /* Blanco cálido: reemplaza el #fff puro en toda la página */
+  --color-white: #faf8f3;
+  /* Azul noche: solo para la sección Nosotros */
+  --color-night: #091e2b;
+  --color-mist: #bcc8ce;
   --color-ink: #121213;
-  --color-charcoal: #2e2e2e;
-  --color-gray-600: #595c5c;
-  --color-logo-navy: #052242;
+  --color-navy: var(--color-ink);
+  --color-navy-deepest: var(--color-ink);
+  --color-paper: var(--color-yellow-soft);
+  --color-muted: rgb(18 18 19 / 0.72);
+  --color-light: rgb(18 18 19 / 0.66);
+  --color-line: rgb(18 18 19 / 0.14);
+  --color-amber-text: var(--color-ink);
+  --color-charcoal: var(--color-ink);
+  --color-gray-600: var(--color-ink);
 
   /* Tipografías (las variables las define la Fonts API de Astro) */
   --font-display: var(--font-black-ops), Impact, sans-serif;
@@ -53,7 +59,8 @@
  * Desktop grande (Figma 1440) = ancho ≥ 1024 y alto ≥ 820; por debajo de ese alto
  * se usan los estilos "Laptop/…" de Figma: misma jerarquía, escala menor.
  */
-@custom-variant lap (@media (min-width: 1024px) and (max-height: 819px));
+/* Un solo diseño de escritorio: el de Laptop (Figma "Página / Laptop") rige desde 1024 px en cualquier alto */
+@custom-variant lap (@media (min-width: 1024px));
 
 /* ---------- Estilos de texto con nombre de Figma ---------- */
 @utility type-h1 {
@@ -61,46 +68,46 @@
   font-size: clamp(52px, 38.63px + 3.429vw, 88px);
   line-height: 0.97;
   letter-spacing: -0.03em;
-  @media (min-width: 1024px) and (max-height: 819px) { font-size: 60px; }
+  @media (min-width: 1024px) { font-size: 60px; }
 }
 @utility type-h2 {
   font-family: var(--font-display);
   font-size: clamp(36px, 25.6px + 2.667vw, 64px);
   line-height: 1.03;
   letter-spacing: -0.02em;
-  @media (min-width: 1024px) and (max-height: 819px) { font-size: 44px; }
+  @media (min-width: 1024px) { font-size: 44px; }
 }
 @utility type-h3 {
   font-family: var(--font-display);
   font-size: clamp(24px, 21.03px + 0.762vw, 32px);
   line-height: 1.14;
-  @media (min-width: 1024px) and (max-height: 819px) { font-size: 26px; }
+  @media (min-width: 1024px) { font-size: 26px; }
 }
 @utility type-h4 {
   font-family: var(--font-display);
   font-size: clamp(18px, 15.77px + 0.571vw, 24px);
   line-height: 1.22;
-  @media (min-width: 1024px) and (max-height: 819px) { font-size: 20px; }
+  @media (min-width: 1024px) { font-size: 20px; }
 }
 @utility type-stat {
   font-family: var(--font-display);
   font-size: clamp(36px, 25.6px + 2.667vw, 64px);
   line-height: 1;
   letter-spacing: -0.03em;
-  @media (min-width: 1024px) and (max-height: 819px) { font-size: 48px; }
+  @media (min-width: 1024px) { font-size: 48px; }
 }
 @utility type-metric {
   font-family: var(--font-display);
   font-size: clamp(52px, 38.63px + 3.429vw, 88px);
   line-height: 1;
   letter-spacing: -0.03em;
-  @media (min-width: 1024px) and (max-height: 819px) { font-size: 64px; }
+  @media (min-width: 1024px) { font-size: 64px; }
 }
 @utility type-index {
   font-family: var(--font-display);
   font-size: clamp(24px, 21.03px + 0.762vw, 32px);
   line-height: 1;
-  @media (min-width: 1024px) and (max-height: 819px) { font-size: 26px; }
+  @media (min-width: 1024px) { font-size: 26px; }
 }
 @utility type-button {
   font-family: var(--font-display);
@@ -117,19 +124,19 @@
   font-family: var(--font-sans);
   font-size: clamp(16px, 14.51px + 0.381vw, 20px);
   line-height: 1.5;
-  @media (min-width: 1024px) and (max-height: 819px) { font-size: 17px; }
+  @media (min-width: 1024px) { font-size: 17px; }
 }
 @utility type-body {
   font-family: var(--font-sans);
   font-size: clamp(14px, 13.26px + 0.19vw, 16px);
   line-height: 1.55;
-  @media (min-width: 1024px) and (max-height: 819px) { font-size: 15px; }
+  @media (min-width: 1024px) { font-size: 15px; }
 }
 @utility type-small {
   font-family: var(--font-sans);
   font-size: clamp(12px, 11.26px + 0.19vw, 14px);
   line-height: 1.5;
-  @media (min-width: 1024px) and (max-height: 819px) { font-size: 13px; }
+  @media (min-width: 1024px) { font-size: 13px; }
 }
 @utility type-caption {
   font-family: var(--font-sans);

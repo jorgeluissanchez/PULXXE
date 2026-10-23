@@ -2,15 +2,17 @@
 /**
  * Organismo · Sectores (Figma: "08 · Sectores" → "Sectores · interactivo").
  * Sección a pantalla completa (dvh): título y vista del sector activo a la izquierda,
- * lista a la derecha. Puntero, foco o clic cambian el sector (sin animación por ahora).
+ * lista a la derecha. Puntero, foco o clic cambian el sector.
+ * Desktop: la columna derecha (intro + lista) va centrada verticalmente respecto a la izquierda.
+ * Los sectores cambian solo con hover, foco o clic.
  */
 import { Image } from 'astro:assets';
 import Kicker from '../atoms/Kicker.astro';
 import SectorRow from '../molecules/SectorRow.astro';
 import { sectors } from '@/data/content';
 ---
-<section class="bg-paper page-x max-lg:page-y screen-min-h screen-y" aria-labelledby="sectores-title" data-sectors>
-  <div class="mx-auto flex w-full max-w-[var(--container-page)] flex-col gap-12 lg:flex-row lg:items-start lg:gap-24">
+<section class="relative bg-white page-x max-lg:page-y screen-min-h screen-y" aria-labelledby="sectores-title" data-sectors>
+  <div class="mx-auto flex w-full max-w-[var(--container-page)] flex-col gap-12 lg:flex-row lg:items-center lg:gap-20">
     <div class="flex flex-col gap-8 lap:gap-6 lg:w-[min(600px,48%)] lg:shrink-0">
       <div class="flex flex-col gap-5">
         <Kicker>{sectors.kicker}</Kicker>
@@ -18,7 +20,7 @@ import { sectors } from '@/data/content';
           {sectors.titleLines.map((l) => <span class="block">{l}</span>)}
         </h2>
       </div>
-      <div id="sector-vista" class="relative aspect-[600/440] overflow-hidden bg-navy lg:aspect-auto lg:h-[clamp(240px,calc(100dvh-490px),440px)] lap:h-[calc(100dvh-336px)]" aria-live="polite">
+      <div id="sector-vista" class="relative aspect-[600/440] overflow-hidden bg-paper lg:aspect-auto lg:h-[clamp(240px,calc(100dvh-490px),440px)] lap:h-[calc(100dvh-336px)]" aria-live="polite">
         {sectors.items.map((s, i) => (
           <div
             class="absolute inset-0 flex flex-col justify-end gap-3 p-6 opacity-0 data-[active=true]:opacity-100 sm:p-9"
@@ -27,20 +29,22 @@ import { sectors } from '@/data/content';
             aria-hidden={i === 0 ? 'false' : 'true'}
           >
             <Image src={s.image} alt={s.alt} widths={[600, 900, 1200]} sizes="(min-width: 1024px) 600px, 100vw" class="absolute inset-0 -z-0 size-full object-cover" />
-            <div class="absolute inset-0 bg-[linear-gradient(180deg,rgb(9_30_43/0)_0%,rgb(9_30_43/0.15)_35%,rgb(9_30_43/0.82)_70%,rgb(9_30_43/0.92)_100%)]" aria-hidden="true"></div>
-            <p class="relative type-overline text-yellow">Sector</p>
-            <h3 class="relative type-h3 text-white">{s.name}</h3>
-            <p class="relative type-body text-white">{s.text}</p>
+            <div class="absolute inset-0 bg-[linear-gradient(180deg,rgb(9_30_43/0)_0%,rgb(9_30_43/0.15)_22%,rgb(9_30_43/0.8)_48%,rgb(9_30_43/0.96)_100%)]" aria-hidden="true"></div>
+            <p class="relative type-overline text-yellow">{s.name}</p>
+            <h3 class="relative type-h3 text-white lap:text-[24px]">{s.headline}</h3>
+            <p class="relative max-w-[520px] type-body text-white/90">{s.text}</p>
           </div>
         ))}
       </div>
     </div>
 
-    <div class="flex flex-col lg:w-[616px] lg:min-w-0 lg:shrink">
+    <div class="relative flex flex-col lg:w-[640px] lg:min-w-0 lg:shrink">
       <p class="type-lead text-muted">{sectors.intro}</p>
-      <ul class="mt-10 lap:mt-6" data-sectors-list>
-        {sectors.items.map((s, i) => <SectorRow name={s.name} index={i} active={i === 0} />)}
+      <ul class="mt-8 flex flex-col gap-1 lap:mt-5" data-sectors-list>
+        {sectors.items.map((s, i) => <SectorRow name={s.name} short={s.short} icon={s.icon as 'city'} index={i} active={i === 0} />)}
       </ul>
     </div>
   </div>
 </section>
+
+

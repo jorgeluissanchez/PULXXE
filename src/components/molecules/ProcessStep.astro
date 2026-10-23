@@ -6,37 +6,40 @@
  */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-import Icon from '../atoms/Icon.astro';
 interface Props { n: string; name: string; text: string; image: ImageMetadata; alt: string; active?: boolean; index: number }
 const { n, name, text, image, alt, active = false, index } = Astro.props;
 ---
 <li
-  class="group/step relative border-t border-line"
+  class="group/step relative border-b border-line"
   data-step={index}
   data-active={active ? 'true' : 'false'}
 >
   <span
-    class="absolute inset-y-0 -left-3 hidden w-[3px] bg-yellow opacity-0 group-data-[active=true]/step:opacity-100 lg:block"
+    class="absolute inset-y-0 left-0 hidden w-1.5 bg-yellow opacity-0 transition-opacity group-data-[active=true]/step:opacity-100 lg:block"
     aria-hidden="true"
   ></span>
   <Image src={image} alt={alt} widths={[400, 700]} sizes="100vw" class="mb-5 aspect-[342/200] w-full object-cover lg:hidden" />
   <button
     type="button"
-    class="flex w-full items-start gap-6 py-[26px] text-left lg:px-4 lg:py-[clamp(6px,calc((100dvh-657px)/25+6px),26px)] lap:py-[clamp(10px,calc((100dvh-500px)/12),20px)]"
+    class="grid w-full grid-cols-[auto_1fr] items-center gap-4 py-5 text-left outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-yellow sm:grid-cols-[56px_auto_1px_1fr] sm:gap-5 lg:px-4 lg:py-[clamp(6px,calc((100dvh-657px)/25+6px),22px)] lap:py-[clamp(8px,calc((100dvh-500px)/14),16px)]"
     aria-controls="proceso-panel"
     aria-pressed={active ? 'true' : 'false'}
     data-step-trigger
   >
-    <span
-      class="w-[64px] shrink-0 font-sans text-[48px] lap:text-[34px] leading-none tracking-[-0.02em] text-navy lg:text-transparent lg:[-webkit-text-stroke:1.2px_var(--color-light)] lg:group-data-[active=true]/step:[-webkit-text-stroke:1.2px_var(--color-navy)] lg:group-data-[active=true]/step:text-navy"
-      aria-hidden="true"
-    >{n}</span>
-    <span class="flex min-w-0 flex-1 flex-col pt-3 lap:pt-1.5">
-      <span class="font-sans text-[22px] font-bold leading-tight lap:text-[19px] text-navy lg:font-normal lg:group-data-[active=true]/step:font-bold">{name}</span>
-      <span class="grid lg:grid-rows-[0fr] lg:opacity-0 lg:group-data-[active=true]/step:mt-2.5 lg:group-data-[active=true]/step:grid-rows-[1fr] lg:group-data-[active=true]/step:opacity-100">
-        <span class="overflow-hidden type-body text-muted">{text}</span>
+    <span class="hidden w-14 font-sans text-[34px] font-extralight leading-none tracking-[-0.04em] text-transparent [-webkit-text-stroke:1px_#b9b5aa] sm:block lap:text-[28px] group-data-[active=true]/step:text-navy group-data-[active=true]/step:[-webkit-text-stroke:1px_var(--color-navy)]" aria-hidden="true">{n}</span>
+    <svg class="size-10 text-navy lap:size-9" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true">
+      {index === 0 && (<><path d="M9 7h22v28H9z" /><path d="M15 4h10v6H15z" /><path d="M14 17h12M14 22h12M14 27h7" /></>)}
+      {index === 1 && (<><path d="M8 26v-3a12 12 0 0 1 24 0v3" /><path d="M4 26h32v4H4z" /><path d="M17 11.5V9h6v2.5" /><path d="M20 9v17" /></>)}
+      {index === 2 && (<><path d="M4 14h32v12H4z" /><path d="M9 14v5M14 14v3M19 14v5M24 14v3M29 14v5" /></>)}
+      {index === 3 && (<><path d="M6 34h28" /><path d="M10 34V22h5v12M18 34V15h5v19M26 34V9h5v25" /><path d="M8 17l8-6 6 4 10-8" /></>)}
+      {index === 4 && (<><circle cx="12" cy="20" r="8" /><circle cx="12" cy="20" r="2.5" /><path d="M20 20h16M30 20v6M35 20v5" /></>)}
+    </svg>
+    <span class="hidden h-10 w-px bg-line sm:block" aria-hidden="true"></span>
+    <span class="flex min-w-0 flex-col">
+      <span class="type-h4 text-navy lap:text-[18px]">{name}</span>
+      <span class="grid transition-[grid-template-rows,opacity,margin] duration-500 ease-[cubic-bezier(.22,1,.36,1)] lg:grid-rows-[0fr] lg:opacity-0 lg:group-data-[active=true]/step:mt-1 lg:group-data-[active=true]/step:grid-rows-[1fr] lg:group-data-[active=true]/step:opacity-100">
+        <span class="overflow-hidden type-small text-muted">{text}</span>
       </span>
     </span>
-    <Icon name="arrow" size={22} class="mt-3 hidden shrink-0 text-navy group-data-[active=true]/step:rotate-45 lg:block" />
   </button>
 </li>

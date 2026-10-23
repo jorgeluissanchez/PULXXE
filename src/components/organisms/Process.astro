@@ -1,4 +1,5 @@
 ---
+import Kicker from '../atoms/Kicker.astro';
 /**
  * Organismo · Proceso (Figma: "04 · Proceso" → "Proceso · interactivo").
  * Lista de 5 pasos + imagen de la etapa activa con número grande y coordenadas.
@@ -12,8 +13,7 @@ const total = String(process.steps.length).padStart(2, '0');
   <div class="mx-auto flex w-full max-w-[1376px] flex-col gap-14 lg:min-h-0 lg:flex-1 lg:max-h-[960px] lg:gap-[clamp(24px,calc((100dvh-657px)/10+24px),56px)]">
     <header class="flex flex-col gap-8 lg:flex-row lg:gap-12 lg:pr-16">
       <div class="flex flex-col gap-3.5 lg:w-[760px] lg:shrink-0">
-        <p class="font-sans text-xs font-bold uppercase leading-normal tracking-[0.3em] text-navy">{process.kicker}</p>
-        <span class="h-[3px] w-10 bg-yellow" aria-hidden="true"></span>
+        <Kicker tone="navy">{process.kicker}</Kicker>
         <h2 id="proceso-title" class="mt-2.5 type-h2 text-navy">{process.title}</h2>
       </div>
       <span class="hidden w-px self-stretch bg-line lg:block" aria-hidden="true"></span>
@@ -27,7 +27,7 @@ const total = String(process.steps.length).padStart(2, '0');
         ))}
       </ol>
 
-      <div id="proceso-panel" class="relative hidden max-h-[640px] flex-1 overflow-hidden bg-navy lg:block" aria-live="polite">
+      <div id="proceso-panel" class="relative hidden max-h-[640px] flex-1 overflow-hidden bg-paper lg:block" aria-live="polite">
         {process.steps.map((s, i) => (
           <div
             class="absolute inset-0 opacity-0 data-[active=true]:opacity-100"
@@ -36,12 +36,12 @@ const total = String(process.steps.length).padStart(2, '0');
             aria-hidden={i === process.initial ? 'false' : 'true'}
           >
             <Image src={s.image} alt="" widths={[720, 1080, 1440]} sizes="(min-width: 1440px) 768px, 55vw" class="absolute inset-0 size-full object-cover" />
-            <div class="absolute inset-0 bg-[linear-gradient(180deg,rgb(9_30_43/0)_0%,rgb(9_30_43/0.15)_45%,rgb(9_30_43/0.85)_100%)]"></div>
-            <p class="absolute right-10 top-9 w-[106px] type-overline text-white">{process.coords.map((c) => <span class="block">{c}</span>)}</p>
+            <!-- Velo blanco arriba y degradado azul noche abajo para leer los textos -->
+            <div class="absolute inset-0 bg-[linear-gradient(180deg,rgb(250_248_243/0.55)_0%,rgb(250_248_243/0)_26%,rgb(9_30_43/0)_42%,rgb(9_30_43/0.55)_70%,rgb(9_30_43/0.92)_100%)]"></div>
             <p class="absolute bottom-9 right-10 w-[106px] type-overline text-white">{process.place.map((c) => <span class="block">{c}</span>)}</p>
             <div class="absolute bottom-[42px] left-10 flex flex-col">
               <p class="flex items-end gap-3 text-white">
-                <span class="font-sans text-[96px] leading-none text-transparent [-webkit-text-stroke:2px_white]">{s.n}</span>
+                <span class="font-sans text-[96px] leading-none text-transparent [-webkit-text-stroke:2px_white] lap:text-[72px]">{s.n}</span>
                 <span class="pb-1 font-sans text-[28px] leading-none text-white/85">/ {total}</span>
               </p>
               <span class="mt-5 h-[3px] w-10 bg-yellow" aria-hidden="true"></span>

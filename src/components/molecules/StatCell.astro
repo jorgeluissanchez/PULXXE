@@ -5,9 +5,9 @@ interface Props { label: string; value: string; detail: string; tone?: 'navy' | 
 const { label, value, detail, tone = 'navy', class: className = '' } = Astro.props;
 const onYellow = tone === 'yellow';
 ---
-<div class:list={['flex flex-col gap-3 px-7 py-8', onYellow ? 'bg-yellow text-navy' : 'text-white', className]}>
-  <p class:list={['type-overline', onYellow ? 'text-navy' : 'text-yellow']}>{label}</p>
-  <p class:list={['type-stat', onYellow ? 'text-navy' : 'text-yellow']}>{value}</p>
-  <Ruler class={onYellow ? 'text-navy' : 'text-yellow'} />
+<div class:list={['flex flex-col gap-3 px-7 py-8', onYellow ? 'bg-yellow text-navy' : 'text-navy', className]}>
+  <p class:list={['type-overline', 'text-navy']}>{label}</p>
+  <p class:list={['type-stat', 'text-navy']}>{value}</p>
+  <Ruler class="text-navy" />
   <p class:list={['type-small', onYellow ? 'text-navy' : 'text-light']}>{detail}</p>
 </div>

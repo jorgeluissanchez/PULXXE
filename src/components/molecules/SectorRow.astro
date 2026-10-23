@@ -1,19 +1,44 @@
 ---
-/** Molécula · Fila de sector (Figma: "Sector / …" del componente "Sectores · interactivo"). */
-import Icon from '../atoms/Icon.astro';
-interface Props { name: string; index: number; active?: boolean }
-const { name, index, active = false } = Astro.props;
+/**
+ * Molécula · Fila de sector (Figma: "Sector / …" del componente "Sectores · interactivo").
+ * Número en contorno · ícono de línea · divisor · título + resumen.
+ * Como el Proceso: al inicio solo se ve el título; la fila activa (hover, foco o clic) muestra
+ * la barra amarilla, el número relleno y despliega el resumen.
+ */
+interface Props { name: string; short: string; icon: 'city' | 'house' | 'store' | 'office'; index: number; active?: boolean }
+const { name, short, icon, index, active = false } = Astro.props;
+const n = String(index + 1).padStart(2, '0');
+const ease = 'duration-500 ease-[cubic-bezier(.22,1,.36,1)]';
 ---
-<li class="group/sector" data-sector={index} data-active={active ? 'true' : 'false'}>
+<li class="group/sector relative" data-sector={index} data-active={active ? 'true' : 'false'}>
   <button
     type="button"
-    class="relative flex min-h-[90px] w-full items-center justify-between gap-6 border-t border-line px-6 py-[30px] text-left lap:min-h-0 lap:py-[22px] group-data-[active=true]/sector:bg-white"
+    class:list={[
+      'relative grid w-full grid-cols-[auto_1fr] items-center gap-4 border-b border-line px-4 py-5 text-left outline-none sm:grid-cols-[56px_auto_1px_1fr] sm:gap-5 sm:px-5 lg:py-[clamp(12px,calc((100dvh-657px)/20+12px),22px)]',
+      'focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-yellow',
+    ]}
     aria-controls="sector-vista"
     aria-pressed={active ? 'true' : 'false'}
     data-sector-trigger
   >
-    <span class="absolute inset-y-0 left-0 w-0 bg-yellow group-data-[active=true]/sector:w-1.5" aria-hidden="true"></span>
-    <span class="type-h4 text-muted group-data-[active=true]/sector:text-navy">{name}</span>
-    <Icon name="arrow" size={24} class="shrink-0 text-navy opacity-25 group-data-[active=true]/sector:opacity-100" />
+    <!-- Barra amarilla: entra creciendo de arriba a abajo; al salir se desvanece rápido (sin dejar una línea residual) -->
+    <span class="absolute inset-y-0 left-0 w-1.5 origin-top scale-y-0 bg-yellow opacity-0 transition-[transform,opacity] duration-150 ease-out group-data-[active=true]/sector:scale-y-100 group-data-[active=true]/sector:opacity-100 group-data-[active=true]/sector:duration-500 group-data-[active=true]/sector:ease-[cubic-bezier(.22,1,.36,1)]" aria-hidden="true"></span>
+    <span class={`hidden size-14 items-center justify-center transition-colors ${ease} sm:flex lap:size-12`} aria-hidden="true">
+      <span class="font-sans text-[34px] font-extralight leading-none tracking-[-0.04em] text-transparent [-webkit-text-stroke:1px_#b9b5aa] lap:text-[28px] group-data-[active=true]/sector:text-navy group-data-[active=true]/sector:[-webkit-text-stroke:1px_var(--color-navy)]">{n}</span>
+    </span>
+    <svg class="size-10 text-navy lap:size-9" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true">
+      {icon === 'city' && (<><path d="M5 35h30M8 35V14h9v21M17 35V6h9v29M28 35V22" /><path d="M11 18h3M11 23h3M11 28h3M20 10h3M20 15h3M20 20h3M20 25h3" /><circle cx="31" cy="18" r="4" /><path d="M31 22v13" /></>)}
+      {icon === 'house' && (<><path d="M6 18 20 6l14 12M9 15.5V34h22V15.5" /><path d="M17 34v-9h6v9" /><path d="M5 34h30" /></>)}
+      {icon === 'store' && (<><path d="M7 16v18h26V16" /><path d="M5 8h30l-2 8H7z" /><path d="M5 16a5 5 0 0 0 10 0 5 5 0 0 0 10 0 5 5 0 0 0 10 0" /><path d="M16 34v-9h8v9M4 34h32" /></>)}
+      {icon === 'office' && (<><path d="M8 35V8h14v27M22 35V16h10v19M5 35h30" /><path d="M12 13h2M16 13h2M12 18h2M16 18h2M12 23h2M16 23h2M12 28h2M16 28h2M26 21h2M26 26h2" /></>)}
+    </svg>
+    <span class="hidden h-10 w-px bg-line sm:block" aria-hidden="true"></span>
+    <span class="flex min-w-0 flex-col">
+      <span class="type-h4 text-navy lap:text-[18px]">{name}</span>
+      <!-- Resumen: solo en la fila activa (hover, foco o clic); en mobile siempre visible -->
+      <span class={`grid transition-[grid-template-rows,opacity,margin] ${ease} lg:grid-rows-[0fr] lg:opacity-0 lg:group-data-[active=true]/sector:mt-1 lg:group-data-[active=true]/sector:grid-rows-[1fr] lg:group-data-[active=true]/sector:opacity-100`}>
+        <span class="overflow-hidden type-small text-muted">{short}</span>
+      </span>
+    </span>
   </button>
 </li>

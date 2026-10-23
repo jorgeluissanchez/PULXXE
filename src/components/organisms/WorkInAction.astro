@@ -6,7 +6,7 @@ import Kicker from '../atoms/Kicker.astro';
 import AccordionPanel from '../molecules/AccordionPanel.astro';
 import { workInAction } from '@/data/content';
 ---
-<section class="bg-navy max-lg:pb-24 max-lg:pt-16 page-x screen-h screen-y" aria-labelledby="accion-title">
+<section class="bg-night max-lg:pb-24 max-lg:pt-16 page-x screen-h screen-y" aria-labelledby="accion-title">
   <div class="mx-auto flex max-w-[var(--container-page)] w-full flex-col gap-10 lg:min-h-0 lg:flex-1 lg:max-h-[880px] lg:gap-[clamp(28px,calc((100dvh-657px)/5+28px),79px)]">
     <header class="flex flex-col gap-6 lg:flex-row lg:justify-between">
       <div class="flex flex-col gap-[18px] lg:w-[620px]">
@@ -15,8 +15,8 @@ import { workInAction } from '@/data/content';
           {workInAction.titleLines.map((l) => <span class="block">{l}</span>)}
         </h2>
       </div>
-      <p class="type-lead text-light lg:w-[440px] lg:pt-[60px]">
-        {workInAction.intro.map((l) => <span class="block">{l}</span>)}
+      <p class="type-lead text-mist lg:w-[500px] lg:self-end">
+        {workInAction.intro.map((l, i) => <span class:list={['block', i === 0 && 'mb-1 type-h4 text-white']}>{l}</span>)}
       </p>
     </header>
 
@@ -31,7 +31,7 @@ import { workInAction } from '@/data/content';
             <span class="h-1 w-4 rounded-full bg-white/25 transition-[width,background-color] duration-500 data-[active=true]:w-10 data-[active=true]:bg-yellow" data-accordion-dot={i} data-active={i === 0 ? 'true' : 'false'}></span>
           ))}
         </div>
-        <p class="type-label text-light">Desliza →</p>
+        <p class="type-label text-mist">Desliza →</p>
       </div>
     </div>
   </div>

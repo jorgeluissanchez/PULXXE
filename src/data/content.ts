@@ -18,6 +18,10 @@ import frenteRemodelacion from '@/assets/img/frente-remodelacion.webp';
 import sala from '@/assets/img/resultado-sala.webp';
 import cocina from '@/assets/img/resultado-cocina.webp';
 import bano from '@/assets/img/resultado-bano.webp';
+import salon from '@/assets/img/resultado-salon.webp';
+import comedor from '@/assets/img/resultado-comedor.webp';
+import dormitorio from '@/assets/img/resultado-dormitorio.webp';
+import cocinaAbierta from '@/assets/img/resultado-cocina-abierta.webp';
 import secInfra from '@/assets/img/sector-infraestructura.webp';
 import secVivienda from '@/assets/img/sector-vivienda.webp';
 import secHogares from '@/assets/img/sector-hogares.webp';
@@ -30,7 +34,7 @@ export const hero = {
   titleLines: ['Planeamos.', 'Medimos.', 'Cumplimos.'],
   description:
     'Obra civil, edificación y remodelación en Barranquilla y el Caribe, con cantidades, costos y avance medidos en cada corte.',
-  primary: { label: 'Solicita tu presupuesto', href: '#contacto' },
+  primary: { label: 'Solicitar asesoría', href: '#contacto' },
   secondary: { label: 'Ver qué ejecutamos', href: '#frentes' },
   image: { src: heroCasa, alt: 'Casa moderna de dos pisos en piedra clara, con jardín de cactus e iluminación cálida al atardecer' },
 };
@@ -39,24 +43,31 @@ export const purpose = {
   kicker: 'Nuestro propósito',
   titleLines: ['Una obra no', 'debería depender', 'de la suerte.'],
   statement:
-    'Administramos y ejecutamos obras civiles para empresas privadas, entidades públicas y personas naturales, con control permanente de las cantidades, los costos y el avance de cada proyecto.',
+    'Planear, medir y cumplir en cada proyecto que ejecutamos. Nuestro equipo técnico y nuestros aliados suman más de 10 años en vías, redes, drenaje, espacio público, edificación y remodelación.',
+  mission: {
+    label: 'Misión',
+    text: 'Administrar y ejecutar obras civiles para empresas privadas, entidades públicas y personas naturales, con control permanente de cantidades, costos y avance, para cumplir las especificaciones y los plazos acordados.',
+  },
   company: {
     label: 'La empresa',
     text: 'Somos una empresa de ingeniería y construcción con sede en Barranquilla. Nuestro nombre viene de pulso: medimos de forma permanente cantidades, costos y avance para decidir con datos y mantenerte informado.',
   },
-  photo: { src: equipo, alt: 'Dos ingenieros con casco y chaleco revisan en una tableta el avance de una obra', caption: 'Equipo Pulxxe en obra' },
   vision: {
     year: '2035',
     label: 'Visión',
-    text: 'Ser reconocidos en la región Caribe por el control técnico y el cumplimiento de cada obra, con una operación capaz de ejecutar varios proyectos a la vez.',
+    text: 'Para 2035, ser reconocidos en la región Caribe por el control técnico y el cumplimiento de cada obra, con una operación profesionalizada capaz de ejecutar varios proyectos a la vez.',
   },
-  stats: [
-    { label: 'Experiencia', value: '+10', detail: 'Años del equipo y aliados en vías, redes, edificación y remodelación.', tone: 'navy' as const },
-    { label: 'Presupuesto por ítem', value: '100%', detail: 'Ninguna obra arranca sin alcance, presupuesto y programación.', tone: 'yellow' as const },
-    { label: 'Líneas de servicio', value: '2', detail: 'Obra civil · Edificación y remodelación.', tone: 'navy' as const },
-    { label: 'Respuesta', value: '1 día', detail: 'El mismo día hábil, en lenguaje sencillo.', tone: 'navy' as const },
-    { label: 'Escala', value: '1:1', detail: 'Obra real, medida en sitio en cada corte.', tone: 'navy' as const },
-  ],
+  values: {
+    label: 'Nuestros valores',
+    title: 'Lo que no negociamos en ninguna obra.',
+    items: [
+      { name: 'Centrados en las personas', text: 'Cuidamos a quien vive, usa y construye la obra: clientes, vecinos y equipo.' },
+      { name: 'Transparencia y cumplimiento', text: 'Cuentas claras y fechas que se cumplen. Lo que acordamos, lo entregamos.' },
+      { name: 'Planificación y control', text: 'Nada arranca sin alcance, presupuesto y programación. Todo se mide en cada corte.' },
+      { name: 'Calidad y mejora continua', text: 'Revisamos cada entrega y aprendemos de cada obra para hacer mejor la siguiente.' },
+      { name: 'Vocación de servicio', text: 'Respondemos el mismo día, en lenguaje sencillo, y te acompañamos hasta la entrega.' },
+    ],
+  },
   meta: [
     { label: 'Sede', value: 'Barranquilla, Atlántico' },
     { label: 'Cobertura', value: 'Área Metropolitana y Caribe' },
@@ -66,7 +77,7 @@ export const purpose = {
 
 export const services = {
   kicker: 'Las ideas toman forma',
-  titleLines: ['Construcción y remodelación', 'en Barranquilla.'],
+  titleLines: ['Construcción y', 'remodelación', 'en Barranquilla.'],
   lead: ['Tienes una idea, un plano o un espacio por transformar.', 'Nosotros lo llevamos a obra, sin improvisar.'],
   image: { src: franjas, alt: 'Edificio blanco de tres pisos con piscina, visto en franjas verticales con acentos amarillos' },
   lines: [
@@ -106,12 +117,15 @@ export const process = {
 
 export const workInAction = {
   kicker: 'Pulxxe en acción',
-  titleLines: ['El trabajo', 'habla.'],
-  intro: ['Cada frente tiene una historia.', 'Mira cómo la construimos.'],
+  titleLines: ['Obra real,', 'medida en sitio.'],
+  intro: [
+    'Vías, estructuras y espacios.',
+    'En cada frente trabajamos con presupuesto por ítem, cantidades medidas en sitio y reporte de avance con fotos: sabes qué se hizo, cuánto costó y cuándo termina.',
+  ],
   panels: [
-    { index: '01 / Obra civil', title: 'Obra civil', text: 'Pavimento rígido, drenaje y canalización, estructuras de concreto, redes de alcantarillado y pluvial, y espacio público.', foot: 'Línea 1 · Frentes de obra civil.', image: obraCivil, alt: 'Fresadora CAT trabajando en el pavimento de una calle residencial' },
-    { index: '02 / Edificación', title: 'Edificación', text: 'Obra negra, gris y blanca: de la estructura en concreto reforzado a los acabados.', foot: 'Línea 2 · Frentes de edificación.', image: obraEdificacion, alt: 'Cuadrilla armando el acero de refuerzo de una losa junto a una grúa torre' },
-    { index: '03 / Remodelación', title: 'Remodelación', text: 'Apartamentos, casas, locales, oficinas y consultorios, listos para habitar u operar en la fecha acordada.', foot: 'Línea 2 · Remodelación residencial y comercial.', image: obraRemodelacion, alt: 'Fachada ornamentada de un edificio antiguo restaurado' },
+    { index: '01 / Obra civil', title: 'Obra civil', text: 'Pavimento rígido, drenaje y canalización, estructuras de concreto, redes de alcantarillado y pluvial, y espacio público.', foot: 'Frentes de obra civil.', image: obraCivil, alt: 'Fresadora CAT trabajando en el pavimento de una calle residencial' },
+    { index: '02 / Edificación', title: 'Edificación', text: 'Obra negra, gris y blanca: de la estructura en concreto reforzado a los acabados.', foot: 'Frentes de edificación.', image: obraEdificacion, alt: 'Cuadrilla armando el acero de refuerzo de una losa junto a una grúa torre' },
+    { index: '03 / Remodelación', title: 'Remodelación', text: 'Apartamentos, casas, locales, oficinas y consultorios, listos para habitar u operar en la fecha acordada.', foot: 'Remodelación residencial y comercial.', image: obraRemodelacion, alt: 'Fachada ornamentada de un edificio antiguo restaurado' },
   ],
 };
 
@@ -121,9 +135,9 @@ export const fronts = {
   intro:
     'Nuestro equipo y aliados suman más de 10 años en infraestructura vial, redes de acueducto y alcantarillado, drenaje, espacio público, edificación y remodelaciones.',
   items: [
-    { n: '01', title: 'Pavimento rígido y drenaje', meta: 'Línea 1 · Obra civil', image: frentePavimento, alt: 'Dos obreros vibran el concreto de una placa con malla de acero' },
-    { n: '02', title: 'Obra negra, gris y blanca', meta: 'Línea 2 · Edificación', image: frenteEdificacion, alt: 'Obreros con casco naranja preparan varillas sobre una losa en construcción' },
-    { n: '03', title: 'Remodelación residencial y comercial', meta: 'Línea 2 · Remodelación', image: frenteRemodelacion, alt: 'Manos instalando enchape blanco sobre pegante en una pared' },
+    { n: '01', title: 'Pavimento rígido y drenaje', meta: 'Línea 1 · Obra civil', text: 'Ejecutamos placas de concreto, drenajes y canalizaciones con cantidades medidas y listas para tus actas, de la excavación a la entrega.', image: frentePavimento, alt: 'Dos obreros vibran el concreto de una placa con malla de acero' },
+    { n: '02', title: 'Obra negra, gris y blanca', meta: 'Línea 2 · Edificación', text: 'Desarrollamos tu proyecto desde la estructura hasta los acabados, coordinando obra negra, gris y blanca con seguimiento constante de cantidades, tiempos y calidad.', image: frenteEdificacion, alt: 'Obreros con casco naranja preparan varillas sobre una losa en construcción' },
+    { n: '03', title: 'Remodelación residencial y comercial', meta: 'Línea 2 · Remodelación', text: 'Renovamos casas, apartamentos, locales y oficinas con presupuesto por ítem, cronograma claro y reporte de avance con fotos.', image: frenteRemodelacion, alt: 'Manos instalando enchape blanco sobre pegante en una pared' },
   ],
 };
 
@@ -133,6 +147,13 @@ export const results = {
   text: 'Pisos, cocina, baños y divisiones listos antes de la mudanza. Supiste cuánto ibas a invertir, viste cómo avanzaba y sabías cuándo terminaba.',
   closing: 'Lo único que queda es habitarlo.',
   main: { src: sala, alt: 'Sala remodelada con sofá claro, techo en concreto y ventanales al jardín', tag: 'Sala · Remodelación completa' },
+  slides: [
+    { src: sala, alt: 'Sala remodelada con sofá claro, techo en concreto y ventanales al jardín', tag: 'Sala · Remodelación completa' },
+    { src: salon, alt: 'Salón con chimenea, sofás claros y ventanales con marcos de madera', tag: 'Salón · Obra blanca' },
+    { src: comedor, alt: 'Comedor de madera con sillas tapizadas junto a ventanales y cocina blanca', tag: 'Comedor · Acabados' },
+    { src: dormitorio, alt: 'Dormitorio con cama sobre plataforma, muro en piedra iluminado y piso de madera', tag: 'Dormitorio · Remodelación' },
+    { src: cocinaAbierta, alt: 'Cocina abierta con isla gris, taburetes negros y salida al patio', tag: 'Cocina abierta · Llave en mano' },
+  ],
   side: [
     { src: cocina, alt: 'Cocina remodelada con muebles de madera clara y mesón blanco', tag: 'Cocina · Obra blanca' },
     { src: bano, alt: 'Baño remodelado con enchape gris, tina y mueble flotante', tag: 'Baño · Enchapes y aparatos' },
@@ -144,10 +165,10 @@ export const sectors = {
   titleLines: ['Experiencia que', 'se adapta a', 'cada contexto.'],
   intro: 'Acompañamos a empresas privadas, entidades públicas y personas naturales. Cambia la escala; el control es el mismo.',
   items: [
-    { name: 'Infraestructura urbana y servicios públicos', text: 'Vías, drenaje, redes y espacio público, como aliados técnicos de los contratistas.', image: secInfra, alt: 'Cuadrilla rompiendo pavimento en una calle de ciudad con conos de seguridad' },
-    { name: 'Vivienda nueva', text: 'Constructoras que necesitan frentes de obra y propietarios de proyectos recién entregados.', image: secVivienda, alt: 'Casa nueva de dos pisos con fachada blanca y madera al anochecer' },
-    { name: 'Hogares y comercio local', text: 'Propietarios y pequeños negocios que remodelan, amplían o adecúan sus espacios.', image: secHogares, alt: 'Sala y comedor de una casa con piso de madera recién remodelada' },
-    { name: 'Empresas privadas', text: 'Universidades, industria, zonas francas, servicios públicos, comercio y sector portuario.', image: secEmpresas, alt: 'Recepción corporativa con mesón de mármol y paneles de madera' },
+    { name: 'Infraestructura urbana y servicios públicos', icon: 'city', short: 'Vías, drenajes, redes y espacio público.', headline: 'Frentes de obra pública listos para tus actas.', text: 'Ejecutamos pavimento rígido, alcantarillado pluvial y redes en Barranquilla y el Área Metropolitana como aliado técnico del contratista: cantidades medidas en cada corte, SG-SST al día y reporte fotográfico para la interventoría.', image: secInfra, alt: 'Cuadrilla rompiendo pavimento en una calle de ciudad con conos de seguridad' },
+    { name: 'Vivienda nueva', icon: 'house', short: 'Constructoras y propietarios de proyectos recién entregados.', headline: 'De la estructura a la entrega, sin sobrecostos.', text: 'Asumimos frentes de obra negra, gris y blanca para constructoras y personalizamos apartamentos y casas recién entregados, con presupuesto por ítem y cronograma por etapas.', image: secVivienda, alt: 'Casa nueva de dos pisos con fachada blanca y madera al anochecer' },
+    { name: 'Hogares y comercio local', icon: 'store', short: 'Remodelaciones, adecuaciones y mejoras funcionales.', headline: 'Remodela tu casa o local sin cerrar meses.', text: 'Cocinas, baños, pisos, ampliaciones y adecuación de locales en Barranquilla. Precio cerrado por ítem, trabajo por etapas para que sigas viviendo u operando y entrega en la fecha acordada.', image: secHogares, alt: 'Sala y comedor de una casa con piso de madera recién remodelada' },
+    { name: 'Empresas privadas', icon: 'office', short: 'Obras civiles, adecuaciones y mantenimiento.', headline: 'Obras y mantenimiento sin frenar tu operación.', text: 'Adecuaciones, obras civiles y mantenimiento para industria, zonas francas, universidades y sector portuario, con carpeta de proveedor completa, pólizas por contrato y horarios coordinados con tu equipo.', image: secEmpresas, alt: 'Recepción corporativa con mesón de mármol y paneles de madera' },
   ],
 };
 
@@ -171,7 +192,6 @@ export const monitoring = {
     metrics: [
       { label: 'Área ejecutada', value: '4.850 m²' },
       { label: 'Costo acumulado', value: '$2.480 M' },
-      { label: 'Desviación', value: '−1,8 %' },
     ],
     fronts: [
       { label: 'Obra negra', value: 100 },
@@ -215,7 +235,7 @@ export const faq = {
 export const closing = {
   titleLines: ['Construyamos', 'lo que sigue.'],
   text: 'Cuéntanos qué quieres construir en Barranquilla. Te enviamos un presupuesto por ítems y un plan de obra claro, sin letra pequeña.',
-  cta: { label: 'Solicita tu presupuesto' },
+  cta: { label: 'Solicitar asesoría' },
   coords: ['10.9685° N  74.7813° W', 'Barranquilla · Atlántico'],
   image: { src: banner, alt: 'Edificios en construcción con grúas torre al atardecer' },
 };

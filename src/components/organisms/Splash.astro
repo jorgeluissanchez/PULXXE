@@ -1,0 +1,58 @@
+---
+/**
+ * Organismo · Splash de carga. Cubre la página mientras cargan las tipografías (y la página),
+ * para que no se vea el cambio de fuente. Se muestra una vez por sesión; mínimo 700 ms,
+ * máximo 3 s. Sin JavaScript no aparece (lo activa la clase html.splash del script en <head>).
+ */
+---
+<div id="splash" aria-hidden="true">
+  <svg class="splash-mark" viewBox="0 0 35 47" fill="none">
+    <path class="p1" d="M8.75875 15.6064L0 21.1802V37.1052L8.75875 41.9623V15.6064Z" fill="#FAAD01" />
+    <path class="p2" d="M15.7654 17.9156L9.87314 14.8102V42.5993L15.7654 46.4213V17.9156Z" fill="#FFC032" />
+    <path class="p3" d="M25.7979 15.4471L20.0649 19.1895V33.6813L25.7979 29.9389V15.4471Z" fill="#FAAD01" />
+    <path class="p4" d="M34.3976 7.72368L21.8169 0.159302V11.7049L27.1518 14.9696V29.7002L34.3976 25.0023V7.72368Z" fill="#FFC032" />
+    <path class="p5" d="M20.6231 0L11.1478 5.97187V13.6955L17.4381 9.39575L20.6231 11.2271V0Z" fill="#FAAD01" />
+  </svg>
+  <span class="splash-bar"><span></span></span>
+</div>
+
+<style is:global>
+  #splash { display: none; }
+  html.splash #splash {
+    position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px;
+    background: #091e2b; transition: opacity 0.5s ease, visibility 0.5s;
+  }
+  html.splash body { overflow: hidden; }
+  html.splash.splash-out #splash { opacity: 0; visibility: hidden; }
+  html.splash.splash-out body { overflow: auto; }
+  .splash-mark { width: 56px; height: auto; overflow: visible; }
+  .splash-mark path { opacity: 0; transform: translateY(10px); animation: splash-in 0.6s cubic-bezier(.22,1,.36,1) forwards; }
+  .splash-mark .p1 { animation-delay: 0s; } .splash-mark .p2 { animation-delay: .08s; } .splash-mark .p3 { animation-delay: .16s; }
+  .splash-mark .p4 { animation-delay: .24s; } .splash-mark .p5 { animation-delay: .32s; }
+  .splash-bar { position: relative; width: 96px; height: 2px; overflow: hidden; background: rgb(255 255 255 / 0.12); }
+  .splash-bar span { position: absolute; inset: 0; width: 40%; background: #f1bd29; animation: splash-bar 1.1s cubic-bezier(.65,0,.35,1) infinite; }
+  @keyframes splash-in { to { opacity: 1; transform: none; } }
+  @keyframes splash-bar { 0% { transform: translateX(-100%); } 100% { transform: translateX(250%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .splash-mark path { animation: none; opacity: 1; transform: none; }
+    .splash-bar span { animation: none; width: 100%; }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var html = document.documentElement;
+    if (!html.classList.contains('splash')) return;
+    var start = performance.now();
+    var loaded = new Promise(function (r) { if (document.readyState === 'complete') r(); else addEventListener('load', r, { once: true }); });
+    var fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+    var hide = function () {
+      var wait = Math.max(0, 700 - (performance.now() - start));
+      setTimeout(function () {
+        html.classList.add('splash-out');
+        setTimeout(function () { html.classList.remove('splash', 'splash-out'); var s = document.getElementById('splash'); if (s) s.remove(); }, 550);
+      }, wait);
+    };
+    Promise.race([Promise.all([fonts, loaded]), new Promise(function (r) { setTimeout(r, 3000); })]).then(hide);
+  })();
+</script>

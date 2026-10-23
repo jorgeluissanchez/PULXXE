@@ -2,6 +2,7 @@
 /**
  * Layout base: <head> con SEO completo, fuentes auto-alojadas e interacciones básicas (sin animaciones).
  */
+import Splash from '@/components/organisms/Splash.astro';
 import { Font } from 'astro:assets';
 import '@/styles/global.css';
 import { site } from '@/data/site';
@@ -82,6 +83,10 @@ const faqLd = {
     <meta name="geo.placename" content={site.city} />
     <meta name="geo.position" content={`${site.geo.lat};${site.geo.lng}`} />
 
+    <!-- Splash: se activa antes de pintar (una vez por sesión); sin JS no aparece -->
+    <script is:inline>
+      try { if (!sessionStorage.getItem('pulxxe-splash')) { document.documentElement.classList.add('splash'); sessionStorage.setItem('pulxxe-splash', '1'); } } catch (e) {}
+    </script>
     <Font cssVariable="--font-black-ops" preload />
     <Font cssVariable="--font-manrope" preload />
 
@@ -89,6 +94,7 @@ const faqLd = {
     {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />}
   </head>
   <body>
+    <Splash />
     <!-- Al recargar, empezar arriba para ver la entrada del hero (el navegador restauraba el scroll) -->
     <script is:inline>
       if ('scrollRestoration' in history) history.scrollRestoration = 'manual';

@@ -1,29 +1,118 @@
 ---
 /**
  * Organismo · Frentes de obra (Figma: "06 · Frentes de obra").
- * La tarjeta central arranca desfasada; con el scroll sube hasta alinearse con las otras dos
- * (y vuelve a bajar al devolverse). El avance lo calcula src/scripts/interactions.ts en --p.
+ * Tres tarjetas a sangre con la foto completa y un degradado azul noche abajo.
+ * Al pasar el mouse (o con foco de teclado) la tarjeta crece,
+ * muestra la descripción y el botón amarillo "Explorar servicio".
+ * La central además sube con el scroll hasta alinearse (src/scripts/interactions.ts → --p).
  */
+import { Image } from 'astro:assets';
+import Icon from '../atoms/Icon.astro';
 import Kicker from '../atoms/Kicker.astro';
-import FrontCard from '../molecules/FrontCard.astro';
 import { fronts } from '@/data/content';
+const titleRest = fronts.titleLines.slice(0, -1);
+const titleLast = fronts.titleLines.at(-1)!.replace(/\.$/, '');
 ---
-<section id="frentes" class="bg-paper page-x max-lg:page-y screen-h screen-y" aria-labelledby="frentes-title">
-  <div class="mx-auto flex w-full max-w-[var(--container-page)] flex-col gap-16 lg:gap-[clamp(28px,calc((100dvh-657px)/6+28px),64px)]">
+<section id="frentes" class="relative bg-white page-x max-lg:page-y screen-h screen-y" aria-labelledby="frentes-title">
+  <div class="relative mx-auto flex w-full max-w-[var(--container-page)] flex-col gap-12 lg:gap-[clamp(24px,calc((100dvh-657px)/6+24px),56px)]">
     <header class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
-      <div class="flex flex-col gap-6 lg:w-[760px]">
-        <Kicker>{fronts.kicker}</Kicker>
+      <div class="flex flex-col gap-[clamp(12px,1.2vw,18px)]">
+        <Kicker tone="navy">{fronts.kicker}</Kicker>
         <h2 id="frentes-title" class="type-h2 text-navy">
-          {fronts.titleLines.map((l) => <span class="block">{l}</span>)}
+          {titleRest.map((l) => <span class="block">{l}</span>)}
+          <span class="block whitespace-nowrap">{titleLast}<span class="ml-[0.06em] inline-block size-[0.2em] bg-yellow align-baseline" aria-hidden="true"></span><span class="sr-only">.</span></span>
         </h2>
       </div>
-      <p class="type-lead text-muted lg:w-[440px]">{fronts.intro}</p>
+      <div class="relative lg:w-[460px]">
+        <p class="type-body text-muted lg:text-[17px] lg:leading-relaxed">{fronts.intro}</p>
+      </div>
     </header>
 
-    <div class="-mx-[var(--spacing-gutter)] flex snap-x snap-mandatory gap-4 overflow-x-auto px-[var(--spacing-gutter)] pb-2 [scrollbar-width:none] lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0">
+    <div class="fronts -mx-[var(--spacing-gutter)] flex scroll-px-[var(--spacing-gutter)] snap-x snap-mandatory gap-4 overflow-x-auto px-[var(--spacing-gutter)] pb-6 pt-2 [scrollbar-width:none] lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0 lg:py-[clamp(10px,2dvh,24px)]">
       {fronts.items.map((item, i) => (
-        <FrontCard {...item} data-front-shift={i === 1 ? '' : undefined} class:list={[i === 1 && 'lg:[--front-off:clamp(48px,calc((100dvh-657px)/5+48px),96px)] lg:translate-y-[calc(var(--front-off)*(1-var(--p,0)))] lg:will-change-transform', 'w-[290px] shrink-0 snap-start sm:w-[340px] lg:w-auto']} />
+        <article
+          class:list={[
+            'front relative w-[300px] shrink-0 snap-start sm:w-[340px] lg:w-auto',
+            i === 1 && 'lg:[--front-off:clamp(40px,calc((100dvh-657px)/5+40px),88px)] lg:translate-y-[calc(var(--front-off)*(1-var(--p,0)))]',
+          ]}
+          data-front-card
+          data-default={i === 1 ? '' : undefined}
+          data-front-shift={i === 1 ? '' : undefined}
+        >
+          <div class="front-card relative isolate flex h-[460px] flex-col justify-end overflow-hidden bg-night text-white lg:h-[clamp(320px,calc(100dvh-480px),520px)] lap:h-[calc(100dvh-300px)]">
+            <Image src={item.image} alt={item.alt} widths={[420, 640, 860]} sizes="(min-width: 1024px) 440px, 340px" class="front-img absolute inset-0 -z-20 size-full object-cover" />
+            <div class="front-shade absolute inset-0 -z-10" aria-hidden="true"></div>
+
+            <div class="flex flex-col gap-4 p-7 lap:gap-3 lap:p-6">
+              <h3 class="type-h4 text-white lg:max-w-[18ch]">{item.title}</h3>
+              <span class="h-[3px] w-10 bg-yellow" aria-hidden="true"></span>
+              <div class="flex items-end justify-between gap-4">
+                <p class="type-overline text-white">{item.meta.split("·").at(-1)!.trim()}</p>
+                <a href="#contacto" class="front-arrow hidden size-12 shrink-0 items-center justify-center border border-white/80 text-white transition-colors hover:bg-white hover:text-navy lg:flex" aria-label={`Explorar ${item.title}`}>
+                  <Icon name="arrow" size={20} strokeWidth={1.5} class="rotate-45" />
+                </a>
+              </div>
+              <!-- Detalle: visible en mobile; en escritorio solo en la tarjeta activa -->
+              <div class="front-more grid">
+                <div class="flex min-h-0 flex-col gap-5 overflow-hidden">
+                  <p class="type-body text-white/90">{item.text}</p>
+                  <a href="#contacto" class="inline-flex w-fit items-center gap-6 bg-yellow px-6 py-3.5 type-label text-navy transition-colors hover:bg-yellow-hover">
+                    Explorar servicio <Icon name="arrow" size={18} strokeWidth={1.75} class="rotate-45" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
       ))}
     </div>
   </div>
 </section>
+
+<style>
+  .front-shade {
+    background: linear-gradient(180deg, rgb(9 30 43 / 0) 30%, rgb(9 30 43 / 0.7) 62%, rgb(9 30 43 / 0.95) 100%);
+  }
+  /* Capa extra que sube el degradado cuando la tarjeta está activa (y en mobile, con el texto largo) */
+  .front-shade::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(9 30 43 / 0) 8%, rgb(9 30 43 / 0.72) 40%, rgb(9 30 43 / 0.96) 100%);
+    opacity: 1;
+    transition: opacity 0.6s ease;
+  }
+  @media (min-width: 1024px) {
+    .front-card {
+      transition: transform 0.7s cubic-bezier(.22, 1, .36, 1), box-shadow 0.7s cubic-bezier(.22, 1, .36, 1);
+    }
+    .front-img { transition: transform 1.2s cubic-bezier(.22, 1, .36, 1); }
+    .front-more {
+      grid-template-rows: 0fr;
+      opacity: 0;
+      transition: grid-template-rows 0.6s cubic-bezier(.22, 1, .36, 1), opacity 0.4s ease;
+    }
+    .front-arrow { transition: opacity 0.3s ease, background-color 0.2s, color 0.2s; }
+    .front-shade::after { opacity: 0; }
+    .front:hover .front-shade::after,
+    .front:focus-within .front-shade::after { opacity: 1; }
+    /* Tarjeta activa: solo la que tiene el mouse o el foco */
+    .front:hover .front-card,
+    .front:focus-within .front-card {
+      transform: scale(1.045);
+      box-shadow: 0 30px 60px -20px rgb(241 189 41 / 0.35);
+      z-index: 1;
+    }
+    .front:hover .front-img,
+    .front:focus-within .front-img { transform: scale(1.04); }
+    .front:hover .front-more,
+    .front:focus-within .front-more { grid-template-rows: 1fr; opacity: 1; }
+    .front:hover .front-arrow,
+    .front:focus-within .front-arrow { opacity: 0; pointer-events: none; }
+    .front { position: relative; }
+    .front:hover, .front:focus-within { z-index: 2; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .front-card, .front-img, .front-more { transition: none !important; }
+  }
+</style>

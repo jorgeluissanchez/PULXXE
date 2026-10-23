@@ -10,7 +10,7 @@ import Icon from '../atoms/Icon.astro';
 import { nav } from '@/data/site';
 ---
 <header
-  class="group/header fixed inset-x-0 top-0 z-50 data-[scrolled=true]:bg-white/72 data-[scrolled=true]:backdrop-blur-[24px] data-[scrolled=true]:shadow-[0_1px_0_rgb(9_30_43/0.06)]"
+  class="group/header fixed inset-x-0 top-0 z-50 data-[scrolled=true]:bg-white/72 data-[scrolled=true]:backdrop-blur-[24px] data-[scrolled=true]:shadow-[0_1px_0_rgb(18_18_19/0.06)]"
   data-header
   data-scrolled="false"
 >
@@ -24,11 +24,12 @@ import { nav } from '@/data/site';
         <li>
           <a
             href={item.href}
-            class="group/nav relative inline-block py-2 type-nav uppercase text-charcoal transition-colors duration-300 hover:text-navy focus-visible:text-navy"
+            class="group/nav relative inline-block py-2 type-nav uppercase text-charcoal transition-colors duration-300 hover:text-navy focus-visible:text-navy data-[active=true]:text-navy"
+            data-nav-link
           >
-            <span class="inline-block transition-transform duration-300 ease-[cubic-bezier(.22,1,.36,1)] group-hover/nav:-translate-y-0.5">{item.label}</span>
-            <!-- Subrayado amarillo que crece desde la izquierda -->
-            <span class="absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 rounded-full bg-yellow transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover/nav:scale-x-100 group-focus-visible/nav:scale-x-100" aria-hidden="true"></span>
+            {item.label}
+            <!-- Subrayado amarillo: marca la sección en pantalla (scrollspy); crece desde la izquierda -->
+            <span class="absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 rounded-full bg-yellow transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-data-[active=true]/nav:scale-x-100 group-focus-visible/nav:scale-x-100" aria-hidden="true"></span>
           </a>
         </li>
       ))}
@@ -49,23 +50,23 @@ import { nav } from '@/data/site';
   <div
     id="menu-mobile"
     popover
-    class="m-0 h-dvh w-full max-w-none bg-navy p-6 text-white backdrop:bg-navy/60 lg:hidden"
+    class="m-0 h-dvh w-full max-w-none bg-yellow p-6 text-navy backdrop:bg-navy/20 lg:hidden"
   >
     <div class="flex items-center justify-between">
-      <Logo class="h-[45px] w-[120px]" tone="white" />
-      <button type="button" popovertarget="menu-mobile" popovertargetaction="hide" class="p-2 text-white" aria-label="Cerrar menú">
+      <Logo class="h-[45px] w-[120px]" />
+      <button type="button" popovertarget="menu-mobile" popovertargetaction="hide" class="p-2 text-navy" aria-label="Cerrar menú">
         <Icon name="close" size={22} strokeWidth={2} />
       </button>
     </div>
     <ul class="mt-12 flex flex-col gap-6">
       {nav.map((item) => (
         <li>
-          <a href={item.href} class="type-h3 text-white" data-close-menu>{item.label}</a>
+          <a href={item.href} class="type-h3 text-navy" data-close-menu>{item.label}</a>
         </li>
       ))}
     </ul>
     <div class="mt-12">
-      <Button href="#contacto" size="hero" data-close-menu>Solicita tu presupuesto</Button>
+      <Button href="#contacto" size="hero" class="!bg-white hover:!bg-paper" data-close-menu>Solicitar asesoría</Button>
     </div>
   </div>
 </header>

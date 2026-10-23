@@ -3,33 +3,33 @@
 import { monitoring } from '@/data/content';
 const b = monitoring.board;
 ---
-<div class="flex flex-col gap-7 bg-navy p-6 text-white shadow-[0_24px_48px_rgb(9_30_43/0.35)] sm:p-10">
+<div class="flex flex-col gap-7 bg-paper p-6 text-navy shadow-[0_24px_48px_rgb(0_0_0/0.35)] sm:p-10">
   <div class="flex items-center justify-between gap-4">
-    <p class="type-label text-yellow">{b.title}</p>
+    <p class="type-label text-navy">{b.title}</p>
     <p class="type-label-sm text-light">{b.project}</p>
   </div>
   <div class="flex items-end justify-between gap-4">
-    <p class="type-metric text-white" data-count-to={b.progress} data-suffix="%">{b.value}</p>
+    <p class="type-metric text-navy" data-count-to={b.progress} data-suffix="%">{b.value}</p>
     <p class="pb-2 type-label text-light">{b.period}</p>
   </div>
-  <div class="relative h-2.5 bg-white/15" role="progressbar" aria-valuenow={b.progress} aria-valuemin="0" aria-valuemax="100" aria-label="Avance total de la obra">
+  <div class="relative h-2.5 bg-navy/10" role="progressbar" aria-valuenow={b.progress} aria-valuemin="0" aria-valuemax="100" aria-label="Avance total de la obra">
     <span class="absolute inset-y-0 left-0 origin-left bg-yellow" style={`width:${b.progress}%`} data-bar></span>
   </div>
-  <dl class="grid grid-cols-3 gap-6">
+  <dl class="grid grid-cols-2 gap-6">
     {b.metrics.map((m) => (
       <div class="flex flex-col gap-1.5">
         <dt class="type-label-sm text-light">{m.label}</dt>
-        <dd class="type-h4 text-white">{m.value}</dd>
+        <dd class="type-h4 text-navy">{m.value}</dd>
       </div>
     ))}
   </dl>
-  <hr class="border-white/20" />
+  <hr class="border-line" />
   <ul class="flex flex-col gap-4">
     {b.fronts.map((f) => (
       <li class="grid grid-cols-[129px_1fr_44px] items-center gap-4">
-        <span class="type-label text-white">{f.label}</span>
-        <span class="relative h-1.5 bg-white/15"><span class="absolute inset-y-0 left-0 origin-left bg-yellow" style={`width:${f.value}%`} data-bar></span></span>
-        <span class="text-right type-label text-white">{f.value}%</span>
+        <span class="type-label text-navy">{f.label}</span>
+        <span class="relative h-1.5 bg-navy/10"><span class="absolute inset-y-0 left-0 origin-left bg-yellow" style={`width:${f.value}%`} data-bar></span></span>
+        <span class="text-right type-label text-navy">{f.value}%</span>
       </li>
     ))}
   </ul>

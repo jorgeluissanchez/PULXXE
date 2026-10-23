@@ -52,10 +52,11 @@ const ease = 'ease-[cubic-bezier(.22,1,.36,1)]';
       'group-data-[open=true]/panel:scale-100 group-data-[open=true]/panel:grayscale-0',
     ]}
   />
-  <!-- Velo oscuro: más fuerte en los cerrados, desaparece en el abierto -->
-  <div class={`absolute inset-0 -z-10 bg-navy-deepest/65 transition-opacity duration-700 ${ease} group-data-[open=true]/panel:opacity-0`} aria-hidden="true"></div>
+  <!-- Velo azul noche: oscurece los paneles cerrados y desaparece en el abierto -->
+  <div class={`absolute inset-0 -z-10 bg-night/45 transition-opacity duration-700 ${ease} group-data-[open=true]/panel:opacity-0`} aria-hidden="true"></div>
   <!-- Degradado inferior para leer título y descripción -->
-  <div class="absolute inset-x-0 bottom-0 -z-10 h-[62%] bg-[linear-gradient(180deg,rgb(4_9_11/0)_0%,rgb(4_9_11/0.55)_45%,rgb(4_9_11/0.88)_100%)]" aria-hidden="true"></div>
+  <div class="absolute inset-x-0 top-0 -z-10 h-[22%] bg-[linear-gradient(0deg,rgb(9_30_43/0)_0%,rgb(9_30_43/0.6)_100%)]" aria-hidden="true"></div>
+  <div class="absolute inset-x-0 bottom-0 -z-10 h-[62%] bg-[linear-gradient(180deg,rgb(9_30_43/0)_0%,rgb(9_30_43/0.72)_45%,rgb(9_30_43/0.94)_100%)]" aria-hidden="true"></div>
   <!-- Barra amarilla que crece en el panel abierto -->
   <span class={`absolute inset-x-0 bottom-0 h-1 origin-left scale-x-0 bg-yellow transition-transform duration-700 ${ease} group-data-[open=true]/panel:scale-x-100 group-data-[open=true]/panel:delay-200`} aria-hidden="true"></span>
 

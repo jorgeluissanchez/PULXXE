@@ -37,6 +37,7 @@ export function initInteractions() {
     update();
     window.addEventListener('scroll', update, { passive: true });
   }
+  initNavSpy();
   const menu = document.getElementById('menu-mobile') as (HTMLElement & { hidePopover?: () => void }) | null;
   menu?.querySelectorAll('[data-close-menu]').forEach((a) => a.addEventListener('click', () => menu.hidePopover?.()));
 
@@ -78,6 +79,34 @@ export function initFrontsScroll() {
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);
   ok.addEventListener('change', onScroll);
+  update();
+}
+
+/**
+ * Menú: el enlace de la sección que está en pantalla queda activo (subrayado amarillo).
+ * Activa la sección que cruza la línea al 40 % del alto de la ventana; si ninguna la cruza
+ * (secciones que no están en el menú), no hay enlace activo.
+ */
+function initNavSpy() {
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]'));
+  const pairs = links
+    .map((a) => ({ a, el: document.querySelector<HTMLElement>(a.getAttribute('href') || '') }))
+    .filter((p): p is { a: HTMLAnchorElement; el: HTMLElement } => !!p.el);
+  if (!pairs.length) return;
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const line = window.innerHeight * 0.4;
+    const hit = pairs.find(({ el }) => { const r = el.getBoundingClientRect(); return r.top <= line && r.bottom > line; });
+    pairs.forEach((p) => {
+      const on = p === hit;
+      p.a.dataset.active = String(on);
+      if (on) p.a.setAttribute('aria-current', 'true'); else p.a.removeAttribute('aria-current');
+    });
+  };
+  const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
   update();
 }
 
@@ -150,6 +179,8 @@ function initScrollParallax() {
   if (!window.matchMedia('(min-width: 1024px) and (prefers-reduced-motion: no-preference)').matches) return;
   const hero = document.querySelector<HTMLElement>('[data-hero-parallax]');
   const banner = document.querySelector<HTMLElement>('[data-banner-parallax]');
+  // Palabra gigante de fondo (Nosotros): se desliza a la izquierda mientras la sección cruza la pantalla
+  const word = document.querySelector<HTMLElement>('[data-scroll-word]');
   let ticking = false;
   const update = () => {
     ticking = false;
@@ -157,6 +188,21 @@ function initScrollParallax() {
     if (hero) {
       const r = hero.getBoundingClientRect();
       if (r.bottom > 0) hero.style.setProperty('--sy', Math.max(0, -r.top).toFixed(1));
+    }
+    if (word) {
+      const sec = word.parentElement!;
+      const r = sec.getBoundingClientRect();
+      if (r.top < vh && r.bottom > 0) {
+        // Avance de la sección por la pantalla: 0 cuando entra por abajo, 1 cuando sale por arriba
+        const p = Math.max(0, Math.min(1, (vh - r.top) / (vh + r.height)));
+        // Horizontal: arranca con la palabra entrando por la derecha y termina con su final saliendo por la izquierda
+        const w = word.offsetWidth, cw = sec.clientWidth;
+        word.style.setProperty('--wx', `${(cw * 0.35 - p * (w + cw * 0.1)).toFixed(1)}px`);
+        // Vertical: la palabra se queda centrada en la pantalla mientras la sección está a la vista
+        const h = word.offsetHeight;
+        const y = Math.max(0, Math.min(r.height - h, vh / 2 - h / 2 - r.top));
+        word.style.setProperty('--wy', `${y.toFixed(1)}px`);
+      }
     }
     if (banner) {
       const r = banner.getBoundingClientRect();

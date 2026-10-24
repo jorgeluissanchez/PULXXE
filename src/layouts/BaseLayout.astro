@@ -125,36 +125,28 @@ const faqLd = {
     <script type="application/ld+json" set:html={JSON.stringify(business)} />
 
     <!--
-      Google Tag Manager vía Partytown (integración oficial de Astro): el contenedor corre en un web worker.
-      Google Analytics 4 y cualquier otra etiqueta se configuran DENTRO de GTM, no aquí.
-      Con la vista previa de GTM (?gtm_debug=…) se carga de forma normal, porque Tag Assistant no funciona en Partytown.
+      Medición: Google Tag Manager (con GA4 configurado DENTRO de GTM) y Microsoft Clarity (mapas de calor y
+      grabaciones). Ambos van en el hilo principal pero se inyectan cuando la página ya cargó y el navegador está
+      libre, para no afectar la velocidad (LCP/INP). Los eventos que se empujan antes (dataLayer, clarity())
+      quedan en cola y se envían cuando cargan.
     -->
-    <!--
-      Microsoft Clarity (mapas de calor y grabaciones). Va en el hilo principal porque necesita el DOM real;
-      se inyecta cuando la página ya cargó y el navegador está libre, para no afectar la velocidad (LCP/INP).
-    -->
-    {clarity && (
-      <script is:inline define:vars={{ clarity }}>
-        window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
-        var loadClarity = function () {
-          var t = document.createElement('script');
-          t.async = true;
-          t.src = 'https://www.clarity.ms/tag/' + clarity;
-          document.head.appendChild(t);
-        };
-        var idle = function () { ('requestIdleCallback' in window ? requestIdleCallback : setTimeout)(loadClarity, { timeout: 3000 }); };
-        if (document.readyState === 'complete') idle(); else window.addEventListener('load', idle, { once: true });
-      </script>
-    )}
-
-    {gtmId && (
-      <script is:inline define:vars={{ gtmId }}>
+    {(gtmId || clarity) && (
+      <script is:inline define:vars={{ gtmId, clarity }}>
         window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
-        var s = document.createElement('script');
-        s.src = 'https://www.googletagmanager.com/gtm.js?id=' + gtmId;
-        if (/[?&]gtm_debug=/.test(location.search)) { s.async = true; document.head.appendChild(s); }
-        else { s.type = 'text/partytown'; document.head.appendChild(s); window.dispatchEvent(new CustomEvent('ptupdate')); }
+        window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+        var add = function (src) { var t = document.createElement('script'); t.async = true; t.src = src; document.head.appendChild(t); };
+        var loadTags = function () {
+          if (gtmId) {
+            window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+            add('https://www.googletagmanager.com/gtm.js?id=' + gtmId);
+          }
+          if (clarity) add('https://www.clarity.ms/tag/' + clarity);
+        };
+        var whenIdle = function () {
+          if ('requestIdleCallback' in window) requestIdleCallback(loadTags, { timeout: 2000 });
+          else setTimeout(loadTags, 1);
+        };
+        if (document.readyState === 'complete') whenIdle(); else window.addEventListener('load', whenIdle, { once: true });
       </script>
     )}
     {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />}

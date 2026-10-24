@@ -2,7 +2,6 @@
 import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-import partytown from '@astrojs/partytown';
 import { execSync } from 'node:child_process';
 import { readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -90,7 +89,6 @@ export default defineConfig({
   integrations: [
     sitemap({ serialize: enrich, xslURL: '/sitemap.xsl' }),
     // Google Tag Manager (y GA4 dentro de él) corre en un web worker; dataLayer.push se reenvía al worker
-    partytown({ config: { forward: ['dataLayer.push'] } }),
   ],
   image: {
     layout: 'constrained',

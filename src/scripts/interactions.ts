@@ -59,8 +59,8 @@ export function initInteractions() {
 
 /**
  * Medición de leads para Google Tag Manager: cada clic a WhatsApp, teléfono o correo empuja un evento al
- * dataLayer desde el hilo principal (GTM corre en Partytown, donde los activadores de clic automáticos no son
- * fiables). En GTM: activador "Evento personalizado" = whatsapp_click | phone_click | email_click.
+ * dataLayer (más fiable que los activadores de clic automáticos de GTM, que se cargan después de la página,
+ * así no se pierde). En GTM: activador "Evento personalizado" = whatsapp_click | phone_click | email_click.
  * Parámetros: cta_text (texto del botón), cta_location (id de la sección) y link_url.
  * El mismo nombre se envía a Microsoft Clarity como evento personalizado.
  */

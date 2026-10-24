@@ -40,7 +40,7 @@ export const site = {
    *   (<meta name="google-site-verification" content="ESTE_CÓDIGO">). No hace falta si verificas por DNS.
    * - bing: código de Bing Webmaster Tools (<meta name="msvalidate.01" content="...">), opcional.
    * - clarity: ID del proyecto de Microsoft Clarity (mapas de calor y grabaciones). Se carga directo en la página
-   *   (no por GTM: dentro de Partytown no graba bien) y solo cuando la página ya terminó de cargar.
+   *   (en BaseLayout, junto a GTM) y solo cuando la página ya terminó de cargar.
    */
   analytics: {
     gtmId: 'GTM-5DHZCLVW',

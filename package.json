@@ -26,5 +26,6 @@
     "tailwindcss": "^4.3.3",
     "typescript": "^6.0.3"
   },
-  "type": "module"
+  "type": "module",
+  "packageManager": "pnpm@10.28.0"
 }

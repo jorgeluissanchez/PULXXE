@@ -27,6 +27,24 @@ export const site = {
     youtube: 'https://www.youtube.com/',
   },
   mapsUrl: 'https://maps.google.com/?q=Barranquilla,+Atl%C3%A1ntico',
+  // TODO: dirección de la oficina (se añade al schema solo si se llena). Ej.: 'Cra. 53 # 82-86, Of. 401'
+  streetAddress: '',
+  postalCode: '',
+  // TODO: horario real. Ej.: [{ days: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '08:00', closes: '17:00' }]
+  openingHours: [] as { days: string[]; opens: string; closes: string }[],
+  /**
+   * Medición. Se activa solo si el valor no está vacío.
+   * - gtmId: ID del contenedor de Google Tag Manager, formato 'GTM-XXXXXXX'. Google Analytics 4 se configura
+   *   dentro de GTM (etiqueta "Etiqueta de Google" con el ID G-… y activador "Initialization - All Pages").
+   * - searchConsole: solo el código de la etiqueta HTML de verificación de Search Console
+   *   (<meta name="google-site-verification" content="ESTE_CÓDIGO">). No hace falta si verificas por DNS.
+   * - bing: código de Bing Webmaster Tools (<meta name="msvalidate.01" content="...">), opcional.
+   */
+  analytics: {
+    gtmId: 'GTM-5DHZCLVW',
+    searchConsole: '',
+    bing: '8A16D4A25EF52BC6D4E95EB59B2CDA67',
+  },
 } as const;
 
 export const whatsappUrl = (text = 'Hola, Pulxxe. Vi su página web y quiero cotizar una obra.') =>

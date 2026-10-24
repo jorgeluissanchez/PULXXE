@@ -54,6 +54,34 @@ export function initInteractions() {
   initCursorRipple();
   initHeroParallax();
   initScrollParallax();
+  initLeadTracking();
+}
+
+/**
+ * Medición de leads para Google Tag Manager: cada clic a WhatsApp, teléfono o correo empuja un evento al
+ * dataLayer desde el hilo principal (GTM corre en Partytown, donde los activadores de clic automáticos no son
+ * fiables). En GTM: activador "Evento personalizado" = whatsapp_click | phone_click | email_click.
+ * Parámetros: cta_text (texto del botón), cta_location (id de la sección) y link_url.
+ */
+function initLeadTracking() {
+  const w = window as unknown as { dataLayer?: Record<string, unknown>[] };
+  document.addEventListener(
+    'click',
+    (e) => {
+      const a = (e.target as Element | null)?.closest?.('a[href]') as HTMLAnchorElement | null;
+      if (!a) return;
+      const href = a.href;
+      const event = /wa\.me|whatsapp\.com/.test(href) ? 'whatsapp_click' : href.startsWith('tel:') ? 'phone_click' : href.startsWith('mailto:') ? 'email_click' : '';
+      if (!event) return;
+      (w.dataLayer = w.dataLayer || []).push({
+        event,
+        cta_text: (a.getAttribute('aria-label') || a.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 100),
+        cta_location: a.closest('section[id], header, footer')?.id || a.closest('header, footer')?.tagName.toLowerCase() || 'otro',
+        link_url: href.split('?')[0],
+      });
+    },
+    { capture: true },
+  );
 }
 
 /**

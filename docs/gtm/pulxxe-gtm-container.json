@@ -1,0 +1,114 @@
+{
+  "exportFormatVersion": 2,
+  "exportTime": "2026-10-24 00:20:00",
+  "containerVersion": {
+    "path": "accounts/6399620268/containers/283384146/versions/0",
+    "accountId": "6399620268",
+    "containerId": "283384146",
+    "containerVersionId": "0",
+    "container": {
+      "path": "accounts/6399620268/containers/283384146",
+      "accountId": "6399620268",
+      "containerId": "283384146",
+      "name": "pulxxe.co",
+      "publicId": "GTM-5DHZCLVW",
+      "usageContext": ["WEB"]
+    },
+    "tag": [
+      {
+        "accountId": "6399620268",
+        "containerId": "283384146",
+        "tagId": "1",
+        "name": "GA4 · Etiqueta de Google (G-8BH928QEEG)",
+        "type": "googtag",
+        "parameter": [
+          { "type": "TEMPLATE", "key": "tagId", "value": "G-8BH928QEEG" }
+        ],
+        "firingTriggerId": ["2147479573"],
+        "tagFiringOption": "ONCE_PER_EVENT",
+        "monitoringMetadata": { "type": "MAP" },
+        "consentSettings": { "consentStatus": "NOT_SET" }
+      },
+      {
+        "accountId": "6399620268",
+        "containerId": "283384146",
+        "tagId": "2",
+        "name": "GA4 · Evento · Lead (WhatsApp, teléfono, correo)",
+        "type": "gaawe",
+        "parameter": [
+          { "type": "BOOLEAN", "key": "sendEcommerceData", "value": "false" },
+          { "type": "BOOLEAN", "key": "enhancedUserId", "value": "false" },
+          { "type": "TEMPLATE", "key": "eventName", "value": "{{Event}}" },
+          { "type": "TEMPLATE", "key": "measurementIdOverride", "value": "G-8BH928QEEG" },
+          {
+            "type": "LIST",
+            "key": "eventSettingsTable",
+            "list": [
+              { "type": "MAP", "map": [ { "type": "TEMPLATE", "key": "parameter", "value": "cta_text" }, { "type": "TEMPLATE", "key": "parameterValue", "value": "{{DLV · cta_text}}" } ] },
+              { "type": "MAP", "map": [ { "type": "TEMPLATE", "key": "parameter", "value": "cta_location" }, { "type": "TEMPLATE", "key": "parameterValue", "value": "{{DLV · cta_location}}" } ] },
+              { "type": "MAP", "map": [ { "type": "TEMPLATE", "key": "parameter", "value": "link_url" }, { "type": "TEMPLATE", "key": "parameterValue", "value": "{{DLV · link_url}}" } ] }
+            ]
+          }
+        ],
+        "firingTriggerId": ["3"],
+        "tagFiringOption": "ONCE_PER_EVENT",
+        "monitoringMetadata": { "type": "MAP" },
+        "consentSettings": { "consentStatus": "NOT_SET" }
+      }
+    ],
+    "trigger": [
+      {
+        "accountId": "6399620268",
+        "containerId": "283384146",
+        "triggerId": "3",
+        "name": "Evento · Lead (whatsapp_click | phone_click | email_click)",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "MATCH_REGEX",
+            "parameter": [
+              { "type": "TEMPLATE", "key": "arg0", "value": "{{_event}}" },
+              { "type": "TEMPLATE", "key": "arg1", "value": "^(whatsapp_click|phone_click|email_click)$" }
+            ]
+          }
+        ]
+      }
+    ],
+    "variable": [
+      {
+        "accountId": "6399620268", "containerId": "283384146", "variableId": "4",
+        "name": "DLV · cta_text", "type": "v",
+        "parameter": [
+          { "type": "INTEGER", "key": "dataLayerVersion", "value": "2" },
+          { "type": "BOOLEAN", "key": "setDefaultValue", "value": "false" },
+          { "type": "TEMPLATE", "key": "name", "value": "cta_text" }
+        ]
+      },
+      {
+        "accountId": "6399620268", "containerId": "283384146", "variableId": "5",
+        "name": "DLV · cta_location", "type": "v",
+        "parameter": [
+          { "type": "INTEGER", "key": "dataLayerVersion", "value": "2" },
+          { "type": "BOOLEAN", "key": "setDefaultValue", "value": "false" },
+          { "type": "TEMPLATE", "key": "name", "value": "cta_location" }
+        ]
+      },
+      {
+        "accountId": "6399620268", "containerId": "283384146", "variableId": "6",
+        "name": "DLV · link_url", "type": "v",
+        "parameter": [
+          { "type": "INTEGER", "key": "dataLayerVersion", "value": "2" },
+          { "type": "BOOLEAN", "key": "setDefaultValue", "value": "false" },
+          { "type": "TEMPLATE", "key": "name", "value": "link_url" }
+        ]
+      }
+    ],
+    "builtInVariable": [
+      { "accountId": "6399620268", "containerId": "283384146", "type": "PAGE_URL", "name": "Page URL" },
+      { "accountId": "6399620268", "containerId": "283384146", "type": "PAGE_HOSTNAME", "name": "Page Hostname" },
+      { "accountId": "6399620268", "containerId": "283384146", "type": "PAGE_PATH", "name": "Page Path" },
+      { "accountId": "6399620268", "containerId": "283384146", "type": "REFERRER", "name": "Referrer" },
+      { "accountId": "6399620268", "containerId": "283384146", "type": "EVENT", "name": "Event" }
+    ]
+  }
+}

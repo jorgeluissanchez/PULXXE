@@ -1,0 +1,23 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "pulxxe.vercel.app" }],
+      "destination": "https://pulxxe.co/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "pulxxe-web.vercel.app" }],
+      "destination": "https://pulxxe.co/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "www.pulxxe.co" }],
+      "destination": "https://pulxxe.co/$1",
+      "permanent": true
+    }
+  ]
+}

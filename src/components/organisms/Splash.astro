@@ -6,7 +6,7 @@
  *
  * - SVG inline + CSS, sin librerías (nada de Lottie): pinta al instante y pesa unos KB.
  * - Una vez por sesión (clase html.splash puesta en <head>). Sin JS no aparece.
- * - La salida espera a que la intro termine (1,65 s) y a que carguen fuentes + página (máx. 4 s).
+ * - La salida espera a que la intro termine (1,65 s) y a que carguen fuentes + página (máx. 2,5 s).
  * - Clic, toque o tecla → sale de inmediato.
  * - prefers-reduced-motion: logo estático y fundido corto.
  * - Responsive: todo escala con el ancho del logo (min(410px, 72vw)); las traslaciones del SVG
@@ -224,7 +224,7 @@ const colOrder = [3, 1, 0, 2, 4];
     };
     var loaded = new Promise(function (r) { if (document.readyState === 'complete') r(); else addEventListener('load', r, { once: true }); });
     var fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
-    Promise.race([Promise.all([fonts, loaded]), new Promise(function (r) { setTimeout(r, 4000); })]).then(function () {
+    Promise.race([Promise.all([fonts, loaded]), new Promise(function (r) { setTimeout(r, 2500); })]).then(function () {
       setTimeout(leave, Math.max(0, INTRO - (performance.now() - start)));
     });
     // saltar: clic, toque o tecla

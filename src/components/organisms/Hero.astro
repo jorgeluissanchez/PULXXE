@@ -53,9 +53,11 @@ import { whatsappUrl, waMsg } from '@/data/site';
 
     <!-- Contenido -->
     <div class="relative order-1 page-x pb-4 pt-8 lg:absolute lg:left-[calc(64*var(--u))] lg:bottom-[clamp(24px,calc(100dvh-780px),calc(64*var(--u)))] lg:w-[calc(542*var(--u))] lg:min-w-[440px] lg:p-0">
-      <div class="flex flex-col gap-2">
-        <Kicker variant="pill" class="self-start whitespace-nowrap lap:py-1 max-lg:mb-1 max-lg:px-3 max-lg:py-1.5 max-lg:text-[10px] max-lg:tracking-[0.07em] max-[359px]:text-[9px]">{hero.kicker}</Kicker>
-        <h1 class="type-h1 text-navy lg:text-[max(52px,min(calc(88*var(--u)),calc(21dvh-78px)))]">
+      <!-- H1 = servicio + ciudad (kicker) + lema. Se ve igual que antes; para Google y lectores de pantalla
+           el título completo es "Construcción y remodelación en Barranquilla: Planeamos. Medimos. Cumplimos." -->
+      <h1 class="flex flex-col gap-2">
+        <Kicker as="span" variant="pill" class="self-start whitespace-nowrap lap:py-1 max-lg:mb-1 max-lg:px-3 max-lg:py-1.5 max-lg:text-[10px] max-lg:tracking-[0.07em] max-[359px]:text-[9px]">{hero.kicker}<span class="sr-only">:</span></Kicker>
+        <span class="block type-h1 text-navy lg:text-[max(52px,min(calc(88*var(--u)),calc(21dvh-78px)))]">
           {hero.titleLines.map((line, i) => (
             <span class:list={['block w-fit', i === 2 && 'relative z-0']}>
               {i === 2 && (
@@ -64,8 +66,8 @@ import { whatsappUrl, waMsg } from '@/data/site';
               {line}
             </span>
           ))}
-        </h1>
-      </div>
+        </span>
+      </h1>
       <p class="mt-[26px] max-w-[542px] type-body text-muted lg:mt-[clamp(16px,calc(100dvh-874px+26px),26px)] lg:w-[max(380px,calc(412*var(--u)))]">{hero.description}</p>
       <div class="mt-[26px] flex flex-wrap items-center gap-5 lg:mt-[clamp(16px,calc(100dvh-874px+26px),26px)]">
         <Button href={whatsappUrl(waMsg.asesoria)} size="hero" target="_blank" rel="noopener" class="lap:py-3.5">{hero.primary.label}</Button>

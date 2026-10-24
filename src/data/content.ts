@@ -22,6 +22,13 @@ import salon from '@/assets/img/resultado-salon.webp';
 import comedor from '@/assets/img/resultado-comedor.webp';
 import dormitorio from '@/assets/img/resultado-dormitorio.webp';
 import cocinaAbierta from '@/assets/img/resultado-cocina-abierta.webp';
+import casaFamiliar from '@/assets/img/resultado-casa-mobile.webp';
+// Apartamento (Unsplash · Raphael / @akasm, licencia de Unsplash)
+import aptoCocina from '@/assets/img/resultado-apto-cocina.webp';
+import aptoCocinaIsla from '@/assets/img/resultado-apto-cocina-isla.webp';
+import aptoSalon from '@/assets/img/resultado-apto-salon.webp';
+import aptoDormitorio from '@/assets/img/resultado-apto-dormitorio.webp';
+import aptoBano from '@/assets/img/resultado-apto-bano.webp';
 import secInfra from '@/assets/img/sector-infraestructura.webp';
 import secVivienda from '@/assets/img/sector-vivienda.webp';
 import secHogares from '@/assets/img/sector-hogares.webp';
@@ -123,9 +130,10 @@ export const workInAction = {
     'En cada frente trabajamos con presupuesto por ítem, cantidades medidas en sitio y reporte de avance con fotos: sabes qué se hizo, cuánto costó y cuándo termina.',
   ],
   panels: [
-    { index: '01 / Obra civil', title: 'Obra civil', text: 'Pavimento rígido, drenaje y canalización, estructuras de concreto, redes de alcantarillado y pluvial, y espacio público.', foot: 'Frentes de obra civil.', image: obraCivil, alt: 'Fresadora CAT trabajando en el pavimento de una calle residencial' },
-    { index: '02 / Edificación', title: 'Edificación', text: 'Obra negra, gris y blanca: de la estructura en concreto reforzado a los acabados.', foot: 'Frentes de edificación.', image: obraEdificacion, alt: 'Cuadrilla armando el acero de refuerzo de una losa junto a una grúa torre' },
-    { index: '03 / Remodelación', title: 'Remodelación', text: 'Apartamentos, casas, locales, oficinas y consultorios, listos para habitar u operar en la fecha acordada.', foot: 'Remodelación residencial y comercial.', image: obraRemodelacion, alt: 'Fachada ornamentada de un edificio antiguo restaurado' },
+    // Videos: clips de Pexels (licencia libre) convertidos en loop sin corte (fundido cruzado), 960 px, sin audio
+    { index: '01 / Obra civil', title: 'Obra civil', text: 'Pavimento rígido, drenaje y canalización, estructuras de concreto, redes de alcantarillado y pluvial, y espacio público.', foot: 'Frentes de obra civil.', image: obraCivil, alt: 'Fresadora CAT trabajando en el pavimento de una calle residencial', video: '/videos/obra-civil.mp4' },
+    { index: '02 / Edificación', title: 'Edificación', text: 'Obra negra, gris y blanca: de la estructura en concreto reforzado a los acabados.', foot: 'Frentes de edificación.', image: obraEdificacion, alt: 'Cuadrilla armando el acero de refuerzo de una losa junto a una grúa torre', video: '/videos/obra-edificacion.mp4' },
+    { index: '03 / Remodelación', title: 'Remodelación', text: 'Apartamentos, casas, locales, oficinas y consultorios, listos para habitar u operar en la fecha acordada.', foot: 'Remodelación residencial y comercial.', image: obraRemodelacion, alt: 'Fachada ornamentada de un edificio antiguo restaurado', video: '/videos/obra-remodelacion.mp4' },
   ],
 };
 
@@ -147,16 +155,41 @@ export const results = {
   text: 'Pisos, cocina, baños y divisiones listos antes de la mudanza. Supiste cuánto ibas a invertir, viste cómo avanzaba y sabías cuándo terminaba.',
   closing: 'Lo único que queda es habitarlo.',
   main: { src: sala, alt: 'Sala remodelada con sofá claro, techo en concreto y ventanales al jardín', tag: 'Sala · Remodelación completa' },
-  slides: [
-    { src: sala, alt: 'Sala remodelada con sofá claro, techo en concreto y ventanales al jardín', tag: 'Sala · Remodelación completa' },
-    { src: salon, alt: 'Salón con chimenea, sofás claros y ventanales con marcos de madera', tag: 'Salón · Obra blanca' },
-    { src: comedor, alt: 'Comedor de madera con sillas tapizadas junto a ventanales y cocina blanca', tag: 'Comedor · Acabados' },
-    { src: dormitorio, alt: 'Dormitorio con cama sobre plataforma, muro en piedra iluminado y piso de madera', tag: 'Dormitorio · Remodelación' },
-    { src: cocinaAbierta, alt: 'Cocina abierta con isla gris, taburetes negros y salida al patio', tag: 'Cocina abierta · Llave en mano' },
-  ],
-  side: [
-    { src: cocina, alt: 'Cocina remodelada con muebles de madera clara y mesón blanco', tag: 'Cocina · Obra blanca' },
-    { src: bano, alt: 'Baño remodelado con enchape gris, tina y mueble flotante', tag: 'Baño · Enchapes y aparatos' },
+  // Tres proyectos distintos: el activo se ve en el carrusel grande; los otros dos, a la derecha.
+  // Al elegir uno de la derecha, pasa al carrusel con sus propias fotos.
+  projects: [
+    {
+      name: 'Casa campestre',
+      scope: 'Remodelación completa',
+      photos: [
+        { src: sala, alt: 'Sala remodelada con sofá claro, techo en concreto y ventanales al jardín', tag: 'Sala' },
+        { src: salon, alt: 'Salón con chimenea, sofás claros y ventanales con marcos de madera', tag: 'Salón' },
+        { src: comedor, alt: 'Comedor de madera con sillas tapizadas junto a ventanales y cocina blanca', tag: 'Comedor' },
+        { src: dormitorio, alt: 'Dormitorio con cama sobre plataforma, muro en piedra iluminado y piso de madera', tag: 'Dormitorio' },
+      ],
+    },
+    {
+      name: 'Apartamento',
+      scope: 'Obra blanca',
+      photos: [
+        { src: aptoCocina, alt: 'Cocina de apartamento con isla oscura, taburetes amarillos y muebles blancos', tag: 'Cocina' },
+        { src: aptoCocinaIsla, alt: 'Isla de cocina blanca con horno empotrado y piso de madera', tag: 'Isla de cocina' },
+        { src: aptoSalon, alt: 'Sala de apartamento con sofá claro, espejo redondo y ventanal', tag: 'Sala' },
+        { src: aptoDormitorio, alt: 'Dormitorio con cama blanca, lámparas de mesa y puerta-ventana al balcón', tag: 'Dormitorio' },
+        { src: aptoBano, alt: 'Baño con mueble de madera, ducha en vidrio y enchape claro', tag: 'Baño' },
+      ],
+    },
+    {
+      name: 'Casa familiar',
+      scope: 'Remodelación integral',
+      photos: [
+        { src: casaFamiliar, alt: 'Fachada blanca de casa familiar de un piso con garaje', tag: 'Fachada' },
+        { src: secHogares, alt: 'Sala y comedor con piso de madera y ventanales', tag: 'Sala y comedor' },
+        { src: cocinaAbierta, alt: 'Cocina abierta con isla gris, taburetes negros y salida al patio', tag: 'Cocina abierta' },
+        { src: cocina, alt: 'Cocina remodelada con muebles de madera clara y mesón blanco', tag: 'Cocina' },
+        { src: bano, alt: 'Baño remodelado con enchape gris, tina y mueble flotante', tag: 'Baño' },
+      ],
+    },
   ],
 };
 

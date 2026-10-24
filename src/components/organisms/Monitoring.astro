@@ -1,5 +1,9 @@
 ---
-/** Organismo · Monitoreo y valor (Figma: "09 · Monitoreo y valor"). */
+/**
+ * Organismo · Monitoreo y valor (Figma: "09 · Monitoreo y valor").
+ * Desktop: la sección mide exactamente una pantalla (bajo el header) e incluye la cinta de valores;
+ * el tablero se escala (--k) para que todo quepa sin hacer scroll.
+ */
 import Kicker from '../atoms/Kicker.astro';
 import MeasureRuler from '../atoms/MeasureRuler.astro';
 import BenefitItem from '../molecules/BenefitItem.astro';
@@ -7,14 +11,14 @@ import ProgressBoard from '../molecules/ProgressBoard.astro';
 import Marquee from '../molecules/Marquee.astro';
 import { monitoring } from '@/data/content';
 ---
-<section class="relative overflow-hidden bg-night lg:flex lg:min-h-[calc(100dvh-65px)] lg:flex-col" aria-labelledby="monitoreo-title">
+<section class="relative overflow-hidden bg-night lg:flex lg:h-[max(calc(100dvh-65px),560px)] lg:flex-col" aria-labelledby="monitoreo-title">
   <div
     class="pointer-events-none absolute inset-0 [background-image:linear-gradient(to_right,rgb(255_246_217/0.1)_1px,transparent_1px),linear-gradient(to_bottom,rgb(255_246_217/0.1)_1px,transparent_1px),linear-gradient(to_right,rgb(255_246_217/0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgb(255_246_217/0.04)_1px,transparent_1px)] [background-size:240px_240px,240px_240px,48px_48px,48px_48px]"
     aria-hidden="true"
   ></div>
   <div class="relative"><MeasureRuler /></div>
 
-  <div class="relative mx-auto flex max-w-[var(--container-page)] flex-col gap-16 pb-24 pt-20 page-x lg:flex-row lg:items-center lg:justify-between lg:gap-20 lg:w-full lg:flex-1 lg:pb-[clamp(36px,calc((100dvh-657px)/3+36px),110px)] lg:pt-[clamp(52px,calc((100dvh-657px)/4+52px),110px)] 3xl:px-0">
+  <div class="relative mx-auto flex max-w-[var(--container-page)] flex-col gap-16 pb-24 pt-20 page-x lg:flex-row lg:items-center lg:justify-between lg:gap-20 lg:w-full lg:min-h-0 lg:flex-1 lg:pb-6 lg:pt-6 3xl:px-0">
     <div class="flex flex-col gap-7 lg:w-[592px] lg:shrink-0">
       <Kicker tone="yellow">{monitoring.kicker}</Kicker>
       <h2 id="monitoreo-title" class="type-h2 text-white">
@@ -26,7 +30,7 @@ import { monitoring } from '@/data/content';
       </ul>
     </div>
 
-    <div class="relative w-full max-w-[640px] lg:h-[calc(520px*var(--k))] lg:w-[calc(600px*var(--k))] lg:shrink-0 [--k:min(1,calc((100dvh-300px)/520px))] lap:[--k:min(1,calc((100dvh-200px)/520px))]">
+    <div class="relative w-full max-w-[640px] lg:h-[calc(520px*var(--k))] lg:w-[calc(600px*var(--k))] lg:shrink-0 [--k:min(1,calc((100dvh-215px)/530px))]">
     <div class="relative w-full lg:absolute lg:left-0 lg:top-0 lg:w-[600px] lg:origin-top-left lg:scale-[var(--k)]">
       <div class="relative">
         <ProgressBoard />

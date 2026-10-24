@@ -39,28 +39,21 @@ const cell = 'border-mist/30';
         <p class="type-body text-white">{purpose.vision.text}</p>
       </div>
       <!-- Valores: encabezado amarillo + cinco celdas numeradas (filas de tres) -->
-      <div class:list={['flex flex-col justify-between gap-6 bg-yellow px-7 py-8 border-b sm:col-span-2 sm:border-r lap:py-6', cell]}>
-        <h3 class="font-display text-[28px] sm:text-[clamp(22px,1.85vw,32px)] uppercase leading-[0.95] text-navy">
+      <div class:list={['@container flex flex-col justify-between gap-6 bg-yellow px-7 py-8 border-b sm:col-span-2 sm:border-r lap:py-6', cell]}>
+        <!-- Tamaño según el ancho de la celda (no de la pantalla): siempre deja aire a los lados -->
+        <h3 class="font-display text-[clamp(20px,16cqi,30px)] uppercase leading-[0.95] text-navy">
           {values.label.split(' ').map((w) => <span class="block">{w}</span>)}
         </h3>
         <p class="type-small font-semibold text-navy/80">{values.title}</p>
       </div>
       {values.items.map((v, i) => (
-        <div class:list={['flex flex-col gap-3 px-7 py-8 border-b sm:col-span-2 lap:py-6', (i + 1) % 3 !== 2 && 'sm:border-r', cell]}>
+        <div class:list={['flex flex-col gap-3 px-7 py-8 sm:col-span-2 lap:py-6', i < values.items.length - 1 && 'border-b', i >= 2 && 'sm:border-b-0', (i + 1) % 3 !== 2 && 'sm:border-r', cell]}>
           <p class="font-display text-[clamp(36px,3.4vw,48px)] leading-none text-transparent [-webkit-text-stroke:1px_var(--color-yellow)]" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p>
           <p class="type-overline text-yellow">{v.name}</p>
           <p class="type-small text-mist">{v.text}</p>
         </div>
       ))}
 
-      <div class="grid grid-cols-1 sm:col-span-6 sm:grid-cols-3">
-        {purpose.meta.map((m, i) => (
-          <div class:list={['flex flex-col gap-1.5 px-7 py-5', i < 2 && 'border-b sm:border-b-0 sm:border-r', cell]}>
-            <p class="type-overline text-yellow">{m.label}</p>
-            <p class="type-small text-white">{m.value}</p>
-          </div>
-        ))}
-      </div>
     </div>
   </div>
 </section>

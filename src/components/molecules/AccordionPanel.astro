@@ -11,12 +11,16 @@
  * - Una barra amarilla crece en la base del panel abierto.
  * - El título grande, la descripción y el pie entran escalonados desde abajo.
  * - El "+" gira y se desvanece.
+ *
+ * Video de fondo (loop sin corte, sin controles ni sonido): en reposo se ve la foto; al pasar el
+ * mouse por el panel (o en mobile, en la tarjeta activa) el video aparece encima con un fundido y
+ * se reproduce en bucle. Solo se descarga cuando hace falta (preload="none").
  */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Icon from '../atoms/Icon.astro';
-interface Props { index: string; title: string; text: string; foot: string; image: ImageMetadata; alt: string; open?: boolean; i: number }
-const { index, title, text, foot, image, alt, open = false, i } = Astro.props;
+interface Props { index: string; title: string; text: string; foot: string; image: ImageMetadata; alt: string; video?: string; open?: boolean; i: number }
+const { index, title, text, foot, image, alt, video, open = false, i } = Astro.props;
 const ease = 'ease-[cubic-bezier(.22,1,.36,1)]';
 // Clases completas para que Tailwind las genere (no se arman por partes):
 // lg:ease-[cubic-bezier(.22,1,.36,1)] max-lg:ease-[cubic-bezier(.22,1,.36,1)]
@@ -52,6 +56,23 @@ const ease = 'ease-[cubic-bezier(.22,1,.36,1)]';
       'group-data-[open=true]/panel:scale-100 group-data-[open=true]/panel:grayscale-0',
     ]}
   />
+  {video && (
+    <video
+      class="panel-video pointer-events-none absolute inset-0 -z-20 size-full object-cover opacity-0 transition-opacity duration-700"
+      muted
+      loop
+      playsinline
+      preload="none"
+      disablepictureinpicture
+      disableremoteplayback
+      aria-hidden="true"
+      tabindex="-1"
+      data-panel-video
+    >
+      <source src={video.replace(/\.mp4$/, '.webm')} type="video/webm" />
+      <source src={video} type="video/mp4" />
+    </video>
+  )}
   <!-- Velo azul noche: oscurece los paneles cerrados y desaparece en el abierto -->
   <div class={`absolute inset-0 -z-10 bg-night/45 transition-opacity duration-700 ${ease} group-data-[open=true]/panel:opacity-0`} aria-hidden="true"></div>
   <!-- Degradado inferior para leer título y descripción -->
@@ -86,3 +107,32 @@ const ease = 'ease-[cubic-bezier(.22,1,.36,1)]';
   </div>
   <p class={`mt-8 hidden type-label transition-[opacity,transform] duration-700 ${ease} group-data-[open=false]/panel:opacity-60 group-data-[open=true]/panel:delay-[400ms] lg:block`}>{foot}</p>
 </article>
+
+<script>
+  // Video de cada panel: aparece y se reproduce con hover/foco (desktop) o en la tarjeta activa (mobile)
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canHover = matchMedia('(hover: hover) and (min-width: 1024px)');
+  if (!reduce) {
+    for (const panel of document.querySelectorAll<HTMLElement>('[data-panel]')) {
+      const video = panel.querySelector<HTMLVideoElement>('[data-panel-video]');
+      if (!video) continue;
+      const on = () => {
+        video.play().then(() => (video.style.opacity = '1')).catch(() => {});
+      };
+      const off = () => {
+        video.style.opacity = '0';
+        setTimeout(() => { if (video.style.opacity === '0') video.pause(); }, 700);
+      };
+      panel.addEventListener('mouseenter', () => canHover.matches && on());
+      panel.addEventListener('mouseleave', () => canHover.matches && off());
+      panel.addEventListener('focusin', on);
+      panel.addEventListener('focusout', off);
+      // Mobile: la tarjeta centrada (data-open) reproduce su video
+      new MutationObserver(() => {
+        if (canHover.matches) return;
+        panel.dataset.open === 'true' ? on() : off();
+      }).observe(panel, { attributes: true, attributeFilter: ['data-open'] });
+      if (!canHover.matches && panel.dataset.open === 'true') on();
+    }
+  }
+</script>

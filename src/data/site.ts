@@ -39,11 +39,14 @@ export const site = {
    * - searchConsole: solo el código de la etiqueta HTML de verificación de Search Console
    *   (<meta name="google-site-verification" content="ESTE_CÓDIGO">). No hace falta si verificas por DNS.
    * - bing: código de Bing Webmaster Tools (<meta name="msvalidate.01" content="...">), opcional.
+   * - clarity: ID del proyecto de Microsoft Clarity (mapas de calor y grabaciones). Se carga directo en la página
+   *   (no por GTM: dentro de Partytown no graba bien) y solo cuando la página ya terminó de cargar.
    */
   analytics: {
     gtmId: 'GTM-5DHZCLVW',
     searchConsole: '',
     bing: '8A16D4A25EF52BC6D4E95EB59B2CDA67',
+    clarity: 'z2lqz7qyxw',
   },
 } as const;
 

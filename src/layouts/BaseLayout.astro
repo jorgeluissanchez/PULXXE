@@ -67,7 +67,7 @@ const business = {
   // Solo perfiles reales (se ignoran los enlaces genéricos tipo https://www.instagram.com/)
   ...(sameAs.length && { sameAs }),
 };
-const { gtmId, searchConsole, bing } = site.analytics;
+const { gtmId, searchConsole, bing, clarity } = site.analytics;
 const faqLd = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -129,6 +129,24 @@ const faqLd = {
       Google Analytics 4 y cualquier otra etiqueta se configuran DENTRO de GTM, no aquí.
       Con la vista previa de GTM (?gtm_debug=…) se carga de forma normal, porque Tag Assistant no funciona en Partytown.
     -->
+    <!--
+      Microsoft Clarity (mapas de calor y grabaciones). Va en el hilo principal porque necesita el DOM real;
+      se inyecta cuando la página ya cargó y el navegador está libre, para no afectar la velocidad (LCP/INP).
+    -->
+    {clarity && (
+      <script is:inline define:vars={{ clarity }}>
+        window.clarity = window.clarity || function () { (window.clarity.q = window.clarity.q || []).push(arguments); };
+        var loadClarity = function () {
+          var t = document.createElement('script');
+          t.async = true;
+          t.src = 'https://www.clarity.ms/tag/' + clarity;
+          document.head.appendChild(t);
+        };
+        var idle = function () { ('requestIdleCallback' in window ? requestIdleCallback : setTimeout)(loadClarity, { timeout: 3000 }); };
+        if (document.readyState === 'complete') idle(); else window.addEventListener('load', idle, { once: true });
+      </script>
+    )}
+
     {gtmId && (
       <script is:inline define:vars={{ gtmId }}>
         window.dataLayer = window.dataLayer || [];

@@ -62,9 +62,10 @@ export function initInteractions() {
  * dataLayer desde el hilo principal (GTM corre en Partytown, donde los activadores de clic automáticos no son
  * fiables). En GTM: activador "Evento personalizado" = whatsapp_click | phone_click | email_click.
  * Parámetros: cta_text (texto del botón), cta_location (id de la sección) y link_url.
+ * El mismo nombre se envía a Microsoft Clarity como evento personalizado.
  */
 function initLeadTracking() {
-  const w = window as unknown as { dataLayer?: Record<string, unknown>[] };
+  const w = window as unknown as { dataLayer?: Record<string, unknown>[]; clarity?: (...args: unknown[]) => void };
   document.addEventListener(
     'click',
     (e) => {
@@ -79,6 +80,8 @@ function initLeadTracking() {
         cta_location: a.closest('section[id], header, footer')?.id || a.closest('header, footer')?.tagName.toLowerCase() || 'otro',
         link_url: href.split('?')[0],
       });
+      // Clarity: marca la grabación para poder filtrar las sesiones que terminaron en contacto.
+      w.clarity?.('event', event);
     },
     { capture: true },
   );

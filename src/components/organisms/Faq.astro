@@ -16,7 +16,7 @@ import { faq } from '@/data/content';
       </h2>
       <aside class="relative mt-4 bg-night pb-8" aria-label={faq.backing.title}>
         <Image src={faq.backing.image} alt={faq.backing.alt} widths={[580, 1160]} sizes="(min-width: 1024px) 580px, 100vw" class="h-40 w-full object-cover lap:h-[88px]" />
-        <span class="absolute right-6 top-[130px] -rotate-6 lap:top-[70px] bg-yellow px-3.5 py-2 type-nav uppercase text-navy sm:left-[360px] sm:right-auto" aria-hidden="true">{faq.backing.tag}</span>
+        <span class="absolute right-6 top-[130px] lap:top-[70px] whitespace-nowrap bg-yellow px-3.5 py-2 type-nav uppercase text-navy" aria-hidden="true">{faq.backing.tag}</span>
         <div class="flex flex-col gap-3.5 px-8 pt-7 lap:gap-2.5 lap:pt-[18px]">
           <p class="type-h4 text-white">{faq.backing.title}</p>
           <ul class="flex flex-col gap-3.5 text-white">

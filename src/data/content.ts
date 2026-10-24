@@ -37,8 +37,10 @@ import banner from '@/assets/img/banner-obra-atardecer.webp';
 
 export const hero = {
   brandWord: 'PULXXE',
-  kicker: 'Construcción y remodelación en Barranquilla',
-  titleLines: ['Planeamos.', 'Medimos.', 'Cumplimos.'],
+  /** Lema de marca en la píldora amarilla. */
+  kicker: 'Planeamos. Medimos. Cumplimos.',
+  /** H1 (servicio + ciudad). La última línea lleva el resaltado amarillo. */
+  titleLines: ['Construcción', 'y remodelación', 'en Barranquilla'],
   description:
     'Obra civil, edificación y remodelación en Barranquilla y el Caribe, con cantidades, costos y avance medidos en cada corte.',
   primary: { label: 'Solicitar asesoría', href: '#contacto' },

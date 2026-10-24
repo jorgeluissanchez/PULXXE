@@ -4,10 +4,15 @@
  * ⚠️ Texto base: debe revisarlo el área legal del cliente antes de publicarse como definitivo.
  */
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import ogPrivacidad from '@/assets/og-privacidad.jpg';
 import Logo from '@/components/atoms/Logo.astro';
 import { site } from '@/data/site';
 ---
-<BaseLayout title="Política de privacidad | Pulxxe" description="Política de privacidad y tratamiento de datos personales de Pulxxe S.A.S. según la Ley 1581 de 2012.">
+<BaseLayout
+  title="Política de privacidad | Pulxxe"
+  description="Política de privacidad y tratamiento de datos personales de Pulxxe S.A.S. según la Ley 1581 de 2012."
+  ogImages={[{ src: ogPrivacidad, alt: 'Política de privacidad de Pulxxe S.A.S. según la Ley 1581 de 2012' }]}
+>
   <main class="mx-auto flex max-w-[760px] flex-col gap-6 bg-paper py-16 page-x">
     <a href="/" aria-label="Volver al inicio"><Logo /></a>
     <h1 class="type-h2 text-navy">Política de privacidad</h1>

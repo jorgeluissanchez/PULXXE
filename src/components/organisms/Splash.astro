@@ -1,41 +1,180 @@
 ---
 /**
- * Organismo · Splash de carga. Cubre la página mientras cargan las tipografías (y la página),
- * para que no se vea el cambio de fuente. Se muestra una vez por sesión; mínimo 700 ms,
- * máximo 3 s. Sin JavaScript no aparece (lo activa la clase html.splash del script en <head>).
+ * Organismo · Splash de entrada (diseño Figma "PULXXE · Splash WEB", ≈2,5 s).
+ * Guion: Planeamos (se dibuja el isotipo) → Medimos (cota amarilla) → Cumplimos (las piezas se
+ * levantan y se escribe "Pulxxe"); sale con una cortina de 5 columnas (crema + franja amarilla).
+ *
+ * - SVG inline + CSS, sin librerías (nada de Lottie): pinta al instante y pesa unos KB.
+ * - Una vez por sesión (clase html.splash puesta en <head>). Sin JS no aparece.
+ * - La salida espera a que la intro termine (1,65 s) y a que carguen fuentes + página (máx. 4 s).
+ * - Clic, toque o tecla → sale de inmediato.
+ * - prefers-reduced-motion: logo estático y fundido corto.
+ * - Responsive: todo escala con el ancho del logo (min(410px, 72vw)); las traslaciones del SVG
+ *   están en unidades del viewBox, así que escalan solas.
  */
+const pieces = [
+  { d: 'M28.8 51.3L0 69.7L0 122.1L28.8 138.1L28.8 51.3Z', fill: '#FAAD01' },
+  { d: 'M51.9 58.9L32.5 48.7L32.5 140.2L51.9 152.7L51.9 58.9Z', fill: '#FFC032' },
+  { d: 'M84.9 50.8L66 63.1L66 110.8L84.9 98.5L84.9 50.8Z', fill: '#FAAD01' },
+  { d: 'M113.2 25.4L71.8 0.5L71.8 38.5L89.3 49.3L89.3 97.7L113.2 82.3L113.2 25.4Z', fill: '#FFC032' },
+  { d: 'M67.9 0L36.7 19.6L36.7 45.1L57.4 30.9L67.9 36.9L67.9 0Z', fill: '#FAAD01' },
+];
+const letters = [
+  {
+    c: '#052242',
+    fill: 'M128.6 117.3L128.3 45.7L150 45.6C153.6 45.6 156.6 45.7 159 46.1C163.9 46.9 167.8 49.2 170.8 53.1C173.7 57 175.2 61.7 175.2 67.3C175.2 74.2 173.3 79.6 169.3 83.4C165.4 87.3 159.9 89.2 152.8 89.3L143.2 89.3L143.3 117.2L128.6 117.3ZM143.1 57.5L143.2 77.5L149.1 77.4C152.6 77.4 155.3 76.5 157.4 74.7C159.5 72.9 160.5 70.3 160.5 67.1C160.5 60.7 156.7 57.5 149.2 57.5L143.1 57.5Z',
+    lines: [
+      'M128.6 117.3L128.3 45.7L150 45.6C153.6 45.6 156.6 45.7 159 46.1C163.9 46.9 167.8 49.2 170.8 53.1C173.7 57 175.2 61.7 175.2 67.3C175.2 74.2 173.3 79.6 169.3 83.4C165.4 87.3 159.9 89.2 152.8 89.3L143.2 89.3L143.3 117.2L128.6 117.3',
+      'M143.1 57.5L143.2 77.5L149.1 77.4C152.6 77.4 155.3 76.5 157.4 74.7C159.5 72.9 160.5 70.3 160.5 67.1C160.5 60.7 156.7 57.5 149.2 57.5L143.1 57.5',
+    ],
+  },
+  {
+    c: '#052242',
+    fill: 'M226.4 68.1L226.5 96.1C226.5 99.7 226.2 102.6 225.5 104.8C224.4 108.8 221.7 112.1 217.6 114.6C213.6 117.2 208.9 118.4 203.7 118.4C197.1 118.5 191.6 116.7 187.2 113.3C184.9 111.3 183.2 109.1 182.2 106.6C181.1 104 180.6 100.6 180.6 96.3L180.5 68.3L194.8 68.2L194.9 94.8C194.9 95.6 194.9 96.4 194.9 97C194.9 97.7 195 98.4 195.1 99C195.5 100.8 196.5 102.3 198.1 103.5C199.8 104.6 201.6 105.1 203.6 105.1C206.2 105.1 208.4 104.2 210.1 102.4C211.5 101 212.2 98.5 212.2 94.8L212.1 68.2L226.4 68.1Z',
+    lines: [
+      'M226.4 68.1L226.5 96.1C226.5 99.7 226.2 102.6 225.5 104.8C224.4 108.8 221.7 112.1 217.6 114.6C213.6 117.2 208.9 118.4 203.7 118.4C197.1 118.5 191.6 116.7 187.2 113.3C184.9 111.3 183.2 109.1 182.2 106.6C181.1 104 180.6 100.6 180.6 96.3L180.5 68.3L194.8 68.2L194.9 94.8C194.9 95.6 194.9 96.4 194.9 97C194.9 97.7 195 98.4 195.1 99C195.5 100.8 196.5 102.3 198.1 103.5C199.8 104.6 201.6 105.1 203.6 105.1C206.2 105.1 208.4 104.2 210.1 102.4C211.5 101 212.2 98.5 212.2 94.8L212.1 68.2L226.4 68.1',
+    ],
+  },
+  {
+    c: '#052242',
+    fill: 'M235.7 116.8L235.4 45.2L249.7 45.2L250 116.8L235.7 116.8Z',
+    lines: ['M235.7 116.8L235.4 45.2L249.7 45.2L250 116.8L235.7 116.8'],
+  },
+  {
+    c: '#052242',
+    fill: 'M303.1 116.6L287.3 116.6L278.7 102L270.4 116.7L254.9 116.8L271.2 91.8L255.2 67.9L270.8 67.8L279.1 82L287.4 67.8L302.4 67.7L286.3 91.7L303.1 116.6Z',
+    lines: ['M303.1 116.6L287.3 116.6L278.7 102L270.4 116.7L254.9 116.8L271.2 91.8L255.2 67.9L270.8 67.8L279.1 82L287.4 67.8L302.4 67.7L286.3 91.7L303.1 116.6'],
+  },
+  {
+    c: '#052242',
+    fill: 'M352.3 116.4L336.5 116.4L327.9 101.8L319.7 116.5L304.2 116.6L320.5 91.6L304.5 67.7L320.1 67.6L328.4 81.8L336.6 67.6L351.6 67.5L335.5 91.5L352.3 116.4Z',
+    lines: ['M352.3 116.4L336.5 116.4L327.9 101.8L319.7 116.5L304.2 116.6L320.5 91.6L304.5 67.7L320.1 67.6L328.4 81.8L336.6 67.6L351.6 67.5L335.5 91.5L352.3 116.4'],
+  },
+  {
+    c: '#FAAD01',
+    fill: 'M406.3 96.3L369.7 96.4C370.3 99.9 371.7 102.6 373.8 104.5C376 106.4 378.7 107.3 381.7 107.3C383.8 107.3 386.1 106.6 388.6 105.2C391.2 103.8 393.2 102 394.7 99.7L404.8 106.6C401.7 110.5 398.3 113.4 394.6 115.1C391 116.8 386.7 117.7 381.8 117.7C374.1 117.8 367.8 115.5 362.9 110.9C358.2 106.2 355.8 100.1 355.7 92.6C355.7 85.1 358.1 78.8 362.9 73.7C367.8 68.7 373.9 66.1 381.2 66.1C388.5 66.1 394.5 68.5 399.2 73.5C404 78.4 406.3 84.8 406.4 92.6L406.4 94.2L406.3 96.3ZM381.2 76.4C375 76.5 371.2 80 369.7 87.2L392.3 87.1C391.4 80 387.7 76.4 381.2 76.4Z',
+    lines: [
+      'M406.3 96.3L369.7 96.4C370.3 99.9 371.7 102.6 373.8 104.5C376 106.4 378.7 107.3 381.7 107.3C383.8 107.3 386.1 106.6 388.6 105.2C391.2 103.8 393.2 102 394.7 99.7L404.8 106.6C401.7 110.5 398.3 113.4 394.6 115.1C391 116.8 386.7 117.7 381.8 117.7C374.1 117.8 367.8 115.5 362.9 110.9C358.2 106.2 355.8 100.1 355.7 92.6C355.7 85.1 358.1 78.8 362.9 73.7C367.8 68.7 373.9 66.1 381.2 66.1C388.5 66.1 394.5 68.5 399.2 73.5C404 78.4 406.3 84.8 406.4 92.6L406.4 94.2L406.3 96.3',
+      'M381.2 76.4C375 76.5 371.2 80 369.7 87.2L392.3 87.1C391.4 80 387.7 76.4 381.2 76.4',
+    ],
+  },
+];
+const words = ['Planeamos,', 'medimos,', 'cumplimos'];
+// columnas de la cortina: salen del centro hacia afuera (orden 2,1,3,0,4)
+const colOrder = [3, 1, 0, 2, 4];
 ---
 <div id="splash" aria-hidden="true">
-  <svg class="splash-mark" viewBox="0 0 35 47" fill="none">
-    <path class="p1" d="M8.75875 15.6064L0 21.1802V37.1052L8.75875 41.9623V15.6064Z" fill="#FAAD01" />
-    <path class="p2" d="M15.7654 17.9156L9.87314 14.8102V42.5993L15.7654 46.4213V17.9156Z" fill="#FFC032" />
-    <path class="p3" d="M25.7979 15.4471L20.0649 19.1895V33.6813L25.7979 29.9389V15.4471Z" fill="#FAAD01" />
-    <path class="p4" d="M34.3976 7.72368L21.8169 0.159302V11.7049L27.1518 14.9696V29.7002L34.3976 25.0023V7.72368Z" fill="#FFC032" />
-    <path class="p5" d="M20.6231 0L11.1478 5.97187V13.6955L17.4381 9.39575L20.6231 11.2271V0Z" fill="#FAAD01" />
-  </svg>
-  <span class="splash-bar"><span></span></span>
+  <div class="sp-cols">
+    {colOrder.map((o) => (
+      <span class="sp-col" style={`--o:${o}`}><span class="sp-y"></span><span class="sp-c"></span></span>
+    ))}
+  </div>
+
+  <div class="sp-stage">
+    <svg class="sp-brand" viewBox="0 0 410 153" fill="none">
+      <g class="sp-iso">
+        {pieces.map((p, i) => <path class="sp-piece" style={`--i:${i}`} d={p.d} fill={p.fill} />)}
+        {pieces.map((p, i) => (
+          <path class="sp-iso-line" style={`--i:${i}`} d={p.d.replace(/Z$/, '')} pathLength="1" stroke="#FAAD01" stroke-width="1.35" />
+        ))}
+      </g>
+      <g class="sp-word">
+        {letters.map((l, i) => (
+          <g style={`--i:${i}`}>
+            <path class="sp-letter" d={l.fill} fill={l.c} />
+            {l.lines.map((d) => <path class="sp-letter-line" d={d} pathLength="1" stroke={l.c} stroke-width="1.35" />)}
+          </g>
+        ))}
+      </g>
+    </svg>
+    <span class="sp-rule"></span>
+    <p class="sp-tag">{words.map((w, i) => <span style={`--w:${i}`}>{w}</span>)}</p>
+  </div>
 </div>
 
 <style is:global>
   #splash { display: none; }
+  /* Scroll bloqueado y barra oculta, pero con su hueco reservado (--sbw = ancho de la barra, medido por JS):
+     el contenido y los elementos fijos (header, WhatsApp) ya ocupan el ancho final, así que al terminar no salta. */
+  html.splash { overflow: hidden; padding-right: var(--sbw, 0px); }
+  html.splash .fixed { margin-right: var(--sbw, 0px); }
+  /* La entrada del hero (PULXXE gigante) queda en pausa y arranca cuando sube la cortina. */
+  html.splash:not(.splash-hero) #inicio *,
+  html.splash:not(.splash-hero) #inicio *::before { animation-play-state: paused !important; }
   html.splash #splash {
-    position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px;
-    background: #091e2b; transition: opacity 0.5s ease, visibility 0.5s;
+    --eo: cubic-bezier(.22, 1, .36, 1);
+    --eio: cubic-bezier(.65, 0, .35, 1);
+    --wipe: cubic-bezier(.76, 0, .24, 1);
+    --cream: #f9f9f6;
+    --brand-w: min(410px, 72vw);
+    position: fixed; inset: 0; z-index: 100; display: block; cursor: pointer;
   }
-  html.splash body { overflow: hidden; }
-  html.splash.splash-out #splash { opacity: 0; visibility: hidden; }
-  html.splash.splash-out body { overflow: auto; }
-  .splash-mark { width: 56px; height: auto; overflow: visible; }
-  .splash-mark path { opacity: 0; transform: translateY(10px); animation: splash-in 0.6s cubic-bezier(.22,1,.36,1) forwards; }
-  .splash-mark .p1 { animation-delay: 0s; } .splash-mark .p2 { animation-delay: .08s; } .splash-mark .p3 { animation-delay: .16s; }
-  .splash-mark .p4 { animation-delay: .24s; } .splash-mark .p5 { animation-delay: .32s; }
-  .splash-bar { position: relative; width: 96px; height: 2px; overflow: hidden; background: rgb(255 255 255 / 0.12); }
-  .splash-bar span { position: absolute; inset: 0; width: 40%; background: #f1bd29; animation: splash-bar 1.1s cubic-bezier(.65,0,.35,1) infinite; }
-  @keyframes splash-in { to { opacity: 1; transform: none; } }
-  @keyframes splash-bar { 0% { transform: translateX(-100%); } 100% { transform: translateX(250%); } }
+
+  /* ── Cortina: crema encima, amarilla debajo ── */
+  #splash .sp-cols { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(5, 1fr); }
+  #splash .sp-col { position: relative; }
+  #splash .sp-y, #splash .sp-c { position: absolute; inset: 0 -1px 0 0; will-change: transform; }
+  #splash .sp-y { background: #faad01; }
+  #splash .sp-c { background: var(--cream); }
+
+  /* ── Escena ── */
+  #splash .sp-stage {
+    position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding-bottom: 4vh;
+  }
+  #splash .sp-brand { width: var(--brand-w); height: auto; overflow: visible; }
+  #splash .sp-brand * { transform-box: fill-box; }
+  #splash .sp-rule {
+    display: block; width: var(--brand-w); height: 2px; margin-top: calc(var(--brand-w) * .066); background: #faad01;
+    transform-origin: center; animation: sp-rule-in .35s var(--eo) .2s both;
+  }
+  #splash .sp-tag {
+    margin: calc(var(--brand-w) * .05) 0 0; display: flex; gap: .3em; color: #052242;
+    font-family: var(--font-manrope), system-ui, sans-serif; font-size: clamp(13px, 3.4vw, 15px); letter-spacing: .01em;
+  }
+  #splash .sp-tag span { display: inline-block; animation: sp-word .3s var(--eo) calc(.08s + var(--w) * .21s) both; }
+
+  /* 1 · Planeamos: el isotipo se dibuja */
+  #splash .sp-iso-line {
+    stroke-dasharray: 1; stroke-linejoin: round;
+    animation: sp-draw .3s var(--eo) calc(var(--i) * .04s) both, sp-out .15s var(--eo) calc(.38s + var(--i) * .03s) forwards;
+  }
+  /* 3 · Cumplimos: las piezas se levantan desde la base */
+  #splash .sp-piece { transform-origin: bottom center; animation: sp-rise .32s var(--eo) calc(.3s + var(--i) * .045s) both; }
+  /* el isotipo arranca centrado y grande, luego se corre */
+  #splash .sp-iso { transform-origin: center; animation: sp-iso .35s var(--eio) .6s both; }
+  /* "Pulxxe": trazo → relleno */
+  #splash .sp-letter-line {
+    stroke-dasharray: 1; stroke-linejoin: round;
+    animation: sp-draw .3s var(--eo) calc(.95s + var(--i) * .045s) both, sp-out .15s var(--eo) calc(1.25s + var(--i) * .045s) forwards;
+  }
+  #splash .sp-letter { animation: sp-in .18s var(--eo) calc(1.13s + var(--i) * .045s) both; }
+
+  /* ── Salida ── */
+  html.splash.splash-out #splash { pointer-events: none; }
+  html.splash.splash-out #splash .sp-tag { animation: sp-lift .18s var(--eo) both; --lift: -8px; }
+  html.splash.splash-out #splash .sp-rule { animation: sp-rule-out .2s var(--eio) .02s both; }
+  html.splash.splash-out #splash .sp-brand { animation: sp-lift .22s var(--eo) .06s both; --lift: -16px; }
+  html.splash.splash-out #splash .sp-c { animation: sp-wipe .4s var(--wipe) calc(.15s + var(--o) * .04s) both; }
+  html.splash.splash-out #splash .sp-y { animation: sp-wipe .4s var(--wipe) calc(.21s + var(--o) * .04s) both; }
+
+  @keyframes sp-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  @keyframes sp-out { to { opacity: 0; } }
+  @keyframes sp-in { from { opacity: 0; } }
+  @keyframes sp-rise { from { opacity: 0; transform: scaleY(.4); } 45% { opacity: 1; } }
+  @keyframes sp-iso { from { transform: translateX(146px) scale(1.15); } }
+  @keyframes sp-rule-in { from { transform: scaleX(.001); } }
+  @keyframes sp-rule-out { to { transform: scaleX(.001); } }
+  @keyframes sp-word { from { opacity: 0; transform: translateY(6px); } }
+  @keyframes sp-lift { to { opacity: 0; transform: translateY(var(--lift)); } }
+  @keyframes sp-wipe { to { transform: translateY(-100%); } }
+
+  /* Sin animaciones: logo final, salida con fundido corto */
   @media (prefers-reduced-motion: reduce) {
-    .splash-mark path { animation: none; opacity: 1; transform: none; }
-    .splash-bar span { animation: none; width: 100%; }
+    html.splash #splash *, html.splash #splash *::before { animation: none !important; }
+    #splash .sp-iso-line, #splash .sp-letter-line { opacity: 0; }
+    html.splash #splash { transition: opacity .15s ease; }
+    html.splash.splash-out #splash { opacity: 0; }
   }
 </style>
 
@@ -43,16 +182,52 @@
   (function () {
     var html = document.documentElement;
     if (!html.classList.contains('splash')) return;
+    var el = document.getElementById('splash');
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     var start = performance.now();
+    var INTRO = reduce ? 600 : 1650; // el logo queda completo a ~1,6 s
+    var OUT = reduce ? 200 : 820; // duración de la salida
+    var gone = false;
+
+    // Ancho de la barra de scroll (0 en móviles y barras superpuestas) → hueco reservado en CSS
+    var probe = document.createElement('div');
+    probe.style.cssText = 'position:absolute;top:-999px;width:100px;height:100px;overflow:scroll';
+    document.body.appendChild(probe);
+    html.style.setProperty('--sbw', probe.offsetWidth - probe.clientWidth + 'px');
+    probe.remove();
+
+    // Además del overflow:hidden, se frena rueda/toque/teclas (iOS ignora overflow en <html>)
+    var KEYS = { ' ': 1, PageDown: 1, PageUp: 1, ArrowDown: 1, ArrowUp: 1, Home: 1, End: 1 };
+    var block = function (e) { e.preventDefault(); };
+    var blockKey = function (e) { if (KEYS[e.key]) e.preventDefault(); };
+    var pin = function () { if (window.scrollY) window.scrollTo(0, 0); };
+    addEventListener('wheel', block, { passive: false });
+    addEventListener('touchmove', block, { passive: false });
+    addEventListener('keydown', blockKey);
+    addEventListener('scroll', pin); // arrastre de la barra
+    var unlock = function () {
+      removeEventListener('wheel', block); removeEventListener('touchmove', block);
+      removeEventListener('keydown', blockKey); removeEventListener('scroll', pin);
+    };
+
+    var leave = function () {
+      if (gone) return;
+      gone = true;
+      html.classList.add('splash-out');
+      // el hero empieza su entrada cuando la cortina arranca a subir
+      setTimeout(function () { html.classList.add('splash-hero'); }, reduce ? 0 : 200);
+      setTimeout(function () {
+        unlock();
+        html.classList.remove('splash', 'splash-out', 'splash-hero');
+        if (el) el.remove();
+      }, OUT);
+    };
     var loaded = new Promise(function (r) { if (document.readyState === 'complete') r(); else addEventListener('load', r, { once: true }); });
     var fonts = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
-    var hide = function () {
-      var wait = Math.max(0, 700 - (performance.now() - start));
-      setTimeout(function () {
-        html.classList.add('splash-out');
-        setTimeout(function () { html.classList.remove('splash', 'splash-out'); var s = document.getElementById('splash'); if (s) s.remove(); }, 550);
-      }, wait);
-    };
-    Promise.race([Promise.all([fonts, loaded]), new Promise(function (r) { setTimeout(r, 3000); })]).then(hide);
+    Promise.race([Promise.all([fonts, loaded]), new Promise(function (r) { setTimeout(r, 4000); })]).then(function () {
+      setTimeout(leave, Math.max(0, INTRO - (performance.now() - start)));
+    });
+    // saltar: clic, toque o tecla
+    ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(function (t) { addEventListener(t, leave, { once: true, passive: true }); });
   })();
 </script>
